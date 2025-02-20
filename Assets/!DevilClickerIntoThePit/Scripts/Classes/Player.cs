@@ -1,0 +1,39 @@
+namespace Game.Classes
+{
+    public class Player
+    {
+        #region CORE
+
+        public int Money { get; private set; }
+
+        public byte LevelOfDevil { get; private set; }
+        public ushort NumberOfExorcisedDevils { get; private set; }
+
+        public ushort Damage { get; private set; }
+        public ushort AutoDamage { get; private set; }
+
+        #endregion
+
+        #region CONSTRUCTS
+
+        public Player()
+        {
+            Money = 0;
+
+            LevelOfDevil = 1;
+            NumberOfExorcisedDevils = 0;
+            
+            Damage = 1;
+            AutoDamage = 0;
+        }
+
+        #endregion
+
+        #region ADD
+
+        public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
+        public void AddMoney(int value) => Money += value;
+
+        #endregion
+    }
+}
