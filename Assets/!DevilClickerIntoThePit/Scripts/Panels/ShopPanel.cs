@@ -6,6 +6,12 @@ namespace Game.Panels
 {
     public class ShopPanel : MonoBehaviour
     {
+        #region CONSTANTS
+
+        private const byte LENGHT_TABLE_OF_SHOP = 3;
+
+        #endregion
+
         #region CORE
 
         [Header("Core")]
@@ -22,11 +28,6 @@ namespace Game.Panels
         private void Awake()
         {
             RegisterEvents(true);
-        }
-
-        private void Start()
-        {
-            backMove.enabled = false;
         }
 
         private void Disable()
@@ -56,23 +57,20 @@ namespace Game.Panels
 
         #region CALLBACKS
 
-        private void ChangeItemsOfShop(byte index)
+        private void ChangeActiveItemsOfShop(byte index)
         {
+            int j = 0;
             for (int i = 0; i < men.Length; i++)
             {
-                if (i > index)
-                {
-                    men[i].ItemGameObject.SetActive(true);
-                }
-                else 
-                {
-                    men[i].ItemGameObject.SetActive(false);
-                }
+                bool active = j < LENGHT_TABLE_OF_SHOP && i >= index;
+                j = active ? j+1 : j;
+
+                men[i].ItemGameObject.SetActive(active);
             }
         }
         
-        private void MoveBack() => ChangeItemsOfShop(0);
-        private void MoveForward() => ChangeItemsOfShop(3);
+        private void MoveBack() => ChangeActiveItemsOfShop(0);
+        private void MoveForward() => ChangeActiveItemsOfShop(2);
 
         #endregion
     }
