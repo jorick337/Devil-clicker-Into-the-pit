@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Classes
 {
@@ -7,5 +8,12 @@ namespace Game.Classes
     {
         public int Health;
         public ushort Money;
+
+        public Image DevilImage;
+
+        public EnemyInstance CreateInstance()
+        {
+            return new(this);
+        }
     }
 }
