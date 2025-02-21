@@ -15,12 +15,7 @@ namespace Game.Managers
 
         private void Awake()
         {
-            
-        }
-
-        private void FixedUpdate()
-        {
-            
+            InitializeValues();
         }
 
         #endregion
@@ -36,6 +31,7 @@ namespace Game.Managers
         {
             if (register)
             {
+
             }
             else
             {

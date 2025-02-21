@@ -9,8 +9,8 @@ namespace Game.Classes
         public byte LevelOfDevil { get; private set; }
         public ushort NumberOfExorcisedDevils { get; private set; }
 
-        public ushort Damage { get; private set; }
-        public ushort AutoDamage { get; private set; }
+        public int Damage { get; private set; }
+        public int AutoDamage { get; private set; }
 
         #endregion
 
@@ -31,8 +31,17 @@ namespace Game.Classes
 
         #region ADD
 
-        public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
         public void AddMoney(int value) => Money += value;
+        
+        public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
+        
+        public void AddDamage(int value) => Damage += value;
+
+        #endregion
+
+        #region REDUCE
+
+        public void ReduceMoney(int value) => Money -= value;
 
         #endregion
     }

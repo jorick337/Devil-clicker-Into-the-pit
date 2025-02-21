@@ -1,3 +1,4 @@
+using System;
 using Game.Classes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,12 +7,18 @@ namespace Game.Managers
 {
     public class EnemyManager : MonoBehaviour
     {
+        #region EVENTS
+
+        public event Action DevilBanished;
+
+        #endregion
+
         #region CORE
 
         [Header("Core")]
         [SerializeField] private Enemy[] enemies;
 
-        private Enemy _enemy;
+        private EnemyInstance _selectableEnemy;
 
         [Header("UI")]
         [SerializeField] private Text healthText;
@@ -27,6 +34,7 @@ namespace Game.Managers
         private void Awake()
         {
             InitializeValues();
+            InitializeUI();
         }
 
         #endregion
@@ -35,25 +43,30 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            _enemy = enemies[playerManager.Player.LevelOfDevil - 1];
+            _selectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance();
+        }
+
+        private void InitializeUI()
+        {
+            enemyImage = _selectableEnemy.DevilImage;
         }
 
         #endregion
 
         #region UI
 
-        public void TakeDamage(int damage)
+        public void TakeDamage()
         {
-            AddDamage(damage);
+            AddDamage(playerManager.Player.Damage);
 
-            if (_enemy.Health < 0)
+            if (_selectableEnemy.Health <= 0)
             {
-                playerManager.Player.AddMoney(_enemy.Money);
-                
+                playerManager.Player.AddMoney(_selectableEnemy.Money);
 
                 InitializeValues();
+                DevilBanished.Invoke();
             }
-            SetText(_enemy.Health);
+            SetText(_selectableEnemy.Health);
         }
 
         #endregion
@@ -68,7 +81,7 @@ namespace Game.Managers
 
         private void AddDamage(int damage)
         {
-            _enemy.Health -= damage;
+            _selectableEnemy.Health -= damage;
         }
 
         #endregion

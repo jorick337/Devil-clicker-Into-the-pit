@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0715440b6869fb0b8d5a941048a6a4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 218daa5403d2a4720b566cbf3bf4422c, type: 3}
   m_Name: Enemy_2_1
   m_EditorClassIdentifier: 
-  Health: 100
-  Money: 500
+  Health: 1000
+  Money: 375
+  DevilImage: {fileID: 0}
