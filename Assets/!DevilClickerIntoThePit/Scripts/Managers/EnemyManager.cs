@@ -1,5 +1,6 @@
 using System;
 using Game.Classes;
+using Game.Panels.Characteristics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,11 +19,14 @@ namespace Game.Managers
         [Header("Core")]
         [SerializeField] private Enemy[] enemies;
 
-        private EnemyInstance _selectableEnemy;
+        public EnemyInstance _selectableEnemy { get; private set; }
 
         [Header("UI")]
         [SerializeField] private Text healthText;
         [SerializeField] private Image enemyImage;
+
+        [Header("Panels")]
+        [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
 
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
@@ -35,6 +39,12 @@ namespace Game.Managers
         {
             InitializeValues();
             InitializeUI();
+            RegisterEvents(true);
+        }
+
+        private void OnDisable()
+        {
+            RegisterEvents(false);
         }
 
         #endregion
@@ -44,11 +54,30 @@ namespace Game.Managers
         private void InitializeValues()
         {
             _selectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance();
+            _selectableEnemy.MultiplyHealth(playerManager.Player.NumberOfExorcisedDevils == 0 ? 
+            1 : 
+            playerManager.Player.NumberOfExorcisedDevils);
         }
 
         private void InitializeUI()
         {
-            enemyImage = _selectableEnemy.DevilImage;
+            enemyImage.sprite = _selectableEnemy.DevilSprite;
+        }
+
+        private void RegisterEvents(bool register)
+        {
+            if (register)
+            {
+                improvedDevilPanel.EnemyImproved += InitializeValues;
+                improvedDevilPanel.EnemyImproved += InitializeUI;
+                improvedDevilPanel.EnemyImproved += UpdateHealthText;
+            }
+            else
+            {
+                improvedDevilPanel.EnemyImproved -= InitializeValues;
+                improvedDevilPanel.EnemyImproved -= InitializeUI;
+                improvedDevilPanel.EnemyImproved -= UpdateHealthText;
+            }
         }
 
         #endregion
@@ -61,28 +90,47 @@ namespace Game.Managers
 
             if (_selectableEnemy.Health <= 0)
             {
-                playerManager.Player.AddMoney(_selectableEnemy.Money);
+                playerManager.Player.AddMoney(_selectableEnemy.Reward);
+                playerManager.Player.AddExorcisedDevil();
 
                 InitializeValues();
+
                 DevilBanished.Invoke();
             }
-            SetText(_selectableEnemy.Health);
+            UpdateHealthText();
         }
 
         #endregion
 
-        #region SET
+        #region UI
 
-        private void SetText(int health) => healthText.text = $"{health}";
+        private void UpdateHealthText() => healthText.text = $"{_selectableEnemy.Health}";
+
+        #endregion
+
+        #region GET
+
+        public ushort GetPriceNextDevil()
+        {
+            int index = playerManager.Player.LevelOfDevil;
+
+            if (index < enemies.Length)
+            {
+                EnemyInstance nextEnemy = enemies[index].CreateInstance();
+
+                return nextEnemy.Price;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         #endregion
 
         #region ADD
 
-        private void AddDamage(int damage)
-        {
-            _selectableEnemy.Health -= damage;
-        }
+        private void AddDamage(int damage) => _selectableEnemy.ReduceHealth(damage);
 
         #endregion
     }

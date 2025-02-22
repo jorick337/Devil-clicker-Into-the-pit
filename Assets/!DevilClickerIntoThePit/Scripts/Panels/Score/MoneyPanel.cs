@@ -1,4 +1,5 @@
 using Game.Managers;
+using Game.Panels.Characteristics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,10 @@ namespace Game.Panels.Score
 
         [Header("UI")]
         [SerializeField] private Text moneyText;
+
+        [Header("Panels")]
+        [SerializeField] private ShopPanel shopPanel;
+        [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
 
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
@@ -44,10 +49,14 @@ namespace Game.Panels.Score
             if (register)
             {
                 enemyManager.DevilBanished += InitializeUI;
+                shopPanel.manBought += InitializeUI;
+                improvedDevilPanel.EnemyImproved += InitializeUI;
             }
             else
             {
                 enemyManager.DevilBanished -= InitializeUI;
+                shopPanel.manBought -= InitializeUI;
+                improvedDevilPanel.EnemyImproved -= InitializeUI;
             }
         }
 

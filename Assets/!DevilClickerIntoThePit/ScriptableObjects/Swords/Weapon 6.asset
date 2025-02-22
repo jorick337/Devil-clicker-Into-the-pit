@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 218daa5403d2a4720b566cbf3bf4422c, type: 3}
-  m_Name: Enemy_2_2
+  m_Script: {fileID: 11500000, guid: 89c0d8d908a856df5a3851e0782cec17, type: 3}
+  m_Name: Weapon 6
   m_EditorClassIdentifier: 
-  Health: 8500
-  Reward: 3800
-  Price: 9000
-  DevilSprite: {fileID: 5449804871890638181, guid: 8d8786fb02f9b53e38af7d74f2251776, type: 3}
+  Name: 
+  Price: 0
+  AutoDamage: 0
+  Damage: 0
+  Sprite: {fileID: 0}

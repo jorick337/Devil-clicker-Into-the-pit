@@ -1,20 +1,26 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Classes
 {
     public class EnemyInstance
     {
-        public int Health;
-        public ushort Money;
+        public int Health { get; private set; }
+        public ushort Reward { get; private set; }
 
-        public Image DevilImage;
+        public ushort Price { get; private set; }
+
+        public Sprite DevilSprite { get; private set; }
 
         public EnemyInstance(Enemy enemy)
         {
             Health = enemy.Health;
-            Money = enemy.Money;
-            DevilImage = enemy.DevilImage;
+            Reward = enemy.Reward;
+            Price = enemy.Price;
+            DevilSprite = enemy.DevilSprite;
         }
+
+        public void ReduceHealth(int value) => Health -= value;
+        
+        public void MultiplyHealth(int value) => Health *= value;
     }
 }

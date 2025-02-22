@@ -26,11 +26,12 @@ namespace Game.Panels
         #region CORE
 
         [Header("Core")]
-        [SerializeField] private Man[] men;
+        [SerializeField] private WeaponInstance[] men;
+        [SerializeField] private ItemShopUI[] itemShopUI;
 
         [Header("Moving")]
-        [SerializeField] private Button backMove;
-        [SerializeField] private Button nextMove;
+        [SerializeField] private Button backMoveButton;
+        [SerializeField] private Button nextMoveButton;
 
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
@@ -42,10 +43,11 @@ namespace Game.Panels
         private void Awake()
         {
             InitializeValues();
+            InitializeUI();
             RegisterEvents(true);
         }
 
-        private void Disable()
+        private void OnDisable()
         {
             RegisterEvents(false);
         }
@@ -59,27 +61,37 @@ namespace Game.Panels
             menBought = new UnityAction[men.Length];
         }
 
+        private void InitializeUI()
+        {
+            for (int i = 0; i < men.Length; i++)
+            {
+                itemShopUI[i].Initialize(men[i]);
+            }
+        }
+
         private void RegisterEvents(bool register)
         {
             if (register)
             {
-                backMove.onClick.AddListener(MoveBack);
-                nextMove.onClick.AddListener(MoveForward);
+                backMoveButton.onClick.AddListener(MoveBack);
+                nextMoveButton.onClick.AddListener(MoveForward);
 
-                for (int i = 0; i < men.Length; i++)
+                for (byte i = 0; i < men.Length; i++)
                 {
-                    menBought[i] = () => BuyMan(men[i]);
-                    men[i].Button.onClick.AddListener(menBought[i]);
+                    byte index = i;
+
+                    menBought[i] = () => BuyMan(men[index]);
+                    itemShopUI[i].BuyButton.onClick.AddListener(menBought[i]);
                 }
             }
             else
             {
-                backMove.onClick.RemoveListener(MoveBack);
-                nextMove.onClick.RemoveListener(MoveForward);
+                backMoveButton.onClick.RemoveListener(MoveBack);
+                nextMoveButton.onClick.RemoveListener(MoveForward);
 
                 for (int i = 0; i < men.Length; i++)
                 {
-                    men[i].Button.onClick.RemoveListener(menBought[i]);
+                    itemShopUI[i].BuyButton.onClick.RemoveListener(menBought[i]);
                 }
             }
         }
@@ -88,7 +100,7 @@ namespace Game.Panels
 
         #region CALLBACKS
 
-        private void BuyMan(Man man)
+        private void BuyMan(WeaponInstance man)
         {
             if (playerManager.Player.Money >= man.Price)
             {
@@ -107,12 +119,12 @@ namespace Game.Panels
                 bool active = j < LENGHT_TABLE_OF_SHOP && i >= index;
                 j = active ? j + 1 : j;
 
-                men[i].ItemGameObject.SetActive(active);
+                itemShopUI[i].ItemGameObject.SetActive(active);
             }
         }
 
         private void MoveBack() => ChangeActiveItemsOfShop(0);
-        private void MoveForward() => ChangeActiveItemsOfShop(2);
+        private void MoveForward() => ChangeActiveItemsOfShop(3);
 
         #endregion
     }
