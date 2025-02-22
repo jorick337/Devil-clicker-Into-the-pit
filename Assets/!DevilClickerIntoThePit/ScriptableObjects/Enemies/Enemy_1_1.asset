@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Enemy_1_1
   m_EditorClassIdentifier: 
   Health: 10
-  Money: 15
-  DevilImage: {fileID: 0}
+  Reward: 15
+  Price: 0
+  DevilSprite: {fileID: -5888353018671968756, guid: 0c8581722bd9172ba81f0ebaf2019949, type: 3}

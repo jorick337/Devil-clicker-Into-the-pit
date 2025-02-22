@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 1765184650522712714}
   - component: {fileID: 8901372893256665687}
   - component: {fileID: 219061692613003272}
-  - component: {fileID: 5806000484002212639}
+  - component: {fileID: 3819996676257354798}
   m_Layer: 5
   m_Name: ItemShop
   m_TagString: Untagged
@@ -413,7 +413,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5806000484002212639
+--- !u!114 &3819996676257354798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -422,13 +422,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3869560904134472534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd179f0a2b67968cb244c88fa2debbe, type: 3}
+  m_Script: {fileID: 11500000, guid: b6fd52182612b140cb8987135e0d9df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  price: 0
   itemGameObject: {fileID: 3869560904134472534}
-  button: {fileID: 8901372893256665687}
+  buyButton: {fileID: 8901372893256665687}
+  NameText: {fileID: 6037531693824971372}
+  DamageText: {fileID: 4643921744025469757}
+  PriceText: {fileID: 4594346121707427452}
+  image: {fileID: 8314453259835958292}
 --- !u!1 &4463248770787243944
 GameObject:
   m_ObjectHideFlags: 0

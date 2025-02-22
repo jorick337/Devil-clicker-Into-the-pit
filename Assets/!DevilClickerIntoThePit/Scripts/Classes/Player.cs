@@ -18,7 +18,7 @@ namespace Game.Classes
 
         public Player()
         {
-            Money = 0;
+            Money = 1000000;
 
             LevelOfDevil = 1;
             NumberOfExorcisedDevils = 0;
@@ -33,9 +33,11 @@ namespace Game.Classes
 
         public void AddMoney(int value) => Money += value;
         
+        public void AddLevelOfDevil() => LevelOfDevil += 1;
         public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
         
         public void AddDamage(int value) => Damage += value;
+        public void AddAutoDamage(int value) => AutoDamage += AutoDamage;
 
         #endregion
 
