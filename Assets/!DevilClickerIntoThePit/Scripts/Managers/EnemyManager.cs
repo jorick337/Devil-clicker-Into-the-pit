@@ -2,7 +2,6 @@ using System;
 using Game.Classes;
 using Game.Panels.Characteristics;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Managers
 {
@@ -11,6 +10,7 @@ namespace Game.Managers
         #region EVENTS
 
         public event Action DevilBanished;
+        public event Action HealthChanged;
 
         #endregion
 
@@ -19,11 +19,7 @@ namespace Game.Managers
         [Header("Core")]
         [SerializeField] private Enemy[] enemies;
 
-        public EnemyInstance _selectableEnemy { get; private set; }
-
-        [Header("UI")]
-        [SerializeField] private Text healthText;
-        [SerializeField] private Image enemyImage;
+        public EnemyInstance SelectableEnemy { get; private set; }
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -38,8 +34,12 @@ namespace Game.Managers
         private void Awake()
         {
             InitializeValues();
-            InitializeUI();
             RegisterEvents(true);
+        }
+
+        private void Start()
+        {
+            InvokeRepeating("TakeAutoDamage", 1f, 1f);
         }
 
         private void OnDisable()
@@ -53,15 +53,10 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            _selectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance();
-            _selectableEnemy.MultiplyHealth(playerManager.Player.NumberOfExorcisedDevils == 0 ? 
-            1 : 
-            playerManager.Player.NumberOfExorcisedDevils);
-        }
-
-        private void InitializeUI()
-        {
-            enemyImage.sprite = _selectableEnemy.DevilSprite;
+            SelectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance();
+            SelectableEnemy.MultiplyHealth(playerManager.Player.NumberOfExorcisedDevils == 0
+                ? 1
+                : playerManager.Player.NumberOfExorcisedDevils);
         }
 
         private void RegisterEvents(bool register)
@@ -69,42 +64,43 @@ namespace Game.Managers
             if (register)
             {
                 improvedDevilPanel.EnemyImproved += InitializeValues;
-                improvedDevilPanel.EnemyImproved += InitializeUI;
-                improvedDevilPanel.EnemyImproved += UpdateHealthText;
             }
             else
             {
                 improvedDevilPanel.EnemyImproved -= InitializeValues;
-                improvedDevilPanel.EnemyImproved -= InitializeUI;
-                improvedDevilPanel.EnemyImproved -= UpdateHealthText;
             }
         }
 
         #endregion
 
-        #region UI
+        #region CORE LOGIC
 
         public void TakeDamage()
         {
             AddDamage(playerManager.Player.Damage);
+            CheckEnemyHealth();
+        }
 
-            if (_selectableEnemy.Health <= 0)
+        private void TakeAutoDamage()   // Используется в Start
+        {
+            AddDamage(playerManager.Player.AutoDamage);
+            CheckEnemyHealth();
+        }
+
+        private void CheckEnemyHealth()
+        {
+            if (SelectableEnemy.Health <= 0)
             {
-                playerManager.Player.AddMoney(_selectableEnemy.Reward);
+                playerManager.Player.AddMoney(SelectableEnemy.Reward);
                 playerManager.Player.AddExorcisedDevil();
 
                 InitializeValues();
 
                 DevilBanished.Invoke();
             }
-            UpdateHealthText();
+
+            HealthChanged.Invoke();
         }
-
-        #endregion
-
-        #region UI
-
-        private void UpdateHealthText() => healthText.text = $"{_selectableEnemy.Health}";
 
         #endregion
 
@@ -126,11 +122,16 @@ namespace Game.Managers
             }
         }
 
+        public float GetPercentageOfHealth()
+        {
+            return 0f;
+        }
+
         #endregion
 
         #region ADD
 
-        private void AddDamage(int damage) => _selectableEnemy.ReduceHealth(damage);
+        private void AddDamage(int damage) => SelectableEnemy.ReduceHealth(damage);
 
         #endregion
     }

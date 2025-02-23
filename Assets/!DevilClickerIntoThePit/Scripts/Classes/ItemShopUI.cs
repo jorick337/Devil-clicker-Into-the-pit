@@ -15,9 +15,9 @@ namespace Game.Classes
         public Button BuyButton => buyButton;
 
         [Header("Info")]
-        [SerializeField] private Text NameText;
-        [SerializeField] private Text DamageText;
-        [SerializeField] private Text PriceText;
+        [SerializeField] private Text nameText;
+        [SerializeField] private Text damageText;
+        [SerializeField] private Text priceText;
         [SerializeField] private Image image;
 
         #endregion
@@ -26,7 +26,7 @@ namespace Game.Classes
 
         public void Initialize(WeaponInstance man)
         {
-            UpdateDamageText(man.Damage, man.AutoDamage);
+            UpdateDamageTextAndTransformImage(man.Damage, man.AutoDamage);
 
             UpdateNameText(man.Name);
             UpdatePriceText(man.Price);
@@ -38,20 +38,22 @@ namespace Game.Classes
 
         #region UI
 
-        private void UpdateDamageText(int damage, int autoDamage) 
+        private void UpdateDamageTextAndTransformImage(int damage, int autoDamage)
         {
             if (damage == 0)
             {
-                DamageText.text = $"{autoDamage} урона в секунду";
+                damageText.text = $"{autoDamage} урона в секунду";
+                image.rectTransform.sizeDelta = new(35, image.rectTransform.sizeDelta.y);
             }
             else
             {
-                DamageText.text = $"{damage} урона к клику";
+                damageText.text = $"{damage} урона к клику";
+                image.rectTransform.sizeDelta = new(65, image.rectTransform.sizeDelta.y);
             }
-        } 
+        }
 
-        private void UpdateNameText(string value) => NameText.text = value;
-        private void UpdatePriceText(int value) => PriceText.text = $"{value - 0.01f} $";
+        private void UpdateNameText(string value) => nameText.text = value;
+        private void UpdatePriceText(int value) => priceText.text = $"{value - 0.01f} $";
 
         private void UpdateSpriteImage(Sprite sprite) => image.sprite = sprite;
 
