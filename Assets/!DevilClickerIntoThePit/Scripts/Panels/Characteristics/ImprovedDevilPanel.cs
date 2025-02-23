@@ -24,7 +24,6 @@ namespace Game.Panels.Characteristics
         private ushort _nextPriceDevil;
 
         [Header("UI")]
-        [SerializeField] private Text titleText;
         [SerializeField] private Text priceText;
         
         [Header("Managers")]
@@ -78,7 +77,7 @@ namespace Game.Panels.Characteristics
         {
             if (IsDevilsLevelEnd())
             {
-                priceText.text = "";
+                priceText.text = MAX_UPDATE;
             }
             else
             {

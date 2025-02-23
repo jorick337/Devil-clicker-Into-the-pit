@@ -12,6 +12,7 @@ namespace Game.Panels
         #region CONSTANTS
 
         private const byte LENGHT_TABLE_OF_SHOP = 3;
+        private const byte LENGHT_OF_IDENTICAL_OBJECTS = 6;
 
         #endregion
 
@@ -26,12 +27,18 @@ namespace Game.Panels
         #region CORE
 
         [Header("Core")]
-        [SerializeField] private WeaponInstance[] men;
+        [SerializeField] private Weapon[] weapons;
         [SerializeField] private ItemShopUI[] itemShopUI;
 
+        private byte _focusedTableIndex;
+
         [Header("Moving")]
+        [SerializeField] private Button switchSwordsAndMenButton;
         [SerializeField] private Button backMoveButton;
         [SerializeField] private Button nextMoveButton;
+
+        private GameObject _backMoveGameObject => backMoveButton.gameObject;
+        private GameObject _nextMoveGameObject => nextMoveButton.gameObject;
 
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
@@ -58,14 +65,15 @@ namespace Game.Panels
 
         private void InitializeValues()
         {
-            menBought = new UnityAction[men.Length];
+            menBought = new UnityAction[weapons.Length];
+            _focusedTableIndex = 0;
         }
 
         private void InitializeUI()
         {
-            for (int i = 0; i < men.Length; i++)
+            for (int i = 0; i < weapons.Length; i++)
             {
-                itemShopUI[i].Initialize(men[i]);
+                itemShopUI[i].Initialize(weapons[i].GetInstance());
             }
         }
 
@@ -73,23 +81,25 @@ namespace Game.Panels
         {
             if (register)
             {
+                switchSwordsAndMenButton.onClick.AddListener(SwitchSwordsAndMen);
                 backMoveButton.onClick.AddListener(MoveBack);
                 nextMoveButton.onClick.AddListener(MoveForward);
 
-                for (byte i = 0; i < men.Length; i++)
+                for (byte i = 0; i < weapons.Length; i++)
                 {
                     byte index = i;
 
-                    menBought[i] = () => BuyMan(men[index]);
+                    menBought[i] = () => BuyMan(weapons[index].GetInstance());
                     itemShopUI[i].BuyButton.onClick.AddListener(menBought[i]);
                 }
             }
             else
             {
+                switchSwordsAndMenButton.onClick.RemoveListener(SwitchSwordsAndMen);
                 backMoveButton.onClick.RemoveListener(MoveBack);
                 nextMoveButton.onClick.RemoveListener(MoveForward);
 
-                for (int i = 0; i < men.Length; i++)
+                for (int i = 0; i < weapons.Length; i++)
                 {
                     itemShopUI[i].BuyButton.onClick.RemoveListener(menBought[i]);
                 }
@@ -100,31 +110,57 @@ namespace Game.Panels
 
         #region CALLBACKS
 
-        private void BuyMan(WeaponInstance man)
+        private void BuyMan(WeaponInstance weaponInstance)
         {
-            if (playerManager.Player.Money >= man.Price)
+            if (playerManager.Player.Money >= weaponInstance.Price)
             {
-                playerManager.Player.ReduceMoney(man.Price);
-                playerManager.Player.AddDamage(man.Damage);
+                playerManager.Player.ReduceMoney(weaponInstance.Price);
+                playerManager.Player.AddDamage(weaponInstance.Damage);
+                playerManager.Player.AddAutoDamage(weaponInstance.AutoDamage);
 
                 manBought.Invoke();
             }
         }
 
-        private void ChangeActiveItemsOfShop(byte index)
+        private void SwitchSwordsAndMen()
+        {
+            for (int i = 0; i < LENGHT_OF_IDENTICAL_OBJECTS; i++)
+            {
+                (itemShopUI[LENGHT_OF_IDENTICAL_OBJECTS + i], itemShopUI[i]) = (itemShopUI[i], itemShopUI[LENGHT_OF_IDENTICAL_OBJECTS + i]);
+            }
+
+            ChangeActiveItemsOfShop();
+        }
+
+        private void ChangeActiveItemsOfShop()
         {
             int j = 0;
-            for (int i = 0; i < men.Length; i++)
+            for (int i = 0; i < weapons.Length; i++)
             {
-                bool active = j < LENGHT_TABLE_OF_SHOP && i >= index;
+                bool active = j < LENGHT_TABLE_OF_SHOP && i >= _focusedTableIndex;
                 j = active ? j + 1 : j;
 
                 itemShopUI[i].ItemGameObject.SetActive(active);
             }
         }
 
-        private void MoveBack() => ChangeActiveItemsOfShop(0);
-        private void MoveForward() => ChangeActiveItemsOfShop(3);
+        private void MoveBack() 
+        {
+            _backMoveGameObject.SetActive(false);
+            _nextMoveGameObject.SetActive(true);
+
+            _focusedTableIndex = 0;
+            ChangeActiveItemsOfShop();
+        } 
+
+        private void MoveForward() 
+        {
+            _backMoveGameObject.SetActive(true);
+            _nextMoveGameObject.SetActive(false);
+
+            _focusedTableIndex = 3;
+            ChangeActiveItemsOfShop();
+        }
 
         #endregion
     }

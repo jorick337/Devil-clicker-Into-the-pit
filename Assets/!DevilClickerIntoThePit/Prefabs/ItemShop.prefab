@@ -427,9 +427,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemGameObject: {fileID: 3869560904134472534}
   buyButton: {fileID: 8901372893256665687}
-  NameText: {fileID: 6037531693824971372}
-  DamageText: {fileID: 4643921744025469757}
-  PriceText: {fileID: 4594346121707427452}
+  nameText: {fileID: 6037531693824971372}
+  damageText: {fileID: 4643921744025469757}
+  priceText: {fileID: 4594346121707427452}
   image: {fileID: 8314453259835958292}
 --- !u!1 &4463248770787243944
 GameObject:
@@ -496,7 +496,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 989504324307164336, guid: ebf872d11a3da9c17943d5c6bb5ef3dd, type: 3}
+  m_Sprite: {fileID: 5015358457507566362, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

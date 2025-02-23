@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89c0d8d908a856df5a3851e0782cec17, type: 3}
-  m_Name: Weapon 2
+  m_Name: Men 2
   m_EditorClassIdentifier: 
   Name: "\u0413\u043E\u0440\u043E\u0436\u0430\u043D\u0438\u043D"
-  Price: 25
-  AutoDamage: 0
-  Damage: 3
+  Price: 70
+  AutoDamage: 3
+  Damage: 0
   Sprite: {fileID: 7286587992802974050, guid: ddbd44cff28198635ab65f3bd1255c19, type: 3}

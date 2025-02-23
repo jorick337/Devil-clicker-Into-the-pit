@@ -37,7 +37,7 @@ namespace Game.Classes
         public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
         
         public void AddDamage(int value) => Damage += value;
-        public void AddAutoDamage(int value) => AutoDamage += AutoDamage;
+        public void AddAutoDamage(int value) => AutoDamage += value;
 
         #endregion
 
