@@ -53,10 +53,7 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            SelectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance();
-            SelectableEnemy.MultiplyHealth(playerManager.Player.NumberOfExorcisedDevils == 0
-                ? 1
-                : playerManager.Player.NumberOfExorcisedDevils);
+            SelectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
         }
 
         private void RegisterEvents(bool register)
@@ -83,8 +80,11 @@ namespace Game.Managers
 
         private void TakeAutoDamage()   // Используется в Start
         {
-            AddDamage(playerManager.Player.AutoDamage);
-            CheckEnemyHealth();
+            if (playerManager.Player.AutoDamage > 0)
+            {
+                AddDamage(playerManager.Player.AutoDamage);
+                CheckEnemyHealth();
+            }
         }
 
         private void CheckEnemyHealth()
@@ -124,7 +124,10 @@ namespace Game.Managers
 
         public float GetPercentageOfHealth()
         {
-            return 0f;
+            EnemyInstance initialEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+            float percentage = (float)SelectableEnemy.Health / initialEnemy.Health;
+
+            return percentage == 1 ? 0 : percentage;
         }
 
         #endregion
