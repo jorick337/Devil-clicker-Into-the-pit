@@ -7,12 +7,23 @@ namespace Game.Panels
 {
     public class EnemyPanel : MonoBehaviour
     {
+        #region CONSTANTS
+
+        private string ANIMATION_DEVIL_CLICK = "Click";
+        private string ANIMATION_DEVIL_LOST_HEALTH = "LossHealth";
+
+        #endregion
+
         #region CORE
 
         [Header("UI")]
         [SerializeField] private Slider healthSlider;
         [SerializeField] private Text healthText;
         [SerializeField] private Image enemyImage;
+
+        [Header("Animations")]
+        [SerializeField] private Animator devilAnimator;
+        [SerializeField] private Animator healthAnimator;
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -51,14 +62,14 @@ namespace Game.Panels
                 improvedDevilPanel.EnemyImproved += InitializeUI;
                 improvedDevilPanel.EnemyImproved += UpdateHealthText;
 
-                enemyManager.HealthChanged += UpdateHealthText;
+                enemyManager.HealthChanged += StartChangingHealthEnemy;
             }
             else
             {
                 improvedDevilPanel.EnemyImproved -= InitializeUI;
                 improvedDevilPanel.EnemyImproved -= UpdateHealthText;
 
-                enemyManager.HealthChanged -= UpdateHealthText;
+                enemyManager.HealthChanged -= StartChangingHealthEnemy;
             }
         }
 
@@ -70,6 +81,19 @@ namespace Game.Panels
         private void UpdateHealthText() => healthText.text = enemyManager.SelectableEnemy.Health.ToString();
 
         private void UpdateEnemySprite() => enemyImage.sprite = enemyManager.SelectableEnemy.DevilSprite;
+
+        #endregion
+
+        #region CALLBACKS
+
+        private void StartChangingHealthEnemy()
+        {
+            devilAnimator.Play(ANIMATION_DEVIL_CLICK);
+            UpdateHealthText();
+
+            healthAnimator.Play(ANIMATION_DEVIL_LOST_HEALTH);
+            UpdateValueHealthSlider();
+        }
 
         #endregion
     }

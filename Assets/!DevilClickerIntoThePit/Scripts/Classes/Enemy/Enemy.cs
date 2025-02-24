@@ -14,9 +14,12 @@ namespace Game.Classes
         [Header("UI")]
         public Sprite DevilSprite;
 
-        public EnemyInstance CreateInstance()
+        public EnemyInstance CreateInstance(ushort numberOfExorcisedDevils = 0)
         {
-            return new(this);
+            EnemyInstance enemyInstance = new(this);
+            enemyInstance.MultiplyHealth(numberOfExorcisedDevils == 0 ? 1 : numberOfExorcisedDevils);
+
+            return enemyInstance;
         }
     }
 }
