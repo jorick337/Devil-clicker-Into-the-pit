@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword 2
   m_EditorClassIdentifier: 
   Name: "\u0425\u0430\u0440\u0430\u0434"
-  Price: 25
+  Price: 20
   AutoDamage: 0
   Damage: 3
   Sprite: {fileID: -4375368743273336856, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}

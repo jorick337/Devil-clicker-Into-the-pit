@@ -125,7 +125,7 @@ namespace Game.Managers
         public float GetPercentageOfHealth()
         {
             EnemyInstance initialEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
-            float percentage = (float)SelectableEnemy.Health / initialEnemy.Health;
+            float percentage = Math.Abs((float)SelectableEnemy.Health / initialEnemy.Health - 1);
 
             return percentage == 1 ? 0 : percentage;
         }

@@ -27,33 +27,6 @@ namespace Game.Managers
             Player = new();
         }
 
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-
-            }
-            else
-            {
-
-            }
-        }
-
-        #endregion
-
-        #region ADD
-
-        public void AddProgress()
-        {
-            
-        }
-
-        #endregion
-
-        #region CALLBACKS
-
-        private void AddProgressByClick() => AddProgress();
-
         #endregion
     }
 }
