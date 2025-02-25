@@ -1,3 +1,5 @@
+using System;
+
 namespace Game.Classes
 {
     public class Player
@@ -18,7 +20,7 @@ namespace Game.Classes
 
         public Player()
         {
-            Money = 1000000;
+            Money = 0;
 
             LevelOfDevil = 1;
             NumberOfExorcisedDevils = 0;

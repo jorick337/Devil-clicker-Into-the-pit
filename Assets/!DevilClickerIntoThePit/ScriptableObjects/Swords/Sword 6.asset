@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword 6
   m_EditorClassIdentifier: 
   Name: "\u0416\u0430\u0440"
-  Price: 11000
+  Price: 6480
   AutoDamage: 0
-  Damage: 1678
+  Damage: 729
   Sprite: {fileID: -4056090002615397937, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}

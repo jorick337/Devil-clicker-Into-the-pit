@@ -61,6 +61,7 @@ namespace Game.Panels
             {
                 improvedDevilPanel.EnemyImproved += InitializeUI;
                 improvedDevilPanel.EnemyImproved += UpdateHealthText;
+                improvedDevilPanel.EnemyImproved += UpdateValueHealthSlider;
 
                 enemyManager.HealthChanged += StartChangingHealthEnemy;
             }
@@ -68,6 +69,7 @@ namespace Game.Panels
             {
                 improvedDevilPanel.EnemyImproved -= InitializeUI;
                 improvedDevilPanel.EnemyImproved -= UpdateHealthText;
+                improvedDevilPanel.EnemyImproved -= UpdateValueHealthSlider;
 
                 enemyManager.HealthChanged -= StartChangingHealthEnemy;
             }

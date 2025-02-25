@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Jorick
+  companyName: Yurinka
   productName: Devil clicker Into the pit
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -140,8 +140,10 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.0.2
-  preloadedAssets: []
+  bundleVersion: 1.0.1
+  preloadedAssets:
+  - {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  - {fileID: 1331904188860616760, guid: 0fb023c81daba40aca947c962ace0742, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -695,7 +697,7 @@ PlayerSettings:
   webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
-  webGLDecompressionFallback: 0
+  webGLDecompressionFallback: 1
   webGLInitialMemorySize: 32
   webGLMaximumMemorySize: 2048
   webGLMemoryGrowthMode: 2

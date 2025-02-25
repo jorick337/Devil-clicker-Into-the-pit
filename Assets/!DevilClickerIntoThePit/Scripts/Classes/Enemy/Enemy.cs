@@ -17,7 +17,8 @@ namespace Game.Classes
         public EnemyInstance CreateInstance(ushort numberOfExorcisedDevils = 0)
         {
             EnemyInstance enemyInstance = new(this);
-            enemyInstance.MultiplyHealth(numberOfExorcisedDevils == 0 ? 1 : numberOfExorcisedDevils);
+
+            enemyInstance.MultiplyHealth(numberOfExorcisedDevils == 0 ? 1 : numberOfExorcisedDevils + 1);
 
             return enemyInstance;
         }

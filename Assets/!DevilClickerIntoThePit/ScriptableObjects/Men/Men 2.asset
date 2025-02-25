@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Men 2
   m_EditorClassIdentifier: 
   Name: "\u0413\u043E\u0440\u043E\u0436\u0430\u043D\u0438\u043D"
-  Price: 70
+  Price: 80
   AutoDamage: 3
   Damage: 0
   Sprite: {fileID: 7286587992802974050, guid: ddbd44cff28198635ab65f3bd1255c19, type: 3}

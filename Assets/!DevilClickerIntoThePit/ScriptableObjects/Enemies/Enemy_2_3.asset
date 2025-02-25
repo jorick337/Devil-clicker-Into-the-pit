@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 218daa5403d2a4720b566cbf3bf4422c, type: 3}
   m_Name: Enemy_2_3
   m_EditorClassIdentifier: 
-  Health: 15000
-  Reward: 5500
-  Price: 15000
+  Health: 38
+  Reward: 7000
+  Price: 30000
   DevilSprite: {fileID: 8205912616355475843, guid: 1a8432b9a766eb4ac83954c51025841b, type: 3}
