@@ -1,7 +1,7 @@
 # Devil-clicker-Into-the-pit
 
 <p align="center">
-   <img src="https://github.com/jorick337/Sudoku/blob/main/MinorFiles/Images(my)/Gameplay.gif">
+   <img src="">
 </p>
 
 <p align="center">
