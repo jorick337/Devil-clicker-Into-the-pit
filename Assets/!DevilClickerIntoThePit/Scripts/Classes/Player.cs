@@ -20,7 +20,7 @@ namespace Game.Classes
 
         public Player()
         {
-            Money = 0;
+            Money = 1000;
 
             LevelOfDevil = 1;
             NumberOfExorcisedDevils = 0;

@@ -20,6 +20,10 @@ namespace Game.Classes
         [SerializeField] private Text priceText;
         [SerializeField] private Image image;
 
+        [Header("Image")]
+        [SerializeField] private ushort sizeDeltaXSwordImage;
+        [SerializeField] private ushort sizeDeltaXManImage;
+
         #endregion
 
         #region INITIALIZATION
@@ -43,12 +47,12 @@ namespace Game.Classes
             if (damage == 0)
             {
                 damageText.text = $"{autoDamage} урона в секунду";
-                image.rectTransform.sizeDelta = new(35, image.rectTransform.sizeDelta.y);
+                image.rectTransform.sizeDelta = new(sizeDeltaXManImage, image.rectTransform.sizeDelta.y);
             }
             else
             {
                 damageText.text = $"{damage} урона к клику";
-                image.rectTransform.sizeDelta = new(65, image.rectTransform.sizeDelta.y);
+                image.rectTransform.sizeDelta = new(sizeDeltaXSwordImage, image.rectTransform.sizeDelta.y);
             }
         }
 
