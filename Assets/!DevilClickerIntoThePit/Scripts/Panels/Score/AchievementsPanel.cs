@@ -15,6 +15,7 @@ namespace Game.Panels.Score
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private AchievementsPanel achievementsPanel;
 
         #endregion
 
