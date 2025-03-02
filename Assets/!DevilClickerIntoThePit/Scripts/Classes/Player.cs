@@ -1,18 +1,17 @@
-using System;
-
 namespace Game.Classes
 {
+    [System.Serializable]
     public class Player
     {
         #region CORE
 
-        public int Money { get; private set; }
+        public int Money;
 
-        public byte LevelOfDevil { get; private set; }
-        public ushort NumberOfExorcisedDevils { get; private set; }
+        public byte LevelOfDevil;
+        public ushort NumberOfExorcisedDevils;
 
-        public int Damage { get; private set; }
-        public int AutoDamage { get; private set; }
+        public int Damage;
+        public int AutoDamage;
 
         #endregion
 
@@ -20,7 +19,7 @@ namespace Game.Classes
 
         public Player()
         {
-            Money = 1000;
+            Money = 0;
 
             LevelOfDevil = 1;
             NumberOfExorcisedDevils = 0;

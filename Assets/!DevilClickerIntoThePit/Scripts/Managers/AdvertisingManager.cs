@@ -1,4 +1,5 @@
 using UnityEngine;
+using YG;
 
 namespace Game.Managers
 {
@@ -15,7 +16,7 @@ namespace Game.Managers
 
         private void Start()
         {
-            InvokeRepeating("TryShowFullscreenAdWithChance", 1f, 120f);
+            InvokeRepeating("TryShowFullscreenAdWithChance", 1f, 61f);
         }
 
         #endregion
@@ -30,6 +31,8 @@ namespace Game.Managers
             {
                 return;
             }
+
+            YandexGame.FullscreenShow();
         }
 
         #endregion

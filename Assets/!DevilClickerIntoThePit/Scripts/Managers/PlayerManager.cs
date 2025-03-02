@@ -1,5 +1,6 @@
 using UnityEngine;
 using Game.Classes;
+using YG;
 
 namespace Game.Managers
 {
@@ -18,13 +19,19 @@ namespace Game.Managers
             InitializeValues();
         }
 
+        private void OnDisable()
+        {
+            YandexGame.savesData.Player = Player;
+            YandexGame.SaveProgress();
+        }
+
         #endregion
 
         #region INITIALIZATION
 
         private void InitializeValues()
         {
-            Player = new();
+            Player = YandexGame.savesData.Player;
         }
 
         #endregion

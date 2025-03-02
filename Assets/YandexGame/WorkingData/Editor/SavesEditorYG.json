@@ -1,0 +1,13 @@
+{
+    "idSave": 5,
+    "isFirstSession": false,
+    "language": "ru",
+    "promptDone": false,
+    "Player": {
+        "Money": 0,
+        "LevelOfDevil": 1,
+        "NumberOfExorcisedDevils": 0,
+        "Damage": 1,
+        "AutoDamage": 0
+    }
+}
