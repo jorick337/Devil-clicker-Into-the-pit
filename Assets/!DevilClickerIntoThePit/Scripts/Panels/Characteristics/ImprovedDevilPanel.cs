@@ -68,6 +68,7 @@ namespace Game.Panels.Characteristics
                 InitializeValues();
 
                 EnemyImproved.Invoke();
+                Resources.UnloadUnusedAssets();
             }
 
             UpdatePriceText();

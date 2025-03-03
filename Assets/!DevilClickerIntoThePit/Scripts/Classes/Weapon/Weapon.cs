@@ -14,7 +14,7 @@ namespace Game.Classes
         public ushort Damage;
 
         [Header("UI")]
-        public Sprite Sprite;
+        public string PathToSprite; // чтобы не погружать все sprite одновременно
 
         public WeaponInstance GetInstance() => new(this);
     }

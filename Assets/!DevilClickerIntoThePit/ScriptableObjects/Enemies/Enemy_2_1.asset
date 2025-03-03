@@ -15,4 +15,4 @@ MonoBehaviour:
   Health: 22
   Reward: 800
   Price: 6000
-  DevilSprite: {fileID: -1555937476285030888, guid: e30de644a8fc312c99994e08076a5bd8, type: 3}
+  PathToSprite: Enemy/Devil_2/Devil_2_1
