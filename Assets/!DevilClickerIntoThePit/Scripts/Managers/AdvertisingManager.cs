@@ -1,3 +1,4 @@
+using Game.Panels.Characteristics;
 using UnityEngine;
 using YG;
 
@@ -5,36 +6,32 @@ namespace Game.Managers
 {
     public class AdvertisingManager : MonoBehaviour
     {
-        #region CORE
-
         [Header("Core")]
         [SerializeField] private byte chance;
 
-        #endregion
+        [Header("Panels")]
+        [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
 
-        #region MONO
-
-        private void Start()
+        private void Awake()
         {
-            InvokeRepeating("TryShowFullscreenAdWithChance", 1f, 61f);
+            RegisterEvents(true);
         }
 
-        #endregion
-
-        #region CORE LOGIC
-
-        public void TryShowFullscreenAdWithChance()
+        private void OnDisable()
         {
-            int random = Random.Range(0, 101);
+            RegisterEvents(false);
+        }
 
-            if (chance < random)
+        private void RegisterEvents(bool register)
+        {
+            if (register)
             {
-                return;
+                improvedDevilPanel.EnemyImproved += YandexGame.FullscreenShow;
             }
-
-            YandexGame.FullscreenShow();
+            else
+            {
+                improvedDevilPanel.EnemyImproved -= YandexGame.FullscreenShow;
+            }
         }
-
-        #endregion
     }
 }

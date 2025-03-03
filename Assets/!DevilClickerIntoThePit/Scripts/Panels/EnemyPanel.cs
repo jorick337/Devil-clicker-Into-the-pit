@@ -2,18 +2,12 @@ using Game.Managers;
 using Game.Panels.Characteristics;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Game.Panels
 {
     public class EnemyPanel : MonoBehaviour
     {
-        #region CONSTANTS
-
-        private string ANIMATION_DEVIL_CLICK = "Click";
-        private string ANIMATION_DEVIL_LOST_HEALTH = "LossHealth";
-
-        #endregion
-
         #region CORE
 
         [Header("UI")]
@@ -21,9 +15,8 @@ namespace Game.Panels
         [SerializeField] private Text healthText;
         [SerializeField] private Image enemyImage;
 
-        [Header("Animations")]
-        [SerializeField] private Animator devilAnimator;
-        [SerializeField] private Animator healthAnimator;
+        private Tween _devilAnimation;
+        private Sequence _healthAnimation;
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -37,6 +30,7 @@ namespace Game.Panels
 
         private void Awake()
         {
+            InitializeValues();
             InitializeUI();
             RegisterEvents(true);
         }
@@ -50,9 +44,21 @@ namespace Game.Panels
 
         #region INITIALIZATION
 
+        private void InitializeValues()
+        {
+            _devilAnimation = enemyImage.transform.DOScaleY(0.89f, 0.1f).From(1).SetAutoKill(false).Pause();
+
+            _healthAnimation = DOTween.Sequence()
+                .Append(healthSlider.transform.DORotate(new Vector3(0,0,5), 0.05f).From(new Vector3(0,0,0)))
+                .Append(healthSlider.transform.DORotate(new Vector3(0,0,-5), 0.1f).From(new Vector3(0,0,5)))
+                .Append(healthSlider.transform.DORotate(new Vector3(0,0,0), 0.05f).From(new Vector3(0,0,0)))
+                .SetAutoKill(false).Pause();
+        }
+
         public void InitializeUI()
         {
             UpdateEnemySprite();
+            UpdateHealthText();
         }
 
         private void RegisterEvents(bool register)
@@ -90,10 +96,10 @@ namespace Game.Panels
 
         private void StartChangingHealthEnemy()
         {
-            devilAnimator.Play(ANIMATION_DEVIL_CLICK);
+            _devilAnimation.Restart();
             UpdateHealthText();
 
-            healthAnimator.Play(ANIMATION_DEVIL_LOST_HEALTH);
+            _healthAnimation.Restart();
             UpdateValueHealthSlider();
         }
 

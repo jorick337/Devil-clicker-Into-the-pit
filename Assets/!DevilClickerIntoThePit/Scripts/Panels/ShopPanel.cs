@@ -11,7 +11,7 @@ namespace Game.Panels
     {
         #region CONSTANTS
 
-        private const byte LENGHT_TABLE_OF_SHOP = 3;
+        private const byte LENGHT_OF_TABLE = 3;
         private const byte LENGHT_OF_IDENTICAL_OBJECTS = 6;
 
         #endregion
@@ -66,15 +66,23 @@ namespace Game.Panels
         private void InitializeValues()
         {
             menBought = new UnityAction[weapons.Length];
+            for (byte i = 0; i < weapons.Length; i++)
+            {
+                byte index = i;
+
+                menBought[i] = () => BuyMan(weapons[index].GetInstance());
+            }
+
             _focusedTableIndex = 0;
         }
 
         private void InitializeUI()
         {
-            for (int i = 0; i < weapons.Length; i++)
+            for (int i = 0; i < LENGHT_OF_TABLE; i++)
             {
-                itemShopUI[i].Initialize(weapons[i].GetInstance());
+                itemShopUI[i].InitializeUI(weapons[_focusedTableIndex + i].GetInstance());
             }
+            Resources.UnloadUnusedAssets();
         }
 
         private void RegisterEvents(bool register)
@@ -84,26 +92,42 @@ namespace Game.Panels
                 switchSwordsAndMenButton.onClick.AddListener(SwitchSwordsAndMen);
                 backMoveButton.onClick.AddListener(MoveBack);
                 nextMoveButton.onClick.AddListener(MoveForward);
-
-                for (byte i = 0; i < weapons.Length; i++)
-                {
-                    byte index = i;
-
-                    menBought[i] = () => BuyMan(weapons[index].GetInstance());
-                    itemShopUI[i].BuyButton.onClick.AddListener(menBought[i]);
-                }
             }
             else
             {
                 switchSwordsAndMenButton.onClick.RemoveListener(SwitchSwordsAndMen);
                 backMoveButton.onClick.RemoveListener(MoveBack);
                 nextMoveButton.onClick.RemoveListener(MoveForward);
+            }
 
-                for (int i = 0; i < weapons.Length; i++)
+            RegisterOnClickBuyButtons(register);
+        }
+
+        private void RegisterOnClickBuyButtons(bool register)
+        {
+            for (byte i = 0; i < LENGHT_OF_TABLE; i++)
+            {
+                if (register)
                 {
-                    itemShopUI[i].BuyButton.onClick.RemoveListener(menBought[i]);
+                    itemShopUI[i].BuyButton.onClick.AddListener(menBought[_focusedTableIndex + i]);
+                }
+                else
+                {
+                    itemShopUI[i].BuyButton.onClick.RemoveListener(menBought[_focusedTableIndex + i]);
                 }
             }
+        }
+
+        #endregion
+
+        #region UI
+
+        private void UpdateUI(byte? index = null)
+        {
+            RegisterOnClickBuyButtons(false);
+            _focusedTableIndex = (byte)(index == null ? _focusedTableIndex : index);
+            InitializeUI();
+            RegisterOnClickBuyButtons(true);
         }
 
         #endregion
@@ -126,40 +150,26 @@ namespace Game.Panels
         {
             for (int i = 0; i < LENGHT_OF_IDENTICAL_OBJECTS; i++)
             {
-                (itemShopUI[LENGHT_OF_IDENTICAL_OBJECTS + i], itemShopUI[i]) = (itemShopUI[i], itemShopUI[LENGHT_OF_IDENTICAL_OBJECTS + i]);
+                (weapons[LENGHT_OF_IDENTICAL_OBJECTS + i], weapons[i]) = (weapons[i], weapons[LENGHT_OF_IDENTICAL_OBJECTS + i]);
             }
 
-            ChangeActiveItemsOfShop();
+            UpdateUI();
         }
 
-        private void ChangeActiveItemsOfShop()
-        {
-            int j = 0;
-            for (int i = 0; i < weapons.Length; i++)
-            {
-                bool active = j < LENGHT_TABLE_OF_SHOP && i >= _focusedTableIndex;
-                j = active ? j + 1 : j;
-
-                itemShopUI[i].ItemGameObject.SetActive(active);
-            }
-        }
-
-        private void MoveBack() 
+        private void MoveBack()
         {
             _backMoveGameObject.SetActive(false);
             _nextMoveGameObject.SetActive(true);
 
-            _focusedTableIndex = 0;
-            ChangeActiveItemsOfShop();
-        } 
+            UpdateUI(0);
+        }
 
-        private void MoveForward() 
+        private void MoveForward()
         {
             _backMoveGameObject.SetActive(true);
             _nextMoveGameObject.SetActive(false);
 
-            _focusedTableIndex = 3;
-            ChangeActiveItemsOfShop();
+            UpdateUI(3);
         }
 
         #endregion

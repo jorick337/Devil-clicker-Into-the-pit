@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,11 @@ namespace Game.Classes
         #region CORE
 
         [Header("Core")]
-        [SerializeField] private GameObject itemGameObject;
         [SerializeField] private Button buyButton;
 
-        public GameObject ItemGameObject => itemGameObject;
         public Button BuyButton => buyButton;
+
+        private Tween clickAnimation;
 
         [Header("Info")]
         [SerializeField] private Text nameText;
@@ -26,16 +27,48 @@ namespace Game.Classes
 
         #endregion
 
+        #region MONO
+
+        private void Awake()
+        {
+            InitializeValues();
+            RegisterEvents(true);
+        }
+
+        private void OnDisable()
+        {
+            RegisterEvents(false);
+        }
+
+        #endregion
+
         #region INITIALIZATION
 
-        public void Initialize(WeaponInstance man)
+        public void InitializeUI(WeaponInstance weaponInstance)
         {
-            UpdateDamageTextAndTransformImage(man.Damage, man.AutoDamage);
+            UpdateDamageTextAndTransformImage(weaponInstance.Damage, weaponInstance.AutoDamage);
 
-            UpdateNameText(man.Name);
-            UpdatePriceText(man.Price);
+            UpdateNameText(weaponInstance.Name);
+            UpdatePriceText(weaponInstance.Price);
 
-            UpdateSpriteImage(man.Sprite);
+            UpdateSpriteImage(weaponInstance.Sprite);
+        }
+
+        private void InitializeValues()
+        {
+            clickAnimation = buyButton.transform.DOScaleY(0.89f, 0.1f).From(1).SetAutoKill(false).Pause();
+        }
+
+        private void RegisterEvents(bool register)
+        {
+            if (register)
+            {
+                buyButton.onClick.AddListener(ShowClickButton);
+            }
+            else
+            {
+                buyButton.onClick.RemoveListener(ShowClickButton);
+            }
         }
 
         #endregion
@@ -60,6 +93,12 @@ namespace Game.Classes
         private void UpdatePriceText(int value) => priceText.text = $"{value - 0.01f} $";
 
         private void UpdateSpriteImage(Sprite sprite) => image.sprite = sprite;
+
+        #endregion
+
+        #region CALLBACKS
+
+        private void ShowClickButton() => clickAnimation.Restart();
 
         #endregion
     }

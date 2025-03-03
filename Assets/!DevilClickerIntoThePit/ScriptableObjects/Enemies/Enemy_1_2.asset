@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Enemy_1_2
   m_EditorClassIdentifier: 
   Health: 13
-  Reward: 45
+  Reward: 90
   Price: 500
-  DevilSprite: {fileID: 1365017989056170794, guid: 42482a17fab100f44afd0c3eb53b48fb, type: 3}
+  PathToSprite: Enemy/Devil_1/Devil_1_2

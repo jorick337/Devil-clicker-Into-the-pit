@@ -16,6 +16,8 @@ namespace Game.Managers
 
         #region CORE
 
+        public static EnemyManager Instance { get; private set; }
+
         [Header("Core")]
         [SerializeField] private Enemy[] enemies;
 
@@ -33,8 +35,18 @@ namespace Game.Managers
 
         private void Awake()
         {
-            InitializeValues();
-            RegisterEvents(true);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+
+                InitializeValues();
+                RegisterEvents(true);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void Start()

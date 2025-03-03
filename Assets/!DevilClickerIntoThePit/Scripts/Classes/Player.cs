@@ -1,6 +1,9 @@
+using System;
+using YG;
+
 namespace Game.Classes
 {
-    [System.Serializable]
+    [Serializable]
     public class Player
     {
         #region CORE
@@ -17,15 +20,18 @@ namespace Game.Classes
 
         #region CONSTRUCTS
 
-        public Player()
+        public static explicit operator Player(SavesYG savesYG)
         {
-            Money = 0;
+            return new Player()
+            {
+                Money = savesYG.Money,
 
-            LevelOfDevil = 1;
-            NumberOfExorcisedDevils = 0;
-            
-            Damage = 1;
-            AutoDamage = 0;
+                LevelOfDevil = savesYG.LevelOfDevil,
+                NumberOfExorcisedDevils = savesYG.NumberOfExorcisedDevils,
+
+                Damage = savesYG.Damage,
+                AutoDamage = savesYG.AutoDamage
+            };
         }
 
         #endregion

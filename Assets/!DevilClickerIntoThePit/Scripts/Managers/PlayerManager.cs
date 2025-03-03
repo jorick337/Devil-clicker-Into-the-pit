@@ -8,6 +8,8 @@ namespace Game.Managers
     {
         #region CORE
 
+        public static PlayerManager Instance { get; private set; }
+
         public Player Player { get; private set; }
 
         #endregion
@@ -16,12 +18,22 @@ namespace Game.Managers
 
         private void Awake()
         {
-            InitializeValues();
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+
+                InitializeValues();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnDisable()
         {
-            YandexGame.savesData.Player = Player;
+            YandexGame.savesData += Player;
             YandexGame.SaveProgress();
         }
 
@@ -31,9 +43,9 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            Player = YandexGame.savesData.Player;
+            Player = (Player)YandexGame.savesData;
         }
-
+        
         #endregion
     }
 }
