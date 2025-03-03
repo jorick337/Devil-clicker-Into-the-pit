@@ -7,6 +7,8 @@ namespace Game.Managers
     {
         #region CORE
 
+        public static PlayerManager Instance { get; private set; }
+
         public Player Player { get; private set; }
 
         #endregion
@@ -15,7 +17,17 @@ namespace Game.Managers
 
         private void Awake()
         {
-            InitializeValues();
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+
+                InitializeValues();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         #endregion
@@ -24,6 +36,7 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
+
             Player = new();
         }
 

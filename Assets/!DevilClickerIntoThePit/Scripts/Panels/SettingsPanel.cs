@@ -20,9 +20,7 @@ namespace Game.Panels
         [SerializeField] private Sprite disableSprite;
 
         [Header("UI")]
-        [SerializeField] private Button enableSoundButton;
-        [SerializeField] private Button disableSoundButton;
-
+        [SerializeField] private Button soundButton;
         [SerializeField] private Image soundImage;
 
         #endregion
@@ -47,13 +45,11 @@ namespace Game.Panels
         {
             if (register)
             {
-                enableSoundButton.onClick.AddListener(EnableAllSound);
-                disableSoundButton.onClick.AddListener(DisableAllSound);
+                soundButton.onClick.AddListener(EnableAllSound);
             }
             else
             {
-                enableSoundButton.onClick.RemoveListener(EnableAllSound);
-                disableSoundButton.onClick.RemoveListener(DisableAllSound);
+                soundButton.onClick.RemoveListener(EnableAllSound);
             }
         }
 
@@ -66,6 +62,9 @@ namespace Game.Panels
             soundImage.sprite = enableSprite;
             soundImage.raycastTarget = true;
 
+            soundButton.onClick.RemoveListener(EnableAllSound);
+            soundButton.onClick.AddListener(DisableAllSound);
+
             EnableSound.Invoke();
         }
 
@@ -73,6 +72,9 @@ namespace Game.Panels
         {
             soundImage.sprite = disableSprite;
             soundImage.raycastTarget = false;
+
+            soundButton.onClick.RemoveListener(DisableAllSound);
+            soundButton.onClick.AddListener(EnableAllSound);
 
             DisableSound.Invoke();
         }

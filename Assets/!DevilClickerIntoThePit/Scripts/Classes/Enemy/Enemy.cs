@@ -12,7 +12,7 @@ namespace Game.Classes
         public ushort Price;
 
         [Header("UI")]
-        public Sprite DevilSprite;
+        public string PathToSprite; // чтобы не погружать все sprite одновременно
 
         public EnemyInstance CreateInstance(ushort numberOfExorcisedDevils = 0)
         {

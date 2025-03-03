@@ -20,7 +20,7 @@ namespace Game.Classes
             AutoDamage = weapon.AutoDamage;
             Damage = weapon.Damage;
             
-            Sprite = weapon.Sprite;
+            Sprite = Resources.Load<Sprite>(weapon.PathToSprite);
         }
     }
 }

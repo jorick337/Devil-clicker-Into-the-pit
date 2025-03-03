@@ -16,7 +16,7 @@ namespace Game.Classes
             Health = enemy.Health;
             Reward = enemy.Reward;
             Price = enemy.Price;
-            DevilSprite = enemy.DevilSprite;
+            DevilSprite = Resources.Load<Sprite>(enemy.PathToSprite);
         }
 
         public void ReduceHealth(int value) => Health -= value;

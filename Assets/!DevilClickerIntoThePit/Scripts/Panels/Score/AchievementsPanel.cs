@@ -12,10 +12,11 @@ namespace Game.Panels.Score
         [Header("Core")]
         [SerializeField] private Achievement[] achievements;
 
-        [Header("Managers")]
-        [SerializeField] private PlayerManager playerManager;
-        [SerializeField] private EnemyManager enemyManager;
-        [SerializeField] private AchievementsPanel achievementsPanel;
+        [Header("UI")]
+        [SerializeField] private Button closePanelButton;
+
+        private PlayerManager _playerManager;
+        private EnemyManager _enemyManager;
 
         #endregion
 
@@ -23,6 +24,7 @@ namespace Game.Panels.Score
 
         private void Awake()
         {
+            InitializeManagers();
             InitializeUI();
             RegisterEvents(true);
         }
@@ -36,20 +38,28 @@ namespace Game.Panels.Score
 
         #region INITIALIZATION
 
+        private void InitializeManagers()
+        {
+            _playerManager = PlayerManager.Instance;
+            _enemyManager = EnemyManager.Instance;
+        }
+
         private void InitializeUI()
         {
-            UpdateAchievements(playerManager.Player.NumberOfExorcisedDevils);
+            UpdateAchievements(_playerManager.Player.NumberOfExorcisedDevils);
         }
 
         private void RegisterEvents(bool register)
         {
             if (register)
             {
-                enemyManager.DevilBanished += InitializeUI;
+                _enemyManager.DevilBanished += InitializeUI;
+                closePanelButton.onClick.AddListener(() => Destroy(gameObject));
             }
             else
             {
-                enemyManager.DevilBanished -= InitializeUI;
+                _enemyManager.DevilBanished -= InitializeUI;
+                Resources.UnloadUnusedAssets();
             }
         }
 
