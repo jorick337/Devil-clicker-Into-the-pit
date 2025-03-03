@@ -46,7 +46,10 @@ namespace Game.Panels
 
         private void InitializeValues()
         {
-            _devilAnimation = enemyImage.transform.DOScaleY(0.89f, 0.1f).From(1).SetAutoKill(false).Pause();
+            _devilAnimation = DOTween.Sequence()
+                .Append(enemyImage.transform.DOScaleY(0.89f, 0.1f).From(1))
+                .Append(enemyImage.transform.DOScaleY(0.89f, 0.1f).From(1))
+                .SetAutoKill(false).Pause();
 
             _healthAnimation = DOTween.Sequence()
                 .Append(healthSlider.transform.DORotate(new Vector3(0,0,5), 0.05f).From(new Vector3(0,0,0)))

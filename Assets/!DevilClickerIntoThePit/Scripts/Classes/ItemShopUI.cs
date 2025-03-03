@@ -13,7 +13,7 @@ namespace Game.Classes
 
         public Button BuyButton => buyButton;
 
-        private Tween clickAnimation;
+        private Sequence clickAnimation;
 
         [Header("Info")]
         [SerializeField] private Text nameText;
@@ -56,7 +56,10 @@ namespace Game.Classes
 
         private void InitializeValues()
         {
-            clickAnimation = buyButton.transform.DOScaleY(0.89f, 0.1f).From(1).SetAutoKill(false).Pause();
+            clickAnimation = DOTween.Sequence()
+                .Append(buyButton.transform.DOScaleY(0.89f, 0.1f).From(1f))
+                .Append(buyButton.transform.DOScaleY(1f, 0.1f).From(0.89f))
+                .SetAutoKill(false).Pause();
         }
 
         private void RegisterEvents(bool register)

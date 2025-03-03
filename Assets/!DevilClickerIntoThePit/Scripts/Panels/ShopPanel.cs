@@ -70,7 +70,6 @@ namespace Game.Panels
             {
                 byte index = i;
 
-
                 menBought[i] = () => BuyMan(weapons[index].GetInstance());
             }
 
@@ -93,23 +92,42 @@ namespace Game.Panels
                 switchSwordsAndMenButton.onClick.AddListener(SwitchSwordsAndMen);
                 backMoveButton.onClick.AddListener(MoveBack);
                 nextMoveButton.onClick.AddListener(MoveForward);
-
-                for (byte i = 0; i < LENGHT_OF_TABLE; i++)
-                {
-                    itemShopUI[i].BuyButton.onClick.AddListener(menBought[_focusedTableIndex + i]);
-                }
             }
             else
             {
                 switchSwordsAndMenButton.onClick.RemoveListener(SwitchSwordsAndMen);
                 backMoveButton.onClick.RemoveListener(MoveBack);
                 nextMoveButton.onClick.RemoveListener(MoveForward);
+            }
 
-                for (int i = 0; i < LENGHT_OF_TABLE; i++)
+            RegisterOnClickBuyButtons(register);
+        }
+
+        private void RegisterOnClickBuyButtons(bool register)
+        {
+            for (byte i = 0; i < LENGHT_OF_TABLE; i++)
+            {
+                if (register)
+                {
+                    itemShopUI[i].BuyButton.onClick.AddListener(menBought[_focusedTableIndex + i]);
+                }
+                else
                 {
                     itemShopUI[i].BuyButton.onClick.RemoveListener(menBought[_focusedTableIndex + i]);
                 }
             }
+        }
+
+        #endregion
+
+        #region UI
+
+        private void UpdateUI(byte? index = null)
+        {
+            RegisterOnClickBuyButtons(false);
+            _focusedTableIndex = (byte)(index == null ? _focusedTableIndex : index);
+            InitializeUI();
+            RegisterOnClickBuyButtons(true);
         }
 
         #endregion
@@ -135,7 +153,7 @@ namespace Game.Panels
                 (weapons[LENGHT_OF_IDENTICAL_OBJECTS + i], weapons[i]) = (weapons[i], weapons[LENGHT_OF_IDENTICAL_OBJECTS + i]);
             }
 
-            InitializeUI();
+            UpdateUI();
         }
 
         private void MoveBack()
@@ -143,8 +161,7 @@ namespace Game.Panels
             _backMoveGameObject.SetActive(false);
             _nextMoveGameObject.SetActive(true);
 
-            _focusedTableIndex = 0;
-            InitializeUI();
+            UpdateUI(0);
         }
 
         private void MoveForward()
@@ -152,8 +169,7 @@ namespace Game.Panels
             _backMoveGameObject.SetActive(true);
             _nextMoveGameObject.SetActive(false);
 
-            _focusedTableIndex = 3;
-            InitializeUI();
+            UpdateUI(3);
         }
 
         #endregion
