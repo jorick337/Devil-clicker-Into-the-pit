@@ -16,4 +16,4 @@ MonoBehaviour:
   Price: 20
   AutoDamage: 1
   Damage: 0
-  Sprite: {fileID: 989504324307164336, guid: ebf872d11a3da9c17943d5c6bb5ef3dd, type: 3}
+  PathToSprite: Shop/Men/Serf

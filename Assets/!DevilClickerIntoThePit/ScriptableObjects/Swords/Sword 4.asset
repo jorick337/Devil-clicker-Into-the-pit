@@ -16,4 +16,4 @@ MonoBehaviour:
   Price: 720
   AutoDamage: 0
   Damage: 81
-  Sprite: {fileID: -8173713151298648657, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+  PathToSprite: Shop/Swords/Sword_2_2

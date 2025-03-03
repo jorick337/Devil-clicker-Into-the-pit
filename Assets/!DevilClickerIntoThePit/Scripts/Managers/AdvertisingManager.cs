@@ -1,26 +1,37 @@
+using Game.Panels.Characteristics;
 using UnityEngine;
 
 namespace Game.Managers
 {
     public class AdvertisingManager : MonoBehaviour
     {
-        #region CORE
-
         [Header("Core")]
         [SerializeField] private byte chance;
 
-        #endregion
+        [Header("Panels")]
+        [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
 
-        #region MONO
-
-        private void Start()
+        private void Awake()
         {
-            InvokeRepeating("TryShowFullscreenAdWithChance", 1f, 120f);
+            RegisterEvents(true);
         }
 
-        #endregion
+        private void OnDisable()
+        {
+            RegisterEvents(false);
+        }
 
-        #region CORE LOGIC
+        private void RegisterEvents(bool register)
+        {
+            if (register)
+            {
+                //improvedDevilPanel.EnemyImproved += ;
+            }
+            else
+            {
+                //improvedDevilPanel.EnemyImproved -= ;
+            }
+        }
 
         public void TryShowFullscreenAdWithChance()
         {
@@ -31,7 +42,5 @@ namespace Game.Managers
                 return;
             }
         }
-
-        #endregion
     }
 }

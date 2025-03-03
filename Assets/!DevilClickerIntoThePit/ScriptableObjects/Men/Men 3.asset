@@ -16,4 +16,4 @@ MonoBehaviour:
   Price: 720
   AutoDamage: 9
   Damage: 0
-  Sprite: {fileID: -3085747607584028519, guid: 3744bbe4b185dbd9b89f81468ed8dba1, type: 3}
+  PathToSprite: Shop/Men/Hunter
