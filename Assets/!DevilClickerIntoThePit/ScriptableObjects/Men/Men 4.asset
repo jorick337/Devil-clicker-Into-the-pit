@@ -16,4 +16,4 @@ MonoBehaviour:
   Price: 2160
   AutoDamage: 81
   Damage: 0
-  Sprite: {fileID: -2164466282066322600, guid: b72ed0ca960b4ac85b7623493f0c5fa5, type: 3}
+  PathToSprite: Shop/Men/LightKnight
