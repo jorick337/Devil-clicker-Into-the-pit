@@ -1,5 +1,5 @@
 using UnityEngine;
-using Game.Classes;
+using Game.Classes.Player;
 
 namespace Game.Managers
 {
@@ -36,7 +36,6 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-
             Player = new();
         }
 

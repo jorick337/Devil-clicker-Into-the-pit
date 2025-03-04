@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Game.Classes
 {
-    public class Achievement : MonoBehaviour
+    public class AchievementUI : MonoBehaviour
     {
         #region CONSTANTS
 
@@ -14,10 +14,8 @@ namespace Game.Classes
         #region CORE
 
         [Header("Core")]
-        [SerializeField] private ushort maxProgress;
-
-        [Header("UI")]
         [SerializeField] private Text progressText;
+        [SerializeField] private ushort maxProgress;
 
         #endregion
 

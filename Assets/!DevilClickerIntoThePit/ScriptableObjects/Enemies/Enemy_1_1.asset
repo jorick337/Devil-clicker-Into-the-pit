@@ -15,4 +15,4 @@ MonoBehaviour:
   Health: 10
   Reward: 15
   Price: 0
-  PathToSprite: Enemy/Devil_1/Devil_1_1
+  PathToSprite: Enemy/Devil/Devil_1_1
