@@ -65,7 +65,7 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            SelectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+            SelectableEnemy = enemies[playerManager.Player.MaxLevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
         }
 
         private void RegisterEvents(bool register)
@@ -98,13 +98,13 @@ namespace Game.Managers
                 CheckEnemyHealth();
             }
         }
-
         private void CheckEnemyHealth()
         {
             if (SelectableEnemy.Health <= 0)
             {
                 playerManager.Player.AddMoney(SelectableEnemy.Reward);
                 playerManager.Player.AddExorcisedDevil();
+                playerManager.Player.AddSoul((byte)(playerManager.Player.MaxLevelOfDevil - 1));
 
                 InitializeValues();
 
@@ -120,7 +120,7 @@ namespace Game.Managers
 
         public ushort GetPriceNextDevil()
         {
-            int index = playerManager.Player.LevelOfDevil;
+            int index = playerManager.Player.MaxLevelOfDevil;
 
             if (index < enemies.Length)
             {
@@ -136,7 +136,7 @@ namespace Game.Managers
 
         public float GetPercentageOfHealth()
         {
-            EnemyInstance initialEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+            EnemyInstance initialEnemy = enemies[playerManager.Player.MaxLevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
             float percentage = Math.Abs((float)SelectableEnemy.Health / initialEnemy.Health - 1);
 
             return percentage == 1 ? 0 : percentage;

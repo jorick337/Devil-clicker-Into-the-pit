@@ -10,7 +10,7 @@ namespace Game.Panels.Score
         #region CORE
 
         [Header("Core")]
-        [SerializeField] private Achievement[] achievements;
+        [SerializeField] private AchievementUI[] achievements;
 
         [Header("UI")]
         [SerializeField] private Button closePanelButton;

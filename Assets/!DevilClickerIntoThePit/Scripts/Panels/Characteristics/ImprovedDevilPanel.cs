@@ -63,7 +63,7 @@ namespace Game.Panels.Characteristics
             if (playerManager.Player.Money >= _nextPriceDevil && !IsDevilsLevelEnd())
             {
                 playerManager.Player.ReduceMoney(_nextPriceDevil);
-                playerManager.Player.AddLevelOfDevil();
+                playerManager.Player.AddMaxLevelOfDevil();
 
                 InitializeValues();
 

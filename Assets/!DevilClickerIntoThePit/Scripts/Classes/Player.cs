@@ -1,14 +1,13 @@
-using System;
-
-namespace Game.Classes
+namespace Game.Classes.Player
 {
     public class Player
     {
         #region CORE
 
         public int Money { get; private set; }
+        public ushort[] Souls { get; private set; }
 
-        public byte LevelOfDevil { get; private set; }
+        public byte MaxLevelOfDevil { get; private set; }
         public ushort NumberOfExorcisedDevils { get; private set; }
 
         public int Damage { get; private set; }
@@ -21,10 +20,11 @@ namespace Game.Classes
         public Player()
         {
             Money = 1000;
+            Souls = new ushort[6] { 0, 0, 0, 0, 0, 0 };
 
-            LevelOfDevil = 1;
+            MaxLevelOfDevil = 1;
             NumberOfExorcisedDevils = 0;
-            
+
             Damage = 1;
             AutoDamage = 0;
         }
@@ -34,10 +34,11 @@ namespace Game.Classes
         #region ADD
 
         public void AddMoney(int value) => Money += value;
-        
-        public void AddLevelOfDevil() => LevelOfDevil += 1;
+        public void AddSoul(byte index) => Souls[index] += 1;
+
+        public void AddMaxLevelOfDevil() => MaxLevelOfDevil += 1;
         public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
-        
+
         public void AddDamage(int value) => Damage += value;
         public void AddAutoDamage(int value) => AutoDamage += value;
 
