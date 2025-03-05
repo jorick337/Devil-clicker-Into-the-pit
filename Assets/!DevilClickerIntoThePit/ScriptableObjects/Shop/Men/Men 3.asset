@@ -16,4 +16,6 @@ MonoBehaviour:
   Price: 720
   AutoDamage: 9
   Damage: 0
-  PathToSprite: Shop/Men/Hunter
+  DevilPower: 0
+  PathToItemSprite: Shop/Men/Hunter
+  PathToPriceSprite: Shop/Dollar

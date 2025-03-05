@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Game.Classes;
 using Game.Managers;
 using Game.Panels.Characteristics;

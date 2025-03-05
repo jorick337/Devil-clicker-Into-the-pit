@@ -16,4 +16,6 @@ MonoBehaviour:
   Price: 20
   AutoDamage: 0
   Damage: 3
-  PathToSprite: Shop/Swords/Sword_1_2
+  DevilPower: 0
+  PathToItemSprite: Shop/Swords/Sword_1_2
+  PathToPriceSprite: Shop/Dollar

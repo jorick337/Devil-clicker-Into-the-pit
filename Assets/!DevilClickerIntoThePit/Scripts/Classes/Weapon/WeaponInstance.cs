@@ -9,8 +9,10 @@ namespace Game.Classes
 
         public ushort Damage { get; private set; }
         public ushort AutoDamage { get; private set; }
+        public ushort DevilPower { get; private set; }
 
-        public Sprite Sprite;
+        public Sprite ItemSprite;
+        public Sprite PriceSprite;
 
         public WeaponInstance(Weapon weapon)
         {
@@ -19,8 +21,10 @@ namespace Game.Classes
 
             AutoDamage = weapon.AutoDamage;
             Damage = weapon.Damage;
+            DevilPower = weapon.DevilPower;
             
-            Sprite = Resources.Load<Sprite>(weapon.PathToSprite);
+            ItemSprite = Resources.Load<Sprite>(weapon.PathToItemSprite);
+            PriceSprite = Resources.Load<Sprite>(weapon.PathToPriceSprite);
         }
     }
 }

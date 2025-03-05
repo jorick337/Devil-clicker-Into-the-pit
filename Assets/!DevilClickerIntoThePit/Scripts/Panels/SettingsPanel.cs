@@ -11,17 +11,24 @@ namespace Game.Panels
         public UnityAction DisableSound;
         public UnityAction EnableSound;
 
+        public UnityAction EnableDigging;
+        public UnityAction EnableDevil;
+
         #endregion
 
         #region CORE
 
-        [Header("Core")]
-        [SerializeField] private Sprite enableSprite;
-        [SerializeField] private Sprite disableSprite;
-
-        [Header("UI")]
+        [Header("Sound")]
         [SerializeField] private Button soundButton;
         [SerializeField] private Image soundImage;
+        [SerializeField] private Sprite enableSoundSprite;
+        [SerializeField] private Sprite disableSoundSprite;
+
+        [Header("Digging and Devils")]
+        [SerializeField] private Button switchDiggingAndDevilButton;
+        [SerializeField] private Image switchDiggingAndDevilImage;
+        [SerializeField] private Sprite enableDiggingSprite;
+        [SerializeField] private Sprite enableDevilSprite;
 
         #endregion
 
@@ -45,11 +52,13 @@ namespace Game.Panels
         {
             if (register)
             {
-                soundButton.onClick.AddListener(EnableAllSound);
+                soundButton.onClick.AddListener(ToggleSound);
+                switchDiggingAndDevilButton.onClick.AddListener(ToggleDiggingAndDevil);
             }
             else
             {
-                soundButton.onClick.RemoveListener(EnableAllSound);
+                soundButton.onClick.RemoveListener(ToggleSound);
+                switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevil);
             }
         }
 
@@ -57,26 +66,38 @@ namespace Game.Panels
 
         #region CALLBACKS
 
-        private void EnableAllSound()
+        private void ToggleSound()
         {
-            soundImage.sprite = enableSprite;
-            soundImage.raycastTarget = true;
+            bool isSoundEnabled = soundImage.sprite == disableSoundSprite;
 
-            soundButton.onClick.RemoveListener(EnableAllSound);
-            soundButton.onClick.AddListener(DisableAllSound);
+            soundImage.sprite = isSoundEnabled ? enableSoundSprite : disableSoundSprite;
+            Resources.UnloadUnusedAssets();
 
-            EnableSound.Invoke();
+            if (isSoundEnabled)
+            {
+                EnableSound?.Invoke();
+            }
+            else
+            {
+                DisableSound?.Invoke();
+            }
         }
 
-        private void DisableAllSound()
+        private void ToggleDiggingAndDevil()
         {
-            soundImage.sprite = disableSprite;
-            soundImage.raycastTarget = false;
+            bool isDiggingEnabled = switchDiggingAndDevilImage.sprite == enableDiggingSprite;
 
-            soundButton.onClick.RemoveListener(DisableAllSound);
-            soundButton.onClick.AddListener(EnableAllSound);
+            switchDiggingAndDevilImage.sprite = isDiggingEnabled ? enableDevilSprite : enableDiggingSprite;
+            Resources.UnloadUnusedAssets();
 
-            DisableSound.Invoke();
+            if (isDiggingEnabled)
+            {
+                EnableDevil?.Invoke();
+            }
+            else
+            {
+                EnableDigging?.Invoke();
+            }
         }
 
         #endregion
