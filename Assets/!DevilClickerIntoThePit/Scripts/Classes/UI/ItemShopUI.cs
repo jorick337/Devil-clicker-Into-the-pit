@@ -19,11 +19,17 @@ namespace Game.Classes
         [SerializeField] private Text nameText;
         [SerializeField] private Text damageText;
         [SerializeField] private Text priceText;
-        [SerializeField] private Image image;
+        [SerializeField] private Image priceImage;
+        [SerializeField] private Image itemImage;
 
         [Header("Image")]
         [SerializeField] private ushort sizeDeltaXSwordImage;
         [SerializeField] private ushort sizeDeltaXManImage;
+        [SerializeField] private ushort sizeDeltaDevilImage;
+
+        [Header("Colors")]
+        [SerializeField] private Color colorOfDollar;
+        [SerializeField] private Color colorOfSoul;
 
         #endregion
 
@@ -46,12 +52,15 @@ namespace Game.Classes
 
         public void InitializeUI(WeaponInstance weaponInstance)
         {
-            UpdateDamageTextAndTransformImage(weaponInstance.Damage, weaponInstance.AutoDamage);
+            UpdateDamageTextAndTransformImage(weaponInstance.Damage, weaponInstance.AutoDamage, weaponInstance.DevilPower);
 
             UpdateNameText(weaponInstance.Name);
             UpdatePriceText(weaponInstance.Price);
 
-            UpdateSpriteImage(weaponInstance.Sprite);
+            UpdateItemImage(weaponInstance.ItemSprite);
+            UpdatePriceImage(weaponInstance.PriceSprite, weaponInstance.DevilPower > 0);
+
+            Resources.UnloadUnusedAssets();
         }
 
         private void InitializeValues()
@@ -78,24 +87,41 @@ namespace Game.Classes
 
         #region UI
 
-        private void UpdateDamageTextAndTransformImage(int damage, int autoDamage)
+        private void UpdateDamageTextAndTransformImage(int damage, int autoDamage, int devilPower)
         {
-            if (damage == 0)
+            string text;
+            float sizeDeltaX;
+
+            if (autoDamage > 0)
             {
-                damageText.text = $"{autoDamage} урона в секунду";
-                image.rectTransform.sizeDelta = new(sizeDeltaXManImage, image.rectTransform.sizeDelta.y);
+                text = $"{autoDamage} урона в секунду";
+                sizeDeltaX = sizeDeltaXManImage;
+            }
+            else if (damage > 0)
+            {
+                text = $"{damage} урона к клику";
+                sizeDeltaX = sizeDeltaXSwordImage;
             }
             else
             {
-                damageText.text = $"{damage} урона к клику";
-                image.rectTransform.sizeDelta = new(sizeDeltaXSwordImage, image.rectTransform.sizeDelta.y);
+                text = $"{devilPower} к рабочей силе";
+                sizeDeltaX = sizeDeltaDevilImage;
             }
+
+            damageText.text = text;
+            itemImage.rectTransform.sizeDelta = new Vector2(sizeDeltaX, itemImage.rectTransform.sizeDelta.y);
         }
 
-        private void UpdateNameText(string value) => nameText.text = value;
-        private void UpdatePriceText(int value) => priceText.text = $"{value - 0.01f} $";
+        private void UpdatePriceImage(Sprite sprite, bool isDevil)
+        {
+            priceImage.sprite = sprite;
+            priceImage.color = isDevil ? colorOfSoul : colorOfDollar;
+        }
 
-        private void UpdateSpriteImage(Sprite sprite) => image.sprite = sprite;
+        private void UpdateItemImage(Sprite sprite) => itemImage.sprite = sprite;
+        
+        private void UpdateNameText(string value) => nameText.text = value;
+        private void UpdatePriceText(int value) => priceText.text = value.ToString();
 
         #endregion
 

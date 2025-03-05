@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89c0d8d908a856df5a3851e0782cec17, type: 3}
-  m_Name: Sword 5
+  m_Name: Sword 4
   m_EditorClassIdentifier: 
-  Name: "\u041F\u043B\u0430\u043C\u0435\u043D\u044C"
-  Price: 2160
+  Name: "\u041B\u044E\u0446\u0438\u0444\u0435\u0440"
+  Price: 720
   AutoDamage: 0
-  Damage: 243
-  PathToSprite: Shop/Swords/Sword_3_1
+  Damage: 81
+  DevilPower: 0
+  PathToItemSprite: Shop/Swords/Sword_2_2
+  PathToPriceSprite: Shop/Dollar

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c0d8d908a856df5a3851e0782cec17, type: 3}
+  m_Name: Devil 2
+  m_EditorClassIdentifier: 
+  Name: "\u041C\u043E\u0440\u0442\u043E\u043A"
+  Price: 10
+  AutoDamage: 0
+  Damage: 0
+  DevilPower: 5
+  PathToItemSprite: Enemy/Devil/Devil_1_2
+  PathToPriceSprite: Shop/Souls/DeathSoul_2

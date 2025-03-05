@@ -1,9 +1,9 @@
 using System;
 using Game.Classes;
 using Game.Managers;
+using Game.Panels.Shop;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Game.Panels
 {
@@ -13,6 +13,8 @@ namespace Game.Panels
 
         private const byte LENGHT_OF_TABLE = 3;
         private const byte LENGHT_OF_IDENTICAL_OBJECTS = 6;
+
+        private const byte START_INDEX_OF_DEVILS = 12;
 
         #endregion
 
@@ -32,13 +34,9 @@ namespace Game.Panels
 
         private byte _focusedTableIndex;
 
-        [Header("Moving")]
-        [SerializeField] private Button switchSwordsAndMenButton;
-        [SerializeField] private Button backMoveButton;
-        [SerializeField] private Button nextMoveButton;
-
-        private GameObject _backMoveGameObject => backMoveButton.gameObject;
-        private GameObject _nextMoveGameObject => nextMoveButton.gameObject;
+        [Header("Panels")]
+        [SerializeField] private MovingShopPanel movingShopPanel;
+        [SerializeField] private SettingsPanel settingsPanel;
 
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
@@ -78,26 +76,28 @@ namespace Game.Panels
 
         private void InitializeUI()
         {
-            for (int i = 0; i < LENGHT_OF_TABLE; i++)
-            {
-                itemShopUI[i].InitializeUI(weapons[_focusedTableIndex + i].GetInstance());
-            }
-            Resources.UnloadUnusedAssets();
+            UpdateItems();
         }
 
         private void RegisterEvents(bool register)
         {
             if (register)
             {
-                switchSwordsAndMenButton.onClick.AddListener(SwitchSwordsAndMen);
-                backMoveButton.onClick.AddListener(MoveBack);
-                nextMoveButton.onClick.AddListener(MoveForward);
+                movingShopPanel.ItemsSwitched += SwitchSwordsAndMen;
+                movingShopPanel.PastItemsMoved += MoveBack;
+                movingShopPanel.NextItemsMoved += MoveForward;
+
+                settingsPanel.EnableDigging += SwitchDiggingAndDevilSpases;
+                settingsPanel.EnableDevil += SwitchDiggingAndDevilSpases;
             }
             else
             {
-                switchSwordsAndMenButton.onClick.RemoveListener(SwitchSwordsAndMen);
-                backMoveButton.onClick.RemoveListener(MoveBack);
-                nextMoveButton.onClick.RemoveListener(MoveForward);
+                movingShopPanel.ItemsSwitched -= SwitchSwordsAndMen;
+                movingShopPanel.PastItemsMoved -= MoveBack;
+                movingShopPanel.NextItemsMoved -= MoveForward;
+
+                settingsPanel.EnableDigging -= SwitchDiggingAndDevilSpases;
+                settingsPanel.EnableDevil -= SwitchDiggingAndDevilSpases;
             }
 
             RegisterOnClickBuyButtons(register);
@@ -125,9 +125,27 @@ namespace Game.Panels
         private void UpdateUI(byte? index = null)
         {
             RegisterOnClickBuyButtons(false);
+
             _focusedTableIndex = (byte)(index == null ? _focusedTableIndex : index);
-            InitializeUI();
+            UpdateItems();
+
             RegisterOnClickBuyButtons(true);
+        }
+
+        private void UpdateItems()
+        {
+            for (byte i = 0; i < LENGHT_OF_TABLE; i++)
+            {
+                itemShopUI[i].InitializeUI(weapons[_focusedTableIndex + i].GetInstance());
+            }
+        }
+
+        private void SwitchFirstAndOtherWeapons(byte lenght, byte startIndex)
+        {
+            for (byte i = 0; i < lenght; i++)
+            {
+                (weapons[startIndex + i], weapons[i]) = (weapons[i], weapons[startIndex + i]);
+            }
         }
 
         #endregion
@@ -148,29 +166,18 @@ namespace Game.Panels
 
         private void SwitchSwordsAndMen()
         {
-            for (int i = 0; i < LENGHT_OF_IDENTICAL_OBJECTS; i++)
-            {
-                (weapons[LENGHT_OF_IDENTICAL_OBJECTS + i], weapons[i]) = (weapons[i], weapons[LENGHT_OF_IDENTICAL_OBJECTS + i]);
-            }
-
+            SwitchFirstAndOtherWeapons(LENGHT_OF_IDENTICAL_OBJECTS, LENGHT_OF_IDENTICAL_OBJECTS);
             UpdateUI();
         }
 
-        private void MoveBack()
+        private void SwitchDiggingAndDevilSpases()
         {
-            _backMoveGameObject.SetActive(false);
-            _nextMoveGameObject.SetActive(true);
-
-            UpdateUI(0);
+            SwitchFirstAndOtherWeapons(LENGHT_OF_IDENTICAL_OBJECTS, START_INDEX_OF_DEVILS);
+            UpdateUI();
         }
 
-        private void MoveForward()
-        {
-            _backMoveGameObject.SetActive(true);
-            _nextMoveGameObject.SetActive(false);
-
-            UpdateUI(3);
-        }
+        private void MoveBack() => UpdateUI(0);
+        private void MoveForward() => UpdateUI(3);
 
         #endregion
     }
