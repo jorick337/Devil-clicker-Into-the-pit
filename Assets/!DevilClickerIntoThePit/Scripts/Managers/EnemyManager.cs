@@ -11,6 +11,7 @@ namespace Game.Managers
 
         public event Action DevilBanished;
         public event Action HealthChanged;
+        public event Action DevilChanged;
 
         #endregion
 
@@ -22,6 +23,7 @@ namespace Game.Managers
         [SerializeField] private Enemy[] enemies;
 
         public EnemyInstance SelectableEnemy { get; private set; }
+        public byte SelectedIndexDevil { get; private set; }
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -65,7 +67,13 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            SelectableEnemy = enemies[playerManager.Player.MaxLevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+            SelectedIndexDevil = (byte)(playerManager.Player.MaxLevelOfDevil - 1);
+            InitializeEnemy();
+        }
+
+        private void InitializeEnemy()
+        {
+            SelectableEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
         }
 
         private void RegisterEvents(bool register)
@@ -86,7 +94,7 @@ namespace Game.Managers
 
         public void TakeDamage()
         {
-            AddDamage(playerManager.Player.Damage);
+            SelectableEnemy.ReduceHealth(playerManager.Player.Damage);
             CheckEnemyHealth();
         }
 
@@ -94,7 +102,7 @@ namespace Game.Managers
         {
             if (playerManager.Player.AutoDamage > 0)
             {
-                AddDamage(playerManager.Player.AutoDamage);
+                SelectableEnemy.ReduceHealth(playerManager.Player.AutoDamage);
                 CheckEnemyHealth();
             }
         }
@@ -104,10 +112,9 @@ namespace Game.Managers
             {
                 playerManager.Player.AddMoney(SelectableEnemy.Reward);
                 playerManager.Player.AddExorcisedDevil();
-                playerManager.Player.AddSoul((byte)(playerManager.Player.MaxLevelOfDevil - 1));
+                playerManager.Player.AddSoul(SelectedIndexDevil);
 
-                InitializeValues();
-
+                InitializeEnemy();
                 DevilBanished.Invoke();
             }
 
@@ -136,7 +143,7 @@ namespace Game.Managers
 
         public float GetPercentageOfHealth()
         {
-            EnemyInstance initialEnemy = enemies[playerManager.Player.MaxLevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+            EnemyInstance initialEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
             float percentage = Math.Abs((float)SelectableEnemy.Health / initialEnemy.Health - 1);
 
             return percentage == 1 ? 0 : percentage;
@@ -146,7 +153,25 @@ namespace Game.Managers
 
         #region ADD
 
-        private void AddDamage(int damage) => SelectableEnemy.ReduceHealth(damage);
+        public void AddSelectedIndexDevil() 
+        {
+            SelectedIndexDevil += 1;
+            InitializeEnemy();
+
+            DevilChanged?.Invoke();
+        }
+
+        #endregion
+
+        #region REDUCE
+
+        public void ReduceSelectedIndexDevil() 
+        {
+            SelectedIndexDevil -= 1;
+            InitializeEnemy();
+
+            DevilChanged?.Invoke();
+        }
 
         #endregion
     }

@@ -3,12 +3,16 @@ using Game.Panels.Characteristics;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Game.Classes;
 
-namespace Game.Panels
+namespace Game.Panels.Enemy
 {
     public class EnemyPanel : MonoBehaviour
     {
         #region CORE
+
+        [Header("Core")]
+        [SerializeField] private Resource movingPanelResource;
 
         [Header("UI")]
         [SerializeField] private Slider healthSlider;
@@ -16,10 +20,12 @@ namespace Game.Panels
         [SerializeField] private Image enemyImage;
 
         private Tween _devilAnimation;
-        private Sequence _healthAnimation;
+        private Tween _healthAnimation;
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
+
+        private MovingEnemyPanel _movingEnemyPanel;
 
         [Header("Managers")]
         [SerializeField] private EnemyManager enemyManager;
@@ -58,9 +64,12 @@ namespace Game.Panels
                 .SetAutoKill(false).Pause();
         }
 
-        public void InitializeUI()
+        private void InitializeUI()
         {
             UpdateEnemySprite();
+            UpdateHealthText();
+            UpdateValueHealthSlider();
+            LoadMovingPanel();
         }
 
         private void RegisterEvents(bool register)
@@ -68,18 +77,16 @@ namespace Game.Panels
             if (register)
             {
                 improvedDevilPanel.EnemyImproved += InitializeUI;
-                improvedDevilPanel.EnemyImproved += UpdateHealthText;
-                improvedDevilPanel.EnemyImproved += UpdateValueHealthSlider;
 
                 enemyManager.HealthChanged += StartChangingHealthEnemy;
+                enemyManager.DevilChanged += InitializeUI;
             }
             else
             {
                 improvedDevilPanel.EnemyImproved -= InitializeUI;
-                improvedDevilPanel.EnemyImproved -= UpdateHealthText;
-                improvedDevilPanel.EnemyImproved -= UpdateValueHealthSlider;
 
                 enemyManager.HealthChanged -= StartChangingHealthEnemy;
+                enemyManager.DevilChanged -= InitializeUI;
             }
         }
 
@@ -87,10 +94,22 @@ namespace Game.Panels
 
         #region UI
 
+        private void UpdateEnemySprite() 
+        {
+            enemyImage.sprite = enemyManager.SelectableEnemy.DevilSprite;
+            Resources.UnloadUnusedAssets();
+        }
+
+        private void LoadMovingPanel()
+        {
+            if (enemyManager.SelectedIndexDevil > 0 && _movingEnemyPanel == null)
+            {
+                _movingEnemyPanel = movingPanelResource.GetInstantiateGameObject<MovingEnemyPanel>();
+            }
+        }
+
         private void UpdateValueHealthSlider() => healthSlider.value = enemyManager.GetPercentageOfHealth();
         private void UpdateHealthText() => healthText.text = enemyManager.SelectableEnemy.Health.ToString();
-
-        private void UpdateEnemySprite() => enemyImage.sprite = enemyManager.SelectableEnemy.DevilSprite;
 
         #endregion
 
