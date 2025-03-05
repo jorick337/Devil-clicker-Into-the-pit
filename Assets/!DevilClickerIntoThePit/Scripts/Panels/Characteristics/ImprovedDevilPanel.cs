@@ -66,9 +66,7 @@ namespace Game.Panels.Characteristics
                 playerManager.Player.AddMaxLevelOfDevil();
 
                 InitializeValues();
-
                 EnemyImproved.Invoke();
-                Resources.UnloadUnusedAssets();
             }
 
             UpdatePriceText();

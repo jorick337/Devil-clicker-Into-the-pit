@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Game.Classes;
 using Game.Managers;
 using Game.Panels.Characteristics;
@@ -76,7 +77,7 @@ namespace Game.Panels
 
         private void UpdateCountSoul()
         {
-            soulUIs[playerManager.Player.MaxLevelOfDevil - 1].InitializeUI();
+            soulUIs[enemyManager.SelectedIndexDevil].InitializeUI();
         }
 
         #endregion
