@@ -1,3 +1,4 @@
+using Game.Managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,8 +12,7 @@ namespace Game.Panels
         public UnityAction DisableSound;
         public UnityAction EnableSound;
 
-        public UnityAction EnableDigging;
-        public UnityAction EnableDevil;
+        public UnityAction DiggingAndDevilSpasesChanged;
 
         #endregion
 
@@ -21,14 +21,21 @@ namespace Game.Panels
         [Header("Sound")]
         [SerializeField] private Button soundButton;
         [SerializeField] private Image soundImage;
-        [SerializeField] private Sprite enableSoundSprite;
-        [SerializeField] private Sprite disableSoundSprite;
+
+        [SerializeField] private string pathToEnableSoundSprite;
+        [SerializeField] private string pathToDisableSoundSprite;
+
+        private bool _isSoundEnable;
 
         [Header("Digging and Devils")]
         [SerializeField] private Button switchDiggingAndDevilButton;
         [SerializeField] private Image switchDiggingAndDevilImage;
-        [SerializeField] private Sprite enableDiggingSprite;
-        [SerializeField] private Sprite enableDevilSprite;
+
+        [SerializeField] private string pathToDiggingSpaseSprite;
+        [SerializeField] private string pathToDevilSpaseSprite;
+
+        [Header("Managers")]
+        [SerializeField] private EnemyManager enemyManager;
 
         #endregion
 
@@ -53,12 +60,12 @@ namespace Game.Panels
             if (register)
             {
                 soundButton.onClick.AddListener(ToggleSound);
-                switchDiggingAndDevilButton.onClick.AddListener(ToggleDiggingAndDevil);
+                switchDiggingAndDevilButton.onClick.AddListener(ToggleDiggingAndDevilSpases);
             }
             else
             {
                 soundButton.onClick.RemoveListener(ToggleSound);
-                switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevil);
+                switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevilSpases);
             }
         }
 
@@ -68,12 +75,13 @@ namespace Game.Panels
 
         private void ToggleSound()
         {
-            bool isSoundEnabled = soundImage.sprite == disableSoundSprite;
+            _isSoundEnable = !_isSoundEnable;
+            Sprite sprite = Resources.Load<Sprite>(_isSoundEnable ? pathToEnableSoundSprite : pathToDisableSoundSprite);
 
-            soundImage.sprite = isSoundEnabled ? enableSoundSprite : disableSoundSprite;
+            soundImage.sprite = sprite;
             Resources.UnloadUnusedAssets();
 
-            if (isSoundEnabled)
+            if (_isSoundEnable)
             {
                 EnableSound?.Invoke();
             }
@@ -83,21 +91,15 @@ namespace Game.Panels
             }
         }
 
-        private void ToggleDiggingAndDevil()
+        private void ToggleDiggingAndDevilSpases()
         {
-            bool isDiggingEnabled = switchDiggingAndDevilImage.sprite == enableDiggingSprite;
+            bool isDiggingSpaseActive = enemyManager.GetAndChangeIsDiggingSpaseActive();
+            Sprite sprite = Resources.Load<Sprite>(isDiggingSpaseActive ? pathToDiggingSpaseSprite : pathToDevilSpaseSprite);
 
-            switchDiggingAndDevilImage.sprite = isDiggingEnabled ? enableDevilSprite : enableDiggingSprite;
+            switchDiggingAndDevilImage.sprite = sprite;
             Resources.UnloadUnusedAssets();
 
-            if (isDiggingEnabled)
-            {
-                EnableDevil?.Invoke();
-            }
-            else
-            {
-                EnableDigging?.Invoke();
-            }
+            DiggingAndDevilSpasesChanged?.Invoke();
         }
 
         #endregion

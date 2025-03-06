@@ -87,8 +87,7 @@ namespace Game.Panels
                 movingShopPanel.PastItemsMoved += MoveBack;
                 movingShopPanel.NextItemsMoved += MoveForward;
 
-                settingsPanel.EnableDigging += SwitchDiggingAndDevilSpases;
-                settingsPanel.EnableDevil += SwitchDiggingAndDevilSpases;
+                settingsPanel.DiggingAndDevilSpasesChanged += SwitchDiggingAndDevilSpases;
             }
             else
             {
@@ -96,8 +95,7 @@ namespace Game.Panels
                 movingShopPanel.PastItemsMoved -= MoveBack;
                 movingShopPanel.NextItemsMoved -= MoveForward;
 
-                settingsPanel.EnableDigging -= SwitchDiggingAndDevilSpases;
-                settingsPanel.EnableDevil -= SwitchDiggingAndDevilSpases;
+                settingsPanel.DiggingAndDevilSpasesChanged -= SwitchDiggingAndDevilSpases;
             }
 
             RegisterOnClickBuyButtons(register);

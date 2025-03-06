@@ -16,19 +16,28 @@ namespace Game.Panels.Enemy
 
         [Header("UI")]
         [SerializeField] private Slider healthSlider;
+        [SerializeField] private Image healthImage;
         [SerializeField] private Text healthText;
+
+        [SerializeField] private Button devilButton;
         [SerializeField] private Image enemyImage;
 
+        // Animations
         private Tween _devilAnimation;
         private Tween _healthAnimation;
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
+        [SerializeField] private SettingsPanel settingsPanel;
 
         private MovingEnemyPanel _movingEnemyPanel;
 
         [Header("Managers")]
         [SerializeField] private EnemyManager enemyManager;
+
+        [Header("Colors")]
+        [SerializeField] private Color enableDiggingSpaseSliderColor;
+        [SerializeField] private Color enableDevilSpaseSliderColor;
 
         #endregion
 
@@ -58,9 +67,9 @@ namespace Game.Panels.Enemy
                 .SetAutoKill(false).Pause();
 
             _healthAnimation = DOTween.Sequence()
-                .Append(healthSlider.transform.DORotate(new Vector3(0,0,5), 0.05f).From(new Vector3(0,0,0)))
-                .Append(healthSlider.transform.DORotate(new Vector3(0,0,-5), 0.1f).From(new Vector3(0,0,5)))
-                .Append(healthSlider.transform.DORotate(new Vector3(0,0,0), 0.05f).From(new Vector3(0,0,0)))
+                .Append(healthSlider.transform.DORotate(new Vector3(0, 0, 5), 0.05f).From(new Vector3(0, 0, 0)))
+                .Append(healthSlider.transform.DORotate(new Vector3(0, 0, -5), 0.1f).From(new Vector3(0, 0, 5)))
+                .Append(healthSlider.transform.DORotate(new Vector3(0, 0, 0), 0.05f).From(new Vector3(0, 0, 0)))
                 .SetAutoKill(false).Pause();
         }
 
@@ -77,6 +86,7 @@ namespace Game.Panels.Enemy
             if (register)
             {
                 improvedDevilPanel.EnemyImproved += InitializeUI;
+                settingsPanel.DiggingAndDevilSpasesChanged += ToggleDiggingAndDevilsSpases;
 
                 enemyManager.HealthChanged += StartChangingHealthEnemy;
                 enemyManager.DevilChanged += InitializeUI;
@@ -84,6 +94,7 @@ namespace Game.Panels.Enemy
             else
             {
                 improvedDevilPanel.EnemyImproved -= InitializeUI;
+                settingsPanel.DiggingAndDevilSpasesChanged -= ToggleDiggingAndDevilsSpases;
 
                 enemyManager.HealthChanged -= StartChangingHealthEnemy;
                 enemyManager.DevilChanged -= InitializeUI;
@@ -94,7 +105,7 @@ namespace Game.Panels.Enemy
 
         #region UI
 
-        private void UpdateEnemySprite() 
+        private void UpdateEnemySprite()
         {
             enemyImage.sprite = enemyManager.SelectableEnemy.DevilSprite;
             Resources.UnloadUnusedAssets();
@@ -102,14 +113,14 @@ namespace Game.Panels.Enemy
 
         private void LoadMovingPanel()
         {
-            if (enemyManager.SelectedIndexDevil > 0 && _movingEnemyPanel == null)
+            if (enemyManager.SelectedIndexDevil > 0 && _movingEnemyPanel == null && !enemyManager.IsDiggingSpaseActive)
             {
                 _movingEnemyPanel = movingPanelResource.GetInstantiateGameObject<MovingEnemyPanel>();
             }
         }
 
+        private void UpdateHealthText() => healthText.text = enemyManager.GetHealth().ToString();
         private void UpdateValueHealthSlider() => healthSlider.value = enemyManager.GetPercentageOfHealth();
-        private void UpdateHealthText() => healthText.text = enemyManager.SelectableEnemy.Health.ToString();
 
         #endregion
 
@@ -122,6 +133,16 @@ namespace Game.Panels.Enemy
 
             _healthAnimation.Restart();
             UpdateValueHealthSlider();
+        }
+
+        private void ToggleDiggingAndDevilsSpases()
+        {
+            bool isDiggingSpaseActive = enemyManager.IsDiggingSpaseActive;
+
+            devilButton.gameObject.SetActive(!isDiggingSpaseActive);
+            healthImage.color = isDiggingSpaseActive ? enableDiggingSpaseSliderColor : enableDevilSpaseSliderColor;
+
+            InitializeUI();
         }
 
         #endregion
