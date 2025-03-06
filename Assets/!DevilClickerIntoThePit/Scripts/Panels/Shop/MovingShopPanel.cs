@@ -50,8 +50,7 @@ namespace Game.Panels.Shop
                 backMoveButton.onClick.AddListener(MoveBack);
                 nextMoveButton.onClick.AddListener(MoveForward);
 
-                settingsPanel.EnableDigging += SwitchActiveSwitchButton;
-                settingsPanel.EnableDevil += SwitchActiveSwitchButton;
+                settingsPanel.DiggingAndDevilSpasesChanged += SwitchActiveSwitchButton;
             }
             else
             {
@@ -59,8 +58,7 @@ namespace Game.Panels.Shop
                 backMoveButton.onClick.RemoveListener(MoveBack);
                 nextMoveButton.onClick.RemoveListener(MoveForward);
 
-                settingsPanel.EnableDigging -= SwitchActiveSwitchButton;
-                settingsPanel.EnableDevil -= SwitchActiveSwitchButton;
+                settingsPanel.DiggingAndDevilSpasesChanged -= SwitchActiveSwitchButton;
             }
         }
 

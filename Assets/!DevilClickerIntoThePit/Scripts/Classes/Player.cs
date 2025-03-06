@@ -12,6 +12,7 @@ namespace Game.Classes.Player
 
         public int Damage { get; private set; }
         public int AutoDamage { get; private set; }
+        public int DevilPower { get; private set; }
 
         #endregion
 
@@ -27,6 +28,7 @@ namespace Game.Classes.Player
 
             Damage = 1;
             AutoDamage = 0;
+            DevilPower = 0;
         }
 
         #endregion

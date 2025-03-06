@@ -7,6 +7,12 @@ namespace Game.Managers
 {
     public class EnemyManager : MonoBehaviour
     {
+        #region CONSTANTS
+
+        private const ushort PIT_HEALTH = 50000;
+
+        #endregion
+
         #region EVENTS
 
         public event Action DevilBanished;
@@ -24,6 +30,8 @@ namespace Game.Managers
 
         public EnemyInstance SelectableEnemy { get; private set; }
         public byte SelectedIndexDevil { get; private set; }
+
+        public bool IsDiggingSpaseActive { get; private set; }
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -69,6 +77,8 @@ namespace Game.Managers
         {
             SelectedIndexDevil = (byte)(playerManager.Player.MaxLevelOfDevil - 1);
             InitializeEnemy();
+
+            IsDiggingSpaseActive = false;
         }
 
         private void InitializeEnemy()
@@ -106,6 +116,7 @@ namespace Game.Managers
                 CheckEnemyHealth();
             }
         }
+
         private void CheckEnemyHealth()
         {
             if (SelectableEnemy.Health <= 0)
@@ -143,17 +154,30 @@ namespace Game.Managers
 
         public float GetPercentageOfHealth()
         {
-            EnemyInstance initialEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
-            float percentage = Math.Abs((float)SelectableEnemy.Health / initialEnemy.Health - 1);
+            float percentage;
+            
+            if (!IsDiggingSpaseActive)
+            {
+                EnemyInstance initialEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+                percentage = Math.Abs((float)SelectableEnemy.Health / initialEnemy.Health - 1);
+            }
+            else
+            {
+                percentage = Math.Abs(playerManager.Player.DevilPower / PIT_HEALTH - 1);
+            }
 
             return percentage == 1 ? 0 : percentage;
         }
+
+        public bool GetAndChangeIsDiggingSpaseActive() => IsDiggingSpaseActive = !IsDiggingSpaseActive; // каждый вызов сменяется
+
+        public int GetHealth() => IsDiggingSpaseActive ? PIT_HEALTH : SelectableEnemy.Health;
 
         #endregion
 
         #region ADD
 
-        public void AddSelectedIndexDevil() 
+        public void AddSelectedIndexDevil()
         {
             SelectedIndexDevil += 1;
             InitializeEnemy();
@@ -165,7 +189,7 @@ namespace Game.Managers
 
         #region REDUCE
 
-        public void ReduceSelectedIndexDevil() 
+        public void ReduceSelectedIndexDevil()
         {
             SelectedIndexDevil -= 1;
             InitializeEnemy();
