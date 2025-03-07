@@ -473,12 +473,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundButton: {fileID: 579165840}
   soundImage: {fileID: 1562116708}
-  enableSoundSprite: {fileID: 8279036450519951930, guid: 1c4274df2d2b76e79a306bedbbc2f082, type: 3}
-  disableSoundSprite: {fileID: 2612383534233352432, guid: 5b9a3e2a192a7be38bf0e00df3386524, type: 3}
+  pathToEnableSoundSprite: Settings/EnableSound
+  pathToDisableSoundSprite: Settings/DisableSound
   switchDiggingAndDevilButton: {fileID: 398626554}
   switchDiggingAndDevilImage: {fileID: 1744619067}
-  enableDiggingSprite: {fileID: 21300000, guid: 444052b880bd55e4398509786280e978, type: 3}
-  enableDevilSprite: {fileID: -5888353018671968756, guid: 0c8581722bd9172ba81f0ebaf2019949, type: 3}
+  pathToDiggingSpaseSprite: Settings/Shovel
+  pathToDevilSpaseSprite: Enemy/Devil/Devil_1
+  enemyManager: {fileID: 1808557540}
 --- !u!114 &145319060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +644,7 @@ GameObject:
   - component: {fileID: 179147887}
   m_Layer: 0
   m_Name: '****** MANAGERS *******'
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1144,7 +1145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -12.550598, y: 0}
+  m_AnchoredPosition: {x: -12.551514, y: 0}
   m_SizeDelta: {x: -24.999931, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &352016529
@@ -2275,19 +2276,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 802303269}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1808557540}
-        m_TargetAssemblyTypeName: Game.Managers.EnemyManager, Assembly-CSharp
-        m_MethodName: TakeDamage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &802303269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4749,6 +4738,7 @@ MonoBehaviour:
   movingShopPanel: {fileID: 238762429}
   settingsPanel: {fileID: 145319059}
   playerManager: {fileID: 926913003}
+  enemyManager: {fileID: 1808557540}
 --- !u!114 &2048274787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4843,6 +4833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   improvedDevilPanel: {fileID: 350769962}
+  shopPanel: {fileID: 2048274786}
   playerManager: {fileID: 926913003}
   enemyManager: {fileID: 1808557540}
 --- !u!114 &2059953299
@@ -5017,10 +5008,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movingPanelResource: {fileID: 2146652491}
   healthSlider: {fileID: 2040787930}
+  healthImage: {fileID: 2040787928}
   healthText: {fileID: 1526464790}
+  devilButton: {fileID: 802303268}
   enemyImage: {fileID: 802303269}
   improvedDevilPanel: {fileID: 350769962}
+  settingsPanel: {fileID: 145319059}
+  shopPanel: {fileID: 2048274786}
   enemyManager: {fileID: 1808557540}
+  playerManager: {fileID: 926913003}
+  enableDiggingSpaseSliderColor: {r: 1, g: 0.5176471, b: 0.1764706, a: 1}
+  enableDevilSpaseSliderColor: {r: 1, g: 0.39607844, b: 0.39607844, a: 1}
 --- !u!114 &2146652489
 MonoBehaviour:
   m_ObjectHideFlags: 0

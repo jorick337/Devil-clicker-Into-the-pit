@@ -7,7 +7,7 @@ namespace Game.Managers
 {
     public class EnemyManager : MonoBehaviour
     {
-        #region CONSTANTS
+        #region 
 
         private const ushort PIT_HEALTH = 50000;
 
@@ -32,6 +32,7 @@ namespace Game.Managers
         public byte SelectedIndexDevil { get; private set; }
 
         public bool IsDiggingSpaseActive { get; private set; }
+        private ushort _pitHealth;
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -51,7 +52,6 @@ namespace Game.Managers
                 DontDestroyOnLoad(gameObject);
 
                 InitializeValues();
-                RegisterEvents(true);
             }
             else
             {
@@ -64,9 +64,16 @@ namespace Game.Managers
             InvokeRepeating("TakeAutoDamage", 1f, 1f);
         }
 
+        private void OnEnable()
+        {
+            improvedDevilPanel.EnemyImproved += InitializeMaxSelectedIndexDevil;
+            improvedDevilPanel.EnemyImproved += InitializeEnemy;
+        }
+
         private void OnDisable()
         {
-            RegisterEvents(false);
+            improvedDevilPanel.EnemyImproved -= InitializeMaxSelectedIndexDevil;
+            improvedDevilPanel.EnemyImproved -= InitializeEnemy;
         }
 
         #endregion
@@ -75,27 +82,21 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            SelectedIndexDevil = (byte)(playerManager.Player.MaxLevelOfDevil - 1);
+            InitializeMaxSelectedIndexDevil();
             InitializeEnemy();
 
             IsDiggingSpaseActive = false;
+            _pitHealth = PIT_HEALTH;
+        }
+
+        private void InitializeMaxSelectedIndexDevil()
+        {
+            SelectedIndexDevil = (byte)(playerManager.Player.MaxLevelOfDevil - 1);
         }
 
         private void InitializeEnemy()
         {
             SelectableEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
-        }
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                improvedDevilPanel.EnemyImproved += InitializeValues;
-            }
-            else
-            {
-                improvedDevilPanel.EnemyImproved -= InitializeValues;
-            }
         }
 
         #endregion
@@ -155,7 +156,7 @@ namespace Game.Managers
         public float GetPercentageOfHealth()
         {
             float percentage;
-            
+
             if (!IsDiggingSpaseActive)
             {
                 EnemyInstance initialEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
@@ -163,15 +164,21 @@ namespace Game.Managers
             }
             else
             {
-                percentage = Math.Abs(playerManager.Player.DevilPower / PIT_HEALTH - 1);
+                percentage = Math.Abs(playerManager.Player.DevilPower / _pitHealth - 1);
             }
 
             return percentage == 1 ? 0 : percentage;
         }
 
         public bool GetAndChangeIsDiggingSpaseActive() => IsDiggingSpaseActive = !IsDiggingSpaseActive; // каждый вызов сменяется
+        public string GetHealth() => IsDiggingSpaseActive ? $"{playerManager.Player.DevilPower}/{_pitHealth}" : SelectableEnemy.Health.ToString();
 
-        public int GetHealth() => IsDiggingSpaseActive ? PIT_HEALTH : SelectableEnemy.Health;
+        #endregion
+
+        #region SET
+
+        public void SetPercentageOfPitHealth(float percentage) => _pitHealth = (ushort)(PIT_HEALTH * percentage);
+        public void SetSelectedIndexDevil(byte value) => SelectedIndexDevil = value;
 
         #endregion
 

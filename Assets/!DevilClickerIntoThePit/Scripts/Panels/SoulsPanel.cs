@@ -19,6 +19,7 @@ namespace Game.Panels
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
+        [SerializeField] private ShopPanel shopPanel;
 
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
@@ -37,12 +38,16 @@ namespace Game.Panels
         private void OnEnable()
         {
             improvedDevilPanel.EnemyImproved += InitializeUI;
+            shopPanel.manBought += UpdateCountSoul;
+
             enemyManager.DevilBanished += UpdateCountSoul;
         }
 
         private void OnDisable()
         {
             improvedDevilPanel.EnemyImproved -= InitializeUI;
+            shopPanel.manBought -= UpdateCountSoul;
+
             enemyManager.DevilBanished -= UpdateCountSoul;
         }
 

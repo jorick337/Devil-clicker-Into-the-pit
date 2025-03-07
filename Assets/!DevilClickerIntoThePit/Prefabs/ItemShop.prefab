@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 6272532201686880319}
   - component: {fileID: 6296477680480890166}
   - component: {fileID: 5478436891025709412}
+  - component: {fileID: 417757508788079619}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -233,6 +234,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &417757508788079619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875504414001321993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5882353}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &3641436336326435468
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!1 &3869560904134472534
@@ -452,19 +468,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1765184650522712714}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Click
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &3819996676257354798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,7 +489,7 @@ MonoBehaviour:
   itemImage: {fileID: 8314453259835958292}
   sizeDeltaXSwordImage: 110
   sizeDeltaXManImage: 60
-  sizeDeltaDevilImage: 0
+  sizeDeltaDevilImage: 150
   colorOfDollar: {r: 0.13333334, g: 0.6784314, b: 0.039215688, a: 1}
   colorOfSoul: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4463248770787243944
@@ -523,7 +527,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -100, y: 0}
-  m_SizeDelta: {x: 60, y: 180}
+  m_SizeDelta: {x: 150, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6034900825159286324
 CanvasRenderer:
