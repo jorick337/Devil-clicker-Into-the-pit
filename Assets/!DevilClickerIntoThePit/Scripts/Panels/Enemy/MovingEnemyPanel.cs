@@ -56,7 +56,7 @@ namespace Game.Panels.Enemy
 
         #region UI
 
-        private void SwitchActiveButtons()
+        public void SwitchActiveButtons()
         {
             bool nextActive = _enemyManager.SelectedIndexDevil < _playerManager.Player.MaxLevelOfDevil - 1;
             bool pastActive = _enemyManager.SelectedIndexDevil > 0;

@@ -40,6 +40,7 @@ namespace Game.Panels
 
         [Header("Managers")]
         [SerializeField] private PlayerManager playerManager;
+        [SerializeField] private EnemyManager enemyManager;
 
         #endregion
 
@@ -67,8 +68,9 @@ namespace Game.Panels
             for (byte i = 0; i < weapons.Length; i++)
             {
                 byte index = i;
+                byte indexSoul = (byte)(index % LENGHT_OF_IDENTICAL_OBJECTS);
 
-                menBought[i] = () => BuyMan(weapons[index].GetInstance());
+                menBought[i] = () => BuyWeapon(weapons[index].GetInstance(), indexSoul);
             }
 
             _focusedTableIndex = 0;
@@ -150,15 +152,29 @@ namespace Game.Panels
 
         #region CALLBACKS
 
-        private void BuyMan(WeaponInstance weaponInstance)
+        private void BuyWeapon(WeaponInstance weaponInstance, byte index)
         {
-            if (playerManager.Player.Money >= weaponInstance.Price)
+            if (!enemyManager.IsDiggingSpaseActive)
             {
-                playerManager.Player.ReduceMoney(weaponInstance.Price);
-                playerManager.Player.AddDamage(weaponInstance.Damage);
-                playerManager.Player.AddAutoDamage(weaponInstance.AutoDamage);
+                if (playerManager.Player.Money >= weaponInstance.Price)
+                {
+                    playerManager.Player.BuyManOrSword(weaponInstance);
+                    manBought.Invoke();
+                }
+            }
+            else
+            {
+                ushort countSoul = playerManager.Player.Souls[index];
+                if (countSoul >= weaponInstance.Price)
+                {
+                    byte pastIndex = enemyManager.SelectedIndexDevil;
 
-                manBought.Invoke();
+                    playerManager.Player.BuyDevil(weaponInstance, index);
+
+                    enemyManager.SetSelectedIndexDevil(index);
+                    manBought.Invoke();
+                    enemyManager.SetSelectedIndexDevil(pastIndex);
+                }
             }
         }
 

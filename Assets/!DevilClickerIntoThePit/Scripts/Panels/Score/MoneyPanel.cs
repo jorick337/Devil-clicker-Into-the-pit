@@ -26,45 +26,30 @@ namespace Game.Panels.Score
 
         private void Awake()
         {
-            InitializeUI();
-            RegisterEvents(true);
+            UpdateMoneyText();
+        }
+
+        private void OnEnable()
+        {
+            enemyManager.DevilBanished += UpdateMoneyText;
+            shopPanel.manBought += UpdateMoneyText;
+            improvedDevilPanel.EnemyImproved += UpdateMoneyText;
+            improvedDevilPanel.PitImproved += UpdateMoneyText;
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
-        }
-
-        #endregion
-
-        #region INITIALIZATION
-
-        private void InitializeUI()
-        {
-            UpdateMoneyText(playerManager.Player.Money);
-        }
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                enemyManager.DevilBanished += InitializeUI;
-                shopPanel.manBought += InitializeUI;
-                improvedDevilPanel.EnemyImproved += InitializeUI;
-            }
-            else
-            {
-                enemyManager.DevilBanished -= InitializeUI;
-                shopPanel.manBought -= InitializeUI;
-                improvedDevilPanel.EnemyImproved -= InitializeUI;
-            }
+            enemyManager.DevilBanished -= UpdateMoneyText;
+            shopPanel.manBought -= UpdateMoneyText;
+            improvedDevilPanel.EnemyImproved -= UpdateMoneyText;
+            improvedDevilPanel.PitImproved -= UpdateMoneyText;
         }
 
         #endregion
 
         #region UI
 
-        private void UpdateMoneyText(int money) => moneyText.text = $"{money} $";
+        private void UpdateMoneyText() => moneyText.text = $"{playerManager.Player.Money} $";
 
         #endregion
     }

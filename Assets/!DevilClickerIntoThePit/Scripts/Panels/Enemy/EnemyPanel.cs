@@ -29,11 +29,13 @@ namespace Game.Panels.Enemy
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
         [SerializeField] private SettingsPanel settingsPanel;
+        [SerializeField] private ShopPanel shopPanel;
 
         private MovingEnemyPanel _movingEnemyPanel;
 
         [Header("Managers")]
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private PlayerManager playerManager;
 
         [Header("Colors")]
         [SerializeField] private Color enableDiggingSpaseSliderColor;
@@ -45,21 +47,45 @@ namespace Game.Panels.Enemy
 
         private void Awake()
         {
-            InitializeValues();
+            InitializeAnimations();
             InitializeUI();
-            RegisterEvents(true);
+        }
+
+        private void OnEnable()
+        {
+            devilButton.onClick.AddListener(enemyManager.TakeDamage);
+
+            improvedDevilPanel.EnemyImproved += InitializeUI;
+            improvedDevilPanel.PitImproved += UpdateValueHealthSlider;
+            improvedDevilPanel.PitImproved += UpdateHealthText;
+
+            settingsPanel.DiggingAndDevilSpasesChanged += ToggleDiggingAndDevilsSpases;
+            shopPanel.manBought += InitializeUI;
+
+            enemyManager.HealthChanged += StartChangingHealthEnemy;
+            enemyManager.DevilChanged += InitializeUI;
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
+            devilButton.onClick.RemoveListener(enemyManager.TakeDamage);
+            
+            improvedDevilPanel.EnemyImproved -= InitializeUI;
+            improvedDevilPanel.PitImproved -= UpdateValueHealthSlider;
+            improvedDevilPanel.PitImproved -= UpdateHealthText;
+
+            settingsPanel.DiggingAndDevilSpasesChanged -= ToggleDiggingAndDevilsSpases;
+            shopPanel.manBought -= InitializeUI;
+
+            enemyManager.HealthChanged -= StartChangingHealthEnemy;
+            enemyManager.DevilChanged -= InitializeUI;
         }
 
         #endregion
 
         #region INITIALIZATION
 
-        private void InitializeValues()
+        private void InitializeAnimations()
         {
             _devilAnimation = DOTween.Sequence()
                 .Append(enemyImage.transform.DOScaleY(0.89f, 0.1f).From(1))
@@ -81,23 +107,15 @@ namespace Game.Panels.Enemy
             LoadMovingPanel();
         }
 
-        private void RegisterEvents(bool register)
+        private void RegisterMovingEnemyPanelEvents(bool register)
         {
             if (register)
             {
-                improvedDevilPanel.EnemyImproved += InitializeUI;
-                settingsPanel.DiggingAndDevilSpasesChanged += ToggleDiggingAndDevilsSpases;
-
-                enemyManager.HealthChanged += StartChangingHealthEnemy;
-                enemyManager.DevilChanged += InitializeUI;
+                improvedDevilPanel.EnemyImproved += _movingEnemyPanel.SwitchActiveButtons;
             }
             else
             {
-                improvedDevilPanel.EnemyImproved -= InitializeUI;
-                settingsPanel.DiggingAndDevilSpasesChanged -= ToggleDiggingAndDevilsSpases;
-
-                enemyManager.HealthChanged -= StartChangingHealthEnemy;
-                enemyManager.DevilChanged -= InitializeUI;
+                improvedDevilPanel.EnemyImproved -= _movingEnemyPanel.SwitchActiveButtons;
             }
         }
 
@@ -113,13 +131,26 @@ namespace Game.Panels.Enemy
 
         private void LoadMovingPanel()
         {
-            if (enemyManager.SelectedIndexDevil > 0 && _movingEnemyPanel == null && !enemyManager.IsDiggingSpaseActive)
+            if (enemyManager.IsDiggingSpaseActive)
+            {
+                if (_movingEnemyPanel != null)
+                {
+                    RegisterMovingEnemyPanelEvents(false);
+
+                    Destroy(_movingEnemyPanel.gameObject);
+                    _movingEnemyPanel = null;
+
+                    Resources.UnloadUnusedAssets();
+                }
+            }
+            else if (playerManager.Player.MaxLevelOfDevil > 0 && _movingEnemyPanel == null)
             {
                 _movingEnemyPanel = movingPanelResource.GetInstantiateGameObject<MovingEnemyPanel>();
+                RegisterMovingEnemyPanelEvents(true);
             }
         }
 
-        private void UpdateHealthText() => healthText.text = enemyManager.GetHealth().ToString();
+        private void UpdateHealthText() => healthText.text = enemyManager.GetHealth();
         private void UpdateValueHealthSlider() => healthSlider.value = enemyManager.GetPercentageOfHealth();
 
         #endregion
@@ -128,11 +159,14 @@ namespace Game.Panels.Enemy
 
         private void StartChangingHealthEnemy()
         {
-            _devilAnimation.Restart();
-            UpdateHealthText();
+            if (!enemyManager.IsDiggingSpaseActive)
+            {
+                _devilAnimation.Restart();
+                UpdateHealthText();
 
-            _healthAnimation.Restart();
-            UpdateValueHealthSlider();
+                _healthAnimation.Restart();
+                UpdateValueHealthSlider();
+            }
         }
 
         private void ToggleDiggingAndDevilsSpases()
