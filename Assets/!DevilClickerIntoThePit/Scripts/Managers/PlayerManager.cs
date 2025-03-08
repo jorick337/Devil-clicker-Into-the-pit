@@ -1,5 +1,7 @@
 using UnityEngine;
 using Game.Classes.Player;
+using Game.Classes;
+using Game.Panels;
 
 namespace Game.Managers
 {
@@ -9,7 +11,12 @@ namespace Game.Managers
 
         public static PlayerManager Instance { get; private set; }
 
+        [Header("Core")]
+        [SerializeField] private Resource storyPanelResource;
+
         public Player Player { get; private set; }
+
+        private StartStoryPanel _storyPanel;
 
         #endregion
 
@@ -23,6 +30,7 @@ namespace Game.Managers
                 DontDestroyOnLoad(gameObject);
 
                 InitializeValues();
+                InitializeStoryPanel();
             }
             else
             {
@@ -37,6 +45,14 @@ namespace Game.Managers
         private void InitializeValues()
         {
             Player = new();
+        }
+
+        private void InitializeStoryPanel()
+        {
+            if (Player.NumberOfExorcisedDevils == 0) // if just starting
+            {
+                _storyPanel = storyPanelResource.GetInstantiateGameObject<StartStoryPanel>();
+            }
         }
 
         #endregion

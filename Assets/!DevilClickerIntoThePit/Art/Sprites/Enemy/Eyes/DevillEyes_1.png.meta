@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 0abccfcb413640c0cbc7bb08fbd43c88
+guid: a501fd873a19444f09c4e07b54810af3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1771152490203804045
-    second: DevilsEyes_1_2_0
+      213: -6068780731634223701
+    second: DevillEyes_1_1_0
   - first:
-      213: 2108120752311109959
-    second: DevilsEyes_1_2_1
+      213: 6410668518201094035
+    second: DevillEyes_1_1_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,45 +129,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DevilsEyes_1_2_0
+      name: DevillEyes_1_1_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 101
-        width: 71
-        height: 52
+        x: 0
+        y: 0
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 37e8a52b13a9b67e0800000000000000
-      internalID: -1771152490203804045
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DevilsEyes_1_2_1
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 109
-        width: 63
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7490229a7ac814d10800000000000000
-      internalID: 2108120752311109959
+      spriteID: ba5f43f041c57cba0800000000000000
+      internalID: -6068780731634223701
       vertices: []
       indices: 
       edges: []
@@ -176,7 +154,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: bf96bd962fa9e4ad69fb6a40881c9f04
     internalID: 0
     vertices: []
     indices: 
@@ -186,8 +164,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DevilsEyes_1_2_0: -1771152490203804045
-      DevilsEyes_1_2_1: 2108120752311109959
+      DevillEyes_1_1_0: -6068780731634223701
+      DevillEyes_1_1_1: 6410668518201094035
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

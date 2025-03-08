@@ -16,6 +16,6 @@ MonoBehaviour:
   Price: 10
   AutoDamage: 0
   Damage: 0
-  DevilPower: 10
+  DevilPower: 300
   PathToItemSprite: Enemy/Devil/Devil_4
   PathToPriceSprite: Shop/Souls/DeathSoul_4

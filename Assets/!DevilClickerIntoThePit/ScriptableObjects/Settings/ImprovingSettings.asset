@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9afd0d9dbfe0179852423359585bd9, type: 3}
   m_Name: ImprovingSettings
   m_EditorClassIdentifier: 
-  percentagesOfPitHealth: []
-  prices: 
+  percentagesOfPitHealth:
+  - 0.9
+  - 0.8
+  - 0.7
+  - 0.6
+  - 0.5
+  - 0
+  prices: 204e0000409c000060ea000080380100a086010000000000
