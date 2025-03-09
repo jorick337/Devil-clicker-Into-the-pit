@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Men 2
   m_EditorClassIdentifier: 
   Name: "\u0413\u043E\u0440\u043E\u0436\u0430\u043D\u0438\u043D"
-  Price: 80
+  Price: 40
   AutoDamage: 3
   Damage: 0
   DevilPower: 0

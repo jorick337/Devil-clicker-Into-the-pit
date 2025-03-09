@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword 4
   m_EditorClassIdentifier: 
   Name: "\u041B\u044E\u0446\u0438\u0444\u0435\u0440"
-  Price: 720
+  Price: 800
   AutoDamage: 0
   Damage: 81
   DevilPower: 0
