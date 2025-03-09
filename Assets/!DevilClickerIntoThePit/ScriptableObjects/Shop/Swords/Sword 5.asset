@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword 5
   m_EditorClassIdentifier: 
   Name: "\u041F\u043B\u0430\u043C\u0435\u043D\u044C"
-  Price: 2160
+  Price: 3200
   AutoDamage: 0
   Damage: 243
   DevilPower: 0
