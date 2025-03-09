@@ -480,6 +480,7 @@ MonoBehaviour:
   pathToDiggingSpaseSprite: Settings/Shovel
   pathToDevilSpaseSprite: Enemy/Devil/Devil_1
   enemyManager: {fileID: 1808557540}
+  playerManager: {fileID: 0}
 --- !u!114 &145319060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1149,7 +1150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -12.554443, y: 0}
+  m_AnchoredPosition: {x: -12.5563965, y: 0}
   m_SizeDelta: {x: -24.999931, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &352016529
@@ -2503,6 +2504,7 @@ GameObject:
   - component: {fileID: 926913004}
   - component: {fileID: 926913003}
   - component: {fileID: 926913005}
+  - component: {fileID: 926913006}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -2522,7 +2524,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b172c90bc68870877a504a6371a9808d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storyPanelResource: {fileID: 926913005}
+  startStoryPanelResource: {fileID: 926913005}
+  endStoryPanelResource: {fileID: 926913006}
+  enemyPanel: {fileID: 2146652488}
+  enemyManager: {fileID: 1808557540}
 --- !u!4 &926913004
 Transform:
   m_ObjectHideFlags: 0
@@ -2550,7 +2555,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361fd80f725ea1388b53b64003f9205f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToObject: Panels/StoryPanelCanvas
+  pathToObject: Panels/StartStoryPanelCanvas
+  window: {fileID: 27743101}
+--- !u!114 &926913006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926913002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361fd80f725ea1388b53b64003f9205f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathToObject: Panels/EndStoryPanelCanvas
   window: {fileID: 27743101}
 --- !u!1 &985587468
 GameObject:

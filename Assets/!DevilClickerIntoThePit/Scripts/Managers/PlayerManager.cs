@@ -1,22 +1,36 @@
 using UnityEngine;
 using Game.Classes.Player;
 using Game.Classes;
+using Game.Panels.Enemy;
+using System;
 using Game.Panels;
 
 namespace Game.Managers
 {
     public class PlayerManager : MonoBehaviour
     {
+        #region #EVENTS
+
+        public Action PitClosed;
+
+        #endregion
+
         #region CORE
 
         public static PlayerManager Instance { get; private set; }
 
         [Header("Core")]
-        [SerializeField] private Resource storyPanelResource;
+        [SerializeField] private Resource startStoryPanelResource;
+        [SerializeField] private Resource endStoryPanelResource;
 
         public Player Player { get; private set; }
 
-        private StartStoryPanel _storyPanel;
+        [Header("Panels")]
+        [SerializeField] private EnemyPanel enemyPanel;
+        [SerializeField] private ShopPanel shopPanel;
+
+        [Header("Managers")]
+        [SerializeField] private EnemyManager enemyManager;
 
         #endregion
 
@@ -30,12 +44,24 @@ namespace Game.Managers
                 DontDestroyOnLoad(gameObject);
 
                 InitializeValues();
-                InitializeStoryPanel();
+                InitializeStartStoryPanel();
             }
             else
             {
                 Destroy(gameObject);
             }
+        }
+
+        private void OnEnable()
+        {
+            enemyPanel.HealthPitChanged += CheckHealthPit;
+            shopPanel.manBought += CheckHealthPit;
+        }
+
+        private void OnDisable()
+        {
+            enemyPanel.HealthPitChanged -= CheckHealthPit;
+            shopPanel.manBought -= CheckHealthPit;
         }
 
         #endregion
@@ -47,11 +73,26 @@ namespace Game.Managers
             Player = new();
         }
 
-        private void InitializeStoryPanel()
+        private void InitializeStartStoryPanel()
         {
             if (Player.NumberOfExorcisedDevils == 0) // if just starting
             {
-                _storyPanel = storyPanelResource.GetInstantiateGameObject<StartStoryPanel>();
+                startStoryPanelResource.LoadAndInstantiateResource();
+            }
+        }
+
+        #endregion
+
+        #region CORE LOGIC
+
+        private void CheckHealthPit()
+        {
+            if (Player.DevilPower >= enemyManager.HealthPit)
+            {
+                enemyManager.SetIsDiggingSpaseActive(false);
+                PitClosed?.Invoke();
+
+                endStoryPanelResource.LoadAndInstantiateResource();
             }
         }
 

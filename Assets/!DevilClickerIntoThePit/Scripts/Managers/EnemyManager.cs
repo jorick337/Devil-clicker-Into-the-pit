@@ -32,7 +32,7 @@ namespace Game.Managers
         public byte SelectedIndexDevil { get; private set; }
 
         public bool IsDiggingSpaseActive { get; private set; }
-        private ushort _pitHealth;
+        public ushort HealthPit { get; private set; }
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -86,7 +86,7 @@ namespace Game.Managers
             InitializeEnemy();
 
             IsDiggingSpaseActive = false;
-            _pitHealth = PIT_HEALTH;
+            HealthPit = PIT_HEALTH;
         }
 
         private void InitializeMaxSelectedIndexDevil()
@@ -164,20 +164,21 @@ namespace Game.Managers
             }
             else
             {
-                percentage = Math.Abs(playerManager.Player.DevilPower / _pitHealth - 1);
+                percentage = Math.Abs(playerManager.Player.DevilPower / HealthPit - 1);
             }
 
             return percentage == 1 ? 0 : percentage;
         }
 
         public bool GetAndChangeIsDiggingSpaseActive() => IsDiggingSpaseActive = !IsDiggingSpaseActive; // каждый вызов сменяется
-        public string GetHealth() => IsDiggingSpaseActive ? $"{playerManager.Player.DevilPower}/{_pitHealth}" : SelectableEnemy.Health.ToString();
+        public string GetHealth() => IsDiggingSpaseActive ? $"{playerManager.Player.DevilPower}/{HealthPit}" : SelectableEnemy.Health.ToString();
 
         #endregion
 
         #region SET
 
-        public void SetPercentageOfPitHealth(float percentage) => _pitHealth = (ushort)(PIT_HEALTH * percentage);
+        public void SetIsDiggingSpaseActive(bool active) => IsDiggingSpaseActive = active;
+        public void SetPercentageOfPitHealth(float percentage) => HealthPit = (ushort)(PIT_HEALTH * percentage);
         public void SetSelectedIndexDevil(byte value) => SelectedIndexDevil = value;
 
         #endregion

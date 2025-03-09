@@ -4,11 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Game.Classes;
+using System;
 
 namespace Game.Panels.Enemy
 {
     public class EnemyPanel : MonoBehaviour
     {
+        #region EVENTS
+
+        public Action HealthPitChanged;
+
+        #endregion
+
         #region CORE
 
         [Header("Core")]
@@ -60,10 +67,14 @@ namespace Game.Panels.Enemy
             improvedDevilPanel.PitImproved += UpdateHealthText;
 
             settingsPanel.DiggingAndDevilSpasesChanged += ToggleDiggingAndDevilsSpases;
+            settingsPanel.DiggingAndDevilSpasesChanged += InvokeHealthPitChanged;
+
             shopPanel.manBought += InitializeUI;
 
             enemyManager.HealthChanged += StartChangingHealthEnemy;
             enemyManager.DevilChanged += InitializeUI;
+
+            playerManager.PitClosed += UndoChangesByDiggingSpase;
         }
 
         private void OnDisable()
@@ -75,10 +86,14 @@ namespace Game.Panels.Enemy
             improvedDevilPanel.PitImproved -= UpdateHealthText;
 
             settingsPanel.DiggingAndDevilSpasesChanged -= ToggleDiggingAndDevilsSpases;
+            settingsPanel.DiggingAndDevilSpasesChanged -= InvokeHealthPitChanged;
+
             shopPanel.manBought -= InitializeUI;
 
             enemyManager.HealthChanged -= StartChangingHealthEnemy;
             enemyManager.DevilChanged -= InitializeUI;
+
+            playerManager.PitClosed -= UndoChangesByDiggingSpase;
         }
 
         #endregion
@@ -152,6 +167,8 @@ namespace Game.Panels.Enemy
 
         private void UpdateHealthText() => healthText.text = enemyManager.GetHealth();
         private void UpdateValueHealthSlider() => healthSlider.value = enemyManager.GetPercentageOfHealth();
+        private void UpdateActiveDevilButton(bool active) => devilButton.gameObject.SetActive(active);
+        private void UpdateColorHealthImage(bool active) => healthImage.color = active ? enableDiggingSpaseSliderColor : enableDevilSpaseSliderColor;
 
         #endregion
 
@@ -173,11 +190,20 @@ namespace Game.Panels.Enemy
         {
             bool isDiggingSpaseActive = enemyManager.IsDiggingSpaseActive;
 
-            devilButton.gameObject.SetActive(!isDiggingSpaseActive);
-            healthImage.color = isDiggingSpaseActive ? enableDiggingSpaseSliderColor : enableDevilSpaseSliderColor;
-
+            UpdateActiveDevilButton(!isDiggingSpaseActive);
+            UpdateColorHealthImage(isDiggingSpaseActive);
             InitializeUI();
         }
+
+        private void UndoChangesByDiggingSpase()
+        {
+            ToggleDiggingAndDevilsSpases();
+
+            settingsPanel.DiggingAndDevilSpasesChanged -= ToggleDiggingAndDevilsSpases;
+            settingsPanel.DiggingAndDevilSpasesChanged -= HealthPitChanged.Invoke;
+        }
+
+        private void InvokeHealthPitChanged() => HealthPitChanged?.Invoke();
 
         #endregion
     }

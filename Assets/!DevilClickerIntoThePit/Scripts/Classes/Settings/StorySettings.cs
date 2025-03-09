@@ -6,13 +6,17 @@ namespace Game.Classes
     public class StorySettings : ScriptableObject
     {
         [Header("Core")]
-        [SerializeField] private string[] texts; 
+        [SerializeField] private string[] startStoryTexts; 
+        [SerializeField] private string[] endStoryTexts;
 
-        public string[] Texts => texts;
+        public string[] StartStoryTexts => startStoryTexts;
+        public string[] EndStoryTexts => endStoryTexts;
 
         [Header("Sounds")]
-        [SerializeField] private AudioClip[] audioResources;
+        [SerializeField] private AudioClip[] startAudioResources;
+        [SerializeField] private AudioClip[] endAudioResources;
 
-        public AudioClip[] AudioResources => audioResources;
+        public AudioClip[] StartAudioResources => startAudioResources;
+        public AudioClip[] EndAudioResources => endAudioResources;
     }
 }
