@@ -49,13 +49,33 @@ namespace Game.Panels
         private void Awake()
         {
             InitializeValues();
-            InitializeUI();
-            RegisterEvents(true);
+            UpdateItems();
+        }
+
+        private void OnEnable()
+        {
+            movingShopPanel.ItemsSwitched += SwitchSwordsAndMen;
+            movingShopPanel.PastItemsMoved += MoveBack;
+            movingShopPanel.NextItemsMoved += MoveForward;
+
+            settingsPanel.DiggingAndDevilSpasesChanged += SwitchDiggingAndDevilSpases;
+
+            playerManager.PitClosed += UndoChangesByDiggingSpase;
+
+            RegisterOnClickBuyButtons(true);
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
+            movingShopPanel.ItemsSwitched -= SwitchSwordsAndMen;
+            movingShopPanel.PastItemsMoved -= MoveBack;
+            movingShopPanel.NextItemsMoved -= MoveForward;
+
+            settingsPanel.DiggingAndDevilSpasesChanged -= SwitchDiggingAndDevilSpases;
+
+            playerManager.PitClosed -= UndoChangesByDiggingSpase;
+
+            RegisterOnClickBuyButtons(false);
         }
 
         #endregion
@@ -74,33 +94,6 @@ namespace Game.Panels
             }
 
             _focusedTableIndex = 0;
-        }
-
-        private void InitializeUI()
-        {
-            UpdateItems();
-        }
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                movingShopPanel.ItemsSwitched += SwitchSwordsAndMen;
-                movingShopPanel.PastItemsMoved += MoveBack;
-                movingShopPanel.NextItemsMoved += MoveForward;
-
-                settingsPanel.DiggingAndDevilSpasesChanged += SwitchDiggingAndDevilSpases;
-            }
-            else
-            {
-                movingShopPanel.ItemsSwitched -= SwitchSwordsAndMen;
-                movingShopPanel.PastItemsMoved -= MoveBack;
-                movingShopPanel.NextItemsMoved -= MoveForward;
-
-                settingsPanel.DiggingAndDevilSpasesChanged -= SwitchDiggingAndDevilSpases;
-            }
-
-            RegisterOnClickBuyButtons(register);
         }
 
         private void RegisterOnClickBuyButtons(bool register)
@@ -188,6 +181,12 @@ namespace Game.Panels
         {
             SwitchFirstAndOtherWeapons(LENGHT_OF_IDENTICAL_OBJECTS, START_INDEX_OF_DEVILS);
             UpdateUI();
+        }
+
+        private void UndoChangesByDiggingSpase()
+        {
+            SwitchDiggingAndDevilSpases();
+            settingsPanel.DiggingAndDevilSpasesChanged -= SwitchDiggingAndDevilSpases;
         }
 
         private void MoveBack() => UpdateUI(0);

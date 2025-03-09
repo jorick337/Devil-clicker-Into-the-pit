@@ -82,7 +82,6 @@ namespace Game.Panels.Score
         private void DestroyAndUnloadGameObject()
         {
             Destroy(gameObject);
-            System.GC.Collect();
             Resources.UnloadUnusedAssets();
         }
 

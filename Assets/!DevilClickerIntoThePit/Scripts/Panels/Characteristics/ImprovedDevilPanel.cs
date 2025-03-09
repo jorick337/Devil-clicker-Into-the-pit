@@ -57,13 +57,19 @@ namespace Game.Panels.Characteristics
         private void OnEnable()
         {
             improveButton.onClick.AddListener(ToggleImprove);
+
             settingsPanel.DiggingAndDevilSpasesChanged += UpdatePriceAndTitleTexts;
+
+            playerManager.PitClosed += UndoChangesByDiggingSpase;
         }
 
         private void OnDisable()
         {
             improveButton.onClick.RemoveListener(ToggleImprove);
+
             settingsPanel.DiggingAndDevilSpasesChanged -= UpdatePriceAndTitleTexts;
+
+            playerManager.PitClosed -= UndoChangesByDiggingSpase;
         }
 
         #endregion
@@ -88,12 +94,12 @@ namespace Game.Panels.Characteristics
             if (enemyManager.IsDiggingSpaseActive)
             {
                 textOfTitle = TITLE_IMPROVE_PIT;
-                textOfPrice = IsPitLevelEnd() ? MAX_UPDATE : $"{_nextPricePit - 0.01f} $";
+                textOfPrice = IsPitLevelEnd() ? MAX_UPDATE : $"{_nextPricePit} $";
             }
             else
             {
                 textOfTitle = TITLE_IMPROVE_DEVIL;
-                textOfPrice = IsDevilsLevelEnd() ? MAX_UPDATE : $"{_nextPriceDevil - 0.01f} $";
+                textOfPrice = IsDevilsLevelEnd() ? MAX_UPDATE : $"{_nextPriceDevil} $";
             }
 
             titleText.text = textOfTitle;
@@ -133,6 +139,12 @@ namespace Game.Panels.Characteristics
                     EnemyImproved?.Invoke();
                 }
             }
+        }
+
+        private void UndoChangesByDiggingSpase()
+        {
+            UpdatePriceAndTitleTexts();
+            settingsPanel.DiggingAndDevilSpasesChanged -= UpdatePriceAndTitleTexts;
         }
 
         #endregion

@@ -41,6 +41,7 @@ namespace Game.Panels
             shopPanel.manBought += UpdateCountSoul;
 
             enemyManager.DevilBanished += UpdateCountSoul;
+            playerManager.PitClosed += UndoChangesByDiggingSpase;
         }
 
         private void OnDisable()
@@ -49,6 +50,7 @@ namespace Game.Panels
             shopPanel.manBought -= UpdateCountSoul;
 
             enemyManager.DevilBanished -= UpdateCountSoul;
+            playerManager.PitClosed -= UndoChangesByDiggingSpase;
         }
 
         #endregion
@@ -82,6 +84,15 @@ namespace Game.Panels
         private void UpdateCountSoul()
         {
             soulUIs[enemyManager.SelectedIndexDevil].InitializeUI();
+        }
+
+        #endregion
+
+        #region CALLBACKS
+
+        private void UndoChangesByDiggingSpase()
+        {
+            Destroy(gameObject);
         }
 
         #endregion

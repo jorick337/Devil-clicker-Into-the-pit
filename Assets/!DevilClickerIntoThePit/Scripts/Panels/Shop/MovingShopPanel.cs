@@ -1,4 +1,5 @@
 using System;
+using Game.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,42 +25,33 @@ namespace Game.Panels.Shop
         [Header("Panels")]
         [SerializeField] private SettingsPanel settingsPanel;
 
+        [Header("Managers")]
+        [SerializeField] private PlayerManager playerManager;
+
         #endregion
 
         #region MONO
 
         private void OnEnable()
         {
-            RegisterEvents(true);
+            switchSwordsAndMenButton.onClick.AddListener(SwitchSwordsAndMen);
+            backMoveButton.onClick.AddListener(MoveBack);
+            nextMoveButton.onClick.AddListener(MoveForward);
+
+            settingsPanel.DiggingAndDevilSpasesChanged += SwitchActiveSwitchButton;
+
+            playerManager.PitClosed += UndoChangesByDiggingSpase;
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
-        }
+            switchSwordsAndMenButton.onClick.RemoveListener(SwitchSwordsAndMen);
+            backMoveButton.onClick.RemoveListener(MoveBack);
+            nextMoveButton.onClick.RemoveListener(MoveForward);
 
-        #endregion
+            settingsPanel.DiggingAndDevilSpasesChanged -= SwitchActiveSwitchButton;
 
-        #region INITIALIZATION
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                switchSwordsAndMenButton.onClick.AddListener(SwitchSwordsAndMen);
-                backMoveButton.onClick.AddListener(MoveBack);
-                nextMoveButton.onClick.AddListener(MoveForward);
-
-                settingsPanel.DiggingAndDevilSpasesChanged += SwitchActiveSwitchButton;
-            }
-            else
-            {
-                switchSwordsAndMenButton.onClick.RemoveListener(SwitchSwordsAndMen);
-                backMoveButton.onClick.RemoveListener(MoveBack);
-                nextMoveButton.onClick.RemoveListener(MoveForward);
-
-                settingsPanel.DiggingAndDevilSpasesChanged -= SwitchActiveSwitchButton;
-            }
+            playerManager.PitClosed -= UndoChangesByDiggingSpase;
         }
 
         #endregion
@@ -81,8 +73,6 @@ namespace Game.Panels.Shop
 
         #region CALLBACKS
 
-        private void SwitchSwordsAndMen() => ItemsSwitched?.Invoke();
-
         private void MoveBack()
         {
             SwitchActiveMovingButtons();
@@ -94,6 +84,14 @@ namespace Game.Panels.Shop
             SwitchActiveMovingButtons();
             NextItemsMoved?.Invoke();
         }
+
+        private void UndoChangesByDiggingSpase()
+        {
+            switchSwordsAndMenButton.gameObject.SetActive(true);
+            settingsPanel.DiggingAndDevilSpasesChanged -= SwitchActiveSwitchButton;
+        }
+
+        private void SwitchSwordsAndMen() => ItemsSwitched?.Invoke();
 
         #endregion
     }

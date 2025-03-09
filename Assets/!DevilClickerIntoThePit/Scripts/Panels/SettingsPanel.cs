@@ -36,6 +36,7 @@ namespace Game.Panels
 
         [Header("Managers")]
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private PlayerManager playerManager;
 
         #endregion
 
@@ -43,30 +44,23 @@ namespace Game.Panels
 
         private void Awake()
         {
-            RegisterEvents(true);
+            _isSoundEnable = true;
+        }
+
+        private void OnEnable()
+        {
+            soundButton.onClick.AddListener(ToggleSound);
+            switchDiggingAndDevilButton.onClick.AddListener(ToggleDiggingAndDevilSpases);
+
+            playerManager.PitClosed += DestroySwitchDiggingAndDevilSpasesButton;
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
-        }
+            soundButton.onClick.RemoveListener(ToggleSound);
+            switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevilSpases);
 
-        #endregion
-
-        #region INITIALIZATION
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                soundButton.onClick.AddListener(ToggleSound);
-                switchDiggingAndDevilButton.onClick.AddListener(ToggleDiggingAndDevilSpases);
-            }
-            else
-            {
-                soundButton.onClick.RemoveListener(ToggleSound);
-                switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevilSpases);
-            }
+            playerManager.PitClosed -= DestroySwitchDiggingAndDevilSpasesButton;
         }
 
         #endregion
@@ -94,12 +88,20 @@ namespace Game.Panels
         private void ToggleDiggingAndDevilSpases()
         {
             bool isDiggingSpaseActive = enemyManager.GetAndChangeIsDiggingSpaseActive();
+
             Sprite sprite = Resources.Load<Sprite>(isDiggingSpaseActive ? pathToDiggingSpaseSprite : pathToDevilSpaseSprite);
-
             switchDiggingAndDevilImage.sprite = sprite;
-            Resources.UnloadUnusedAssets();
 
+            Resources.UnloadUnusedAssets();
             DiggingAndDevilSpasesChanged?.Invoke();
+        }
+
+        private void DestroySwitchDiggingAndDevilSpasesButton()
+        {
+            switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevilSpases);
+            Destroy(switchDiggingAndDevilButton.gameObject);
+
+            Resources.UnloadUnusedAssets();
         }
 
         #endregion
