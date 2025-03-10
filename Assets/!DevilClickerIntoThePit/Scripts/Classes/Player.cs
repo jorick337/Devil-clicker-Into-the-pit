@@ -30,7 +30,7 @@ namespace Game.Classes.Player
         public Player()
         {
             Money = 0;
-            Souls = new ushort[6] { 10, 0, 0, 0, 0, 0 };
+            Souls = new ushort[6] { 0, 0, 0, 0, 0, 0 };
 
             MaxLevelOfDevil = 1;
             MaxLevelOfPit = 0;
@@ -38,7 +38,7 @@ namespace Game.Classes.Player
 
             Damage = 1;
             AutoDamage = 0;
-            DevilPower = 49950;
+            DevilPower = 0;
         }
 
         #endregion
