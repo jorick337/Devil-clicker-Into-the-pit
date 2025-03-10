@@ -1,7 +1,7 @@
 # Devil clicker: Into the pit
 
 <p align="center">
-   <img src="https://github.com/jorick337/Devil-clicker-Into-the-pit/blob/main/MinorFiles/Video/Gameplay.gif">
+   <img src="https://github.com/jorick337/Devil-clicker-Into-the-pit/blob/main/MinorFiles/Video/MiniGameplay.gif">
 </p>
 
 <p align="center">
