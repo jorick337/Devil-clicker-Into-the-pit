@@ -1,20 +1,29 @@
 using System;
 using YG;
 
-namespace Game.Classes
+namespace Game.Classes.Player
 {
     [Serializable]
     public class Player
     {
+        #region CONSTANTS
+
+        private byte MAX_INDEX_OF_LEVELS = 5;
+
+        #endregion
+
         #region CORE
 
-        public int Money;
+        public int Money { get; private set; }
+        public ushort[] Souls { get; private set; }
 
-        public byte LevelOfDevil;
-        public ushort NumberOfExorcisedDevils;
+        public byte MaxLevelOfDevil { get; private set; }
+        public byte MaxLevelOfPit { get; private set; }
+        public ushort NumberOfExorcisedDevils { get; private set; }
 
-        public int Damage;
-        public int AutoDamage;
+        public int Damage { get; private set; }
+        public int AutoDamage { get; private set; }
+        public int DevilPower { get; private set; }
 
         #endregion
 
@@ -25,13 +34,33 @@ namespace Game.Classes
             return new Player()
             {
                 Money = savesYG.Money,
+                Souls = savesYG.Souls,
 
-                LevelOfDevil = savesYG.LevelOfDevil,
+                MaxLevelOfDevil = savesYG.MaxLevelOfDevil,
+                MaxLevelOfPit = savesYG.MaxLevelOfPit,
                 NumberOfExorcisedDevils = savesYG.NumberOfExorcisedDevils,
 
                 Damage = savesYG.Damage,
-                AutoDamage = savesYG.AutoDamage
+                AutoDamage = savesYG.AutoDamage,
+                DevilPower = savesYG.DevilPower
             };
+        }
+
+        #endregion
+
+        #region CORE LOGIC
+
+        public void BuyManOrSword(WeaponInstance weaponInstance)
+        {
+            ReduceMoney(weaponInstance.Price);
+            AddDamage(weaponInstance.Damage);
+            AddAutoDamage(weaponInstance.AutoDamage);
+        }
+
+        public void BuyDevil(WeaponInstance weaponInstance, byte index)
+        {
+            ReduceSouls(weaponInstance.Price, index);
+            AddDevilPower(weaponInstance.DevilPower);
         }
 
         #endregion
@@ -39,18 +68,22 @@ namespace Game.Classes
         #region ADD
 
         public void AddMoney(int value) => Money += value;
-        
-        public void AddLevelOfDevil() => LevelOfDevil += 1;
+        public void AddSoul(byte index) => Souls[index] += 1;
+
+        public void AddMaxLevelOfDevil() => MaxLevelOfDevil += 1;
+        public void AddMaxLevelOfPit() => MaxLevelOfPit += (byte)(MaxLevelOfPit == MAX_INDEX_OF_LEVELS ? 0 : 1);
         public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
-        
+
         public void AddDamage(int value) => Damage += value;
         public void AddAutoDamage(int value) => AutoDamage += value;
+        public void AddDevilPower(int value) => DevilPower += value;
 
         #endregion
 
         #region REDUCE
 
         public void ReduceMoney(int value) => Money -= value;
+        public void ReduceSouls(ushort value, byte index) => Souls[index] -= value;
 
         #endregion
     }

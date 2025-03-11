@@ -1,3 +1,4 @@
+using Game.Managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,17 +12,31 @@ namespace Game.Panels
         public UnityAction DisableSound;
         public UnityAction EnableSound;
 
+        public UnityAction DiggingAndDevilSpasesChanged;
+
         #endregion
 
         #region CORE
 
-        [Header("Core")]
-        [SerializeField] private Sprite enableSprite;
-        [SerializeField] private Sprite disableSprite;
-
-        [Header("UI")]
+        [Header("Sound")]
         [SerializeField] private Button soundButton;
         [SerializeField] private Image soundImage;
+
+        [SerializeField] private string pathToEnableSoundSprite;
+        [SerializeField] private string pathToDisableSoundSprite;
+
+        private bool _isSoundEnable;
+
+        [Header("Digging and Devils")]
+        [SerializeField] private Button switchDiggingAndDevilButton;
+        [SerializeField] private Image switchDiggingAndDevilImage;
+
+        [SerializeField] private string pathToDiggingSpaseSprite;
+        [SerializeField] private string pathToDevilSpaseSprite;
+
+        [Header("Managers")]
+        [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private PlayerManager playerManager;
 
         #endregion
 
@@ -29,54 +44,64 @@ namespace Game.Panels
 
         private void Awake()
         {
-            RegisterEvents(true);
+            _isSoundEnable = true;
+        }
+
+        private void OnEnable()
+        {
+            soundButton.onClick.AddListener(ToggleSound);
+            switchDiggingAndDevilButton.onClick.AddListener(ToggleDiggingAndDevilSpases);
+
+            playerManager.PitClosed += DestroySwitchDiggingAndDevilSpasesButton;
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
-        }
+            soundButton.onClick.RemoveListener(ToggleSound);
+            switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevilSpases);
 
-        #endregion
-
-        #region INITIALIZATION
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                soundButton.onClick.AddListener(EnableAllSound);
-            }
-            else
-            {
-                soundButton.onClick.RemoveListener(EnableAllSound);
-            }
+            playerManager.PitClosed -= DestroySwitchDiggingAndDevilSpasesButton;
         }
 
         #endregion
 
         #region CALLBACKS
 
-        private void EnableAllSound()
+        private void ToggleSound()
         {
-            soundImage.sprite = enableSprite;
-            soundImage.raycastTarget = true;
+            _isSoundEnable = !_isSoundEnable;
+            Sprite sprite = Resources.Load<Sprite>(_isSoundEnable ? pathToEnableSoundSprite : pathToDisableSoundSprite);
 
-            soundButton.onClick.RemoveListener(EnableAllSound);
-            soundButton.onClick.AddListener(DisableAllSound);
+            soundImage.sprite = sprite;
+            Resources.UnloadUnusedAssets();
 
-            EnableSound.Invoke();
+            if (_isSoundEnable)
+            {
+                EnableSound?.Invoke();
+            }
+            else
+            {
+                DisableSound?.Invoke();
+            }
         }
 
-        private void DisableAllSound()
+        private void ToggleDiggingAndDevilSpases()
         {
-            soundImage.sprite = disableSprite;
-            soundImage.raycastTarget = false;
+            bool isDiggingSpaseActive = enemyManager.GetAndChangeIsDiggingSpaseActive();
 
-            soundButton.onClick.RemoveListener(DisableAllSound);
-            soundButton.onClick.AddListener(EnableAllSound);
+            Sprite sprite = Resources.Load<Sprite>(isDiggingSpaseActive ? pathToDevilSpaseSprite : pathToDiggingSpaseSprite);
+            switchDiggingAndDevilImage.sprite = sprite;
 
-            DisableSound.Invoke();
+            Resources.UnloadUnusedAssets();
+            DiggingAndDevilSpasesChanged?.Invoke();
+        }
+
+        private void DestroySwitchDiggingAndDevilSpasesButton()
+        {
+            switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevilSpases);
+            Destroy(switchDiggingAndDevilButton.gameObject);
+
+            Resources.UnloadUnusedAssets();
         }
 
         #endregion

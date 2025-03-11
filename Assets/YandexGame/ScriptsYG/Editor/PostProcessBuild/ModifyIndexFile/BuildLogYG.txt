@@ -1,2 +1,2 @@
-Build path: /home/yurin/My/Web/DXT+DISKSIZE-Yandex
-Build number: 1
+Build path: /home/yurin/My/Web/yandex
+Build number: 2

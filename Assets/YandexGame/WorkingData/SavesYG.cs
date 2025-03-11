@@ -1,4 +1,4 @@
-﻿using Game.Classes;
+﻿using Game.Classes.Player;
 
 namespace YG
 {
@@ -13,22 +13,27 @@ namespace YG
 
         // Мое:
         public int Money = 0;
+        public ushort[] Souls = new ushort[6] { 0, 0, 0, 0, 0, 0 };
 
-        public byte LevelOfDevil = 1;
+        public byte MaxLevelOfDevil = 1;
+        public byte MaxLevelOfPit = 0;
         public ushort NumberOfExorcisedDevils = 0;
 
         public int Damage = 1;
         public int AutoDamage = 0;
+        public int DevilPower = 0;
 
         public static SavesYG operator +(SavesYG savesYG, Player player)
         {
             savesYG.Money = player.Money;
 
-            savesYG.LevelOfDevil = player.LevelOfDevil;
+            savesYG.MaxLevelOfDevil = player.MaxLevelOfDevil;
+            savesYG.MaxLevelOfPit = player.MaxLevelOfPit;
             savesYG.NumberOfExorcisedDevils = player.NumberOfExorcisedDevils;
 
             savesYG.Damage = player.Damage;
             savesYG.AutoDamage = player.AutoDamage;
+            savesYG.DevilPower = player.DevilPower;
 
             return savesYG;
         }

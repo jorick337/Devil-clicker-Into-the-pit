@@ -10,9 +10,16 @@ namespace Game.Classes
 
         public void LoadAndInstantiateResource()
         {
-            GameObject achievementPanel = Resources.Load<GameObject>(pathToObject);
+            GameObject gameObject = Resources.Load<GameObject>(pathToObject);
+            Instantiate(gameObject, window.transform);
+        }
 
-            Instantiate(achievementPanel, window.transform);
+        public T GetInstantiateGameObject<T>() where T : MonoBehaviour
+        {
+            T gameObject = Resources.Load<T>(pathToObject);
+            gameObject = Instantiate(gameObject, window.transform);
+
+            return gameObject;
         }
     }
 }

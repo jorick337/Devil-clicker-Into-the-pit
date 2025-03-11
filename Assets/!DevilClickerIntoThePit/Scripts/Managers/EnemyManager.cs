@@ -7,10 +7,17 @@ namespace Game.Managers
 {
     public class EnemyManager : MonoBehaviour
     {
+        #region 
+
+        private const ushort PIT_HEALTH = 50000;
+
+        #endregion
+
         #region EVENTS
 
         public event Action DevilBanished;
         public event Action HealthChanged;
+        public event Action DevilChanged;
 
         #endregion
 
@@ -19,9 +26,14 @@ namespace Game.Managers
         public static EnemyManager Instance { get; private set; }
 
         [Header("Core")]
+        [SerializeField] private ImprovingSettings improvingSettings;
         [SerializeField] private Enemy[] enemies;
 
         public EnemyInstance SelectableEnemy { get; private set; }
+        public byte SelectedIndexDevil { get; private set; }
+
+        public bool IsDiggingSpaseActive { get; private set; }
+        public ushort HealthPit { get; private set; }
 
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
@@ -41,7 +53,6 @@ namespace Game.Managers
                 DontDestroyOnLoad(gameObject);
 
                 InitializeValues();
-                RegisterEvents(true);
             }
             else
             {
@@ -54,9 +65,16 @@ namespace Game.Managers
             InvokeRepeating("TakeAutoDamage", 1f, 1f);
         }
 
+        private void OnEnable()
+        {
+            improvedDevilPanel.EnemyImproved += InitializeMaxSelectedIndexDevil;
+            improvedDevilPanel.EnemyImproved += InitializeEnemy;
+        }
+
         private void OnDisable()
         {
-            RegisterEvents(false);
+            improvedDevilPanel.EnemyImproved -= InitializeMaxSelectedIndexDevil;
+            improvedDevilPanel.EnemyImproved -= InitializeEnemy;
         }
 
         #endregion
@@ -65,19 +83,27 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            SelectableEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+            InitializeMaxSelectedIndexDevil();
+            InitializeEnemy();
+
+            IsDiggingSpaseActive = false;
+            InitializePit();
         }
 
-        private void RegisterEvents(bool register)
+        private void InitializeMaxSelectedIndexDevil()
         {
-            if (register)
-            {
-                improvedDevilPanel.EnemyImproved += InitializeValues;
-            }
-            else
-            {
-                improvedDevilPanel.EnemyImproved -= InitializeValues;
-            }
+            SelectedIndexDevil = (byte)(playerManager.Player.MaxLevelOfDevil - 1);
+        }
+
+        private void InitializeEnemy()
+        {
+            SelectableEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+        }
+
+        private void InitializePit()
+        {
+            HealthPit = PIT_HEALTH;
+            SetPercentageOfPitHealth(improvingSettings.GetPercentage());
         }
 
         #endregion
@@ -86,7 +112,7 @@ namespace Game.Managers
 
         public void TakeDamage()
         {
-            AddDamage(playerManager.Player.Damage);
+            SelectableEnemy.ReduceHealth(playerManager.Player.Damage);
             CheckEnemyHealth();
         }
 
@@ -94,7 +120,7 @@ namespace Game.Managers
         {
             if (playerManager.Player.AutoDamage > 0)
             {
-                AddDamage(playerManager.Player.AutoDamage);
+                SelectableEnemy.ReduceHealth(playerManager.Player.AutoDamage);
                 CheckEnemyHealth();
             }
         }
@@ -105,9 +131,9 @@ namespace Game.Managers
             {
                 playerManager.Player.AddMoney(SelectableEnemy.Reward);
                 playerManager.Player.AddExorcisedDevil();
+                playerManager.Player.AddSoul(SelectedIndexDevil);
 
-                InitializeValues();
-
+                InitializeEnemy();
                 DevilBanished.Invoke();
             }
 
@@ -120,7 +146,7 @@ namespace Game.Managers
 
         public ushort GetPriceNextDevil()
         {
-            int index = playerManager.Player.LevelOfDevil;
+            int index = playerManager.Player.MaxLevelOfDevil;
 
             if (index < enemies.Length)
             {
@@ -136,17 +162,55 @@ namespace Game.Managers
 
         public float GetPercentageOfHealth()
         {
-            EnemyInstance initialEnemy = enemies[playerManager.Player.LevelOfDevil - 1].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
-            float percentage = Math.Abs((float)SelectableEnemy.Health / initialEnemy.Health - 1);
+            float percentage;
+
+            if (!IsDiggingSpaseActive)
+            {
+                EnemyInstance initialEnemy = enemies[SelectedIndexDevil].CreateInstance(playerManager.Player.NumberOfExorcisedDevils);
+                percentage = Math.Abs((float)SelectableEnemy.Health / initialEnemy.Health - 1);
+            }
+            else
+            {
+                percentage = Math.Abs(playerManager.Player.DevilPower / HealthPit - 1);
+            }
 
             return percentage == 1 ? 0 : percentage;
         }
+
+        public bool GetAndChangeIsDiggingSpaseActive() => IsDiggingSpaseActive = !IsDiggingSpaseActive; // каждый вызов сменяется
+        public string GetHealth() => IsDiggingSpaseActive ? $"{playerManager.Player.DevilPower}/{HealthPit}" : SelectableEnemy.Health.ToString();
+
+        #endregion
+
+        #region SET
+
+        public void SetIsDiggingSpaseActive(bool active) => IsDiggingSpaseActive = active;
+        public void SetPercentageOfPitHealth(float percentage) => HealthPit = (ushort)(PIT_HEALTH * percentage);
+        public void SetSelectedIndexDevil(byte value) => SelectedIndexDevil = value;
 
         #endregion
 
         #region ADD
 
-        private void AddDamage(int damage) => SelectableEnemy.ReduceHealth(damage);
+        public void AddSelectedIndexDevil()
+        {
+            SelectedIndexDevil += 1;
+            InitializeEnemy();
+
+            DevilChanged?.Invoke();
+        }
+
+        #endregion
+
+        #region REDUCE
+
+        public void ReduceSelectedIndexDevil()
+        {
+            SelectedIndexDevil -= 1;
+            InitializeEnemy();
+
+            DevilChanged?.Invoke();
+        }
 
         #endregion
     }

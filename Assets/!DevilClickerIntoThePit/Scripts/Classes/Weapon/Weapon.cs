@@ -12,9 +12,11 @@ namespace Game.Classes
         [Header("Damage")]
         public ushort AutoDamage;
         public ushort Damage;
+        public ushort DevilPower;
 
-        [Header("UI")]
-        public string PathToSprite; // чтобы не погружать все sprite одновременно
+        [Header("UI")]// чтобы не погружать все sprite одновременно
+        public string PathToItemSprite; 
+        public string PathToPriceSprite;
 
         public WeaponInstance GetInstance() => new(this);
     }

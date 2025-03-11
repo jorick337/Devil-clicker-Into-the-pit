@@ -10,7 +10,7 @@ namespace Game.Panels.Score
         #region CORE
 
         [Header("Core")]
-        [SerializeField] private Achievement[] achievements;
+        [SerializeField] private AchievementUI[] achievements;
 
         [Header("UI")]
         [SerializeField] private Button closePanelButton;
@@ -54,12 +54,12 @@ namespace Game.Panels.Score
             if (register)
             {
                 _enemyManager.DevilBanished += InitializeUI;
-                closePanelButton.onClick.AddListener(() => Destroy(gameObject));
+                closePanelButton.onClick.AddListener(DestroyAndUnloadGameObject);
             }
             else
             {
                 _enemyManager.DevilBanished -= InitializeUI;
-                Resources.UnloadUnusedAssets();
+                closePanelButton.onClick.RemoveListener(DestroyAndUnloadGameObject);
             }
         }
 
@@ -73,6 +73,16 @@ namespace Game.Panels.Score
             {
                 achievement.UpdateProgress(numberOfExorcisedDevils);
             }
+        }
+
+        #endregion
+
+        #region CALLBACKS
+
+        private void DestroyAndUnloadGameObject()
+        {
+            Destroy(gameObject);
+            Resources.UnloadUnusedAssets();
         }
 
         #endregion
