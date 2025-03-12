@@ -25,12 +25,16 @@ namespace Game.Panels.Shop
         [Header("Panels")]
         [SerializeField] private SettingsPanel settingsPanel;
 
-        [Header("Managers")]
-        [SerializeField] private PlayerManager playerManager;
+        private PlayerManager _playerManager;
 
         #endregion
 
         #region MONO
+
+        private void Awake()
+        {
+            _playerManager = PlayerManager.Instance;
+        }
 
         private void OnEnable()
         {
@@ -40,7 +44,7 @@ namespace Game.Panels.Shop
 
             settingsPanel.DiggingAndDevilSpasesChanged += SwitchActiveSwitchButton;
 
-            playerManager.PitClosed += UndoChangesByDiggingSpase;
+            _playerManager.PitClosed += UndoChangesByDiggingSpase;
         }
 
         private void OnDisable()
@@ -51,7 +55,7 @@ namespace Game.Panels.Shop
 
             settingsPanel.DiggingAndDevilSpasesChanged -= SwitchActiveSwitchButton;
 
-            playerManager.PitClosed -= UndoChangesByDiggingSpase;
+            _playerManager.PitClosed -= UndoChangesByDiggingSpase;
         }
 
         #endregion

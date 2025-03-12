@@ -1,21 +1,21 @@
 {
-    "idSave": 38,
+    "idSave": 189,
     "isFirstSession": false,
     "language": "ru",
     "promptDone": false,
-    "Money": 9618865,
+    "Money": 12992850,
     "Souls": [
         4,
         6,
         0,
         1,
         4,
-        350
+        591
     ],
     "MaxLevelOfDevil": 6,
     "MaxLevelOfPit": 5,
-    "NumberOfExorcisedDevils": 1037,
-    "Damage": 28360,
+    "NumberOfExorcisedDevils": 1278,
+    "Damage": 28363,
     "AutoDamage": 35300,
     "DevilPower": 32350
 }

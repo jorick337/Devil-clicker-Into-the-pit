@@ -36,7 +36,8 @@ namespace Game.Panels
 
         [Header("Managers")]
         [SerializeField] private EnemyManager enemyManager;
-        [SerializeField] private PlayerManager playerManager;
+
+        private PlayerManager _playerManager;
 
         #endregion
 
@@ -44,6 +45,8 @@ namespace Game.Panels
 
         private void Awake()
         {
+            _playerManager = PlayerManager.Instance;
+
             _isSoundEnable = true;
         }
 
@@ -52,7 +55,7 @@ namespace Game.Panels
             soundButton.onClick.AddListener(ToggleSound);
             switchDiggingAndDevilButton.onClick.AddListener(ToggleDiggingAndDevilSpases);
 
-            playerManager.PitClosed += DestroySwitchDiggingAndDevilSpasesButton;
+            _playerManager.PitClosed += DestroySwitchDiggingAndDevilSpasesButton;
         }
 
         private void OnDisable()
@@ -60,7 +63,7 @@ namespace Game.Panels
             soundButton.onClick.RemoveListener(ToggleSound);
             switchDiggingAndDevilButton.onClick.RemoveListener(ToggleDiggingAndDevilSpases);
 
-            playerManager.PitClosed -= DestroySwitchDiggingAndDevilSpasesButton;
+            _playerManager.PitClosed -= DestroySwitchDiggingAndDevilSpasesButton;
         }
 
         #endregion

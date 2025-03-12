@@ -548,6 +548,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5009646814449052475, guid: 0789d95c49ef5ca6cb3dfc0f0bfec663, type: 3}
+      propertyPath: m_Text
+      value: "\u0421\u0430\u043C\u043E\u0437\u0432\u0430\u043D\u043D\u044B\u0439"
+      objectReference: {fileID: 0}
     - target: {fileID: 5669559999850723282, guid: 0789d95c49ef5ca6cb3dfc0f0bfec663, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -677,6 +681,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5009646814449052475, guid: 0789d95c49ef5ca6cb3dfc0f0bfec663, type: 3}
+      propertyPath: m_Text
+      value: "\u0410\u0434\u0441\u043A\u0438\u0439 \u044D\u043A\u0441\u043F\u0435\u0440\u0442"
+      objectReference: {fileID: 0}
     - target: {fileID: 5669559999850723282, guid: 0789d95c49ef5ca6cb3dfc0f0bfec663, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -805,6 +813,10 @@ PrefabInstance:
     - target: {fileID: 4876569368290095789, guid: 0789d95c49ef5ca6cb3dfc0f0bfec663, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5009646814449052475, guid: 0789d95c49ef5ca6cb3dfc0f0bfec663, type: 3}
+      propertyPath: m_Text
+      value: "\u0421\u0430\u043C \u0434\u044C\u044F\u0432\u043E\u043B"
       objectReference: {fileID: 0}
     - target: {fileID: 5669559999850723282, guid: 0789d95c49ef5ca6cb3dfc0f0bfec663, type: 3}
       propertyPath: m_Pivot.x

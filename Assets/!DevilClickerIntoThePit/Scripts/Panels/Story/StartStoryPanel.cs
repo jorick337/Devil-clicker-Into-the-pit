@@ -2,6 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using Game.Classes;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Game.Panels
@@ -149,6 +150,7 @@ namespace Game.Panels
             Destroy(gameObject);
 
             Resources.UnloadUnusedAssets();
+            SceneManager.LoadScene(1);
         }
 
         #endregion

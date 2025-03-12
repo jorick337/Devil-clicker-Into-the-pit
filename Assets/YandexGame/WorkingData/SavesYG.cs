@@ -26,6 +26,7 @@ namespace YG
         public static SavesYG operator +(SavesYG savesYG, Player player)
         {
             savesYG.Money = player.Money;
+            savesYG.Souls = player.Souls;
 
             savesYG.MaxLevelOfDevil = player.MaxLevelOfDevil;
             savesYG.MaxLevelOfPit = player.MaxLevelOfPit;

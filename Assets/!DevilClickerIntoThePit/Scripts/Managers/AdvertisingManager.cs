@@ -6,9 +6,6 @@ namespace Game.Managers
 {
     public class AdvertisingManager : MonoBehaviour
     {
-        [Header("Core")]
-        [SerializeField] private byte chance;
-
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
 

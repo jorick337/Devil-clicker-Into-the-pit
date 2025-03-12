@@ -21,6 +21,8 @@ namespace Game.Panels.Enemy
 
         private void Awake()
         {
+            _playerManager = PlayerManager.Instance;
+
             InitializeManagers();
             InitializeUI();
         }

@@ -400,7 +400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f499fc588bb117957b30793435c91070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chance: 50
   improvedDevilPanel: {fileID: 350769962}
 --- !u!4 &127321512
 Transform:
@@ -480,7 +479,6 @@ MonoBehaviour:
   pathToDiggingSpaseSprite: Settings/Shovel
   pathToDevilSpaseSprite: Enemy/Devil/Devil_1
   enemyManager: {fileID: 1808557540}
-  playerManager: {fileID: 926913003}
 --- !u!114 &145319060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,7 +791,6 @@ MonoBehaviour:
   backMoveButton: {fileID: 608428530}
   nextMoveButton: {fileID: 697574571}
   settingsPanel: {fileID: 145319059}
-  playerManager: {fileID: 926913003}
 --- !u!1 &255810617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,7 +1058,6 @@ MonoBehaviour:
   priceText: {fileID: 1034343453}
   settingsPanel: {fileID: 145319059}
   enemyManager: {fileID: 1808557540}
-  playerManager: {fileID: 926913003}
 --- !u!114 &350769963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,7 +1073,6 @@ MonoBehaviour:
   damageText: {fileID: 1475870433}
   autoDamageText: {fileID: 293604967}
   shopPanel: {fileID: 2048274786}
-  playerManager: {fileID: 926913003}
 --- !u!114 &350769964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2495,85 +2490,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -300, y: 120}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &926913002
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 926913004}
-  - component: {fileID: 926913003}
-  - component: {fileID: 926913005}
-  - component: {fileID: 926913006}
-  m_Layer: 0
-  m_Name: PlayerManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &926913003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926913002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b172c90bc68870877a504a6371a9808d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startStoryPanelResource: {fileID: 926913005}
-  endStoryPanelResource: {fileID: 926913006}
-  enemyPanel: {fileID: 2146652488}
-  shopPanel: {fileID: 2048274786}
-  enemyManager: {fileID: 1808557540}
---- !u!4 &926913004
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926913002}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.26178473, y: -0.06635698, z: 0.68127203}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &926913005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926913002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 361fd80f725ea1388b53b64003f9205f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pathToObject: Panels/StartStoryPanelCanvas
-  window: {fileID: 27743101}
---- !u!114 &926913006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926913002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 361fd80f725ea1388b53b64003f9205f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pathToObject: Panels/EndStoryPanelCanvas
-  window: {fileID: 27743101}
 --- !u!1 &985587468
 GameObject:
   m_ObjectHideFlags: 0
@@ -4174,6 +4090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1808557541}
   - component: {fileID: 1808557540}
+  - component: {fileID: 1808557542}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -4201,8 +4118,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a3d3e4d973799df1c8036b5ee56e56bb, type: 2}
   - {fileID: 11400000, guid: 1f286f899912bfa14869b0fedb1af3bf, type: 2}
   - {fileID: 11400000, guid: 4718dda61ea0727548ed191c9c36e1b5, type: 2}
+  endStoryPanelResource: {fileID: 1808557542}
   improvedDevilPanel: {fileID: 350769962}
-  playerManager: {fileID: 926913003}
 --- !u!4 &1808557541
 Transform:
   m_ObjectHideFlags: 0
@@ -4218,6 +4135,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1808557542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808557539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361fd80f725ea1388b53b64003f9205f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathToObject: Panels/EndStoryPanelCanvas
+  window: {fileID: 27743101}
 --- !u!1 &1825887930
 GameObject:
   m_ObjectHideFlags: 0
@@ -4470,7 +4401,6 @@ MonoBehaviour:
   moneyText: {fileID: 352016529}
   shopPanel: {fileID: 2048274786}
   improvedDevilPanel: {fileID: 350769962}
-  playerManager: {fileID: 926913003}
   enemyManager: {fileID: 1808557540}
 --- !u!114 &1899194159
 MonoBehaviour:
@@ -4721,63 +4651,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3030498038905275686, guid: a232e937eee4ca6a78a8de95c8940901, type: 3}
   m_PrefabInstance: {fileID: 1984838120}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1991587197
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2211564899198745197, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_Name
-      value: YandexGame
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: caf9732433f4dc044845763962493607, type: 3}
 --- !u!1 &2040787926
 GameObject:
   m_ObjectHideFlags: 0
@@ -4985,7 +4858,6 @@ MonoBehaviour:
   - {fileID: 2115263451}
   movingShopPanel: {fileID: 238762429}
   settingsPanel: {fileID: 145319059}
-  playerManager: {fileID: 926913003}
   enemyManager: {fileID: 1808557540}
 --- !u!114 &2048274787
 MonoBehaviour:
@@ -5082,7 +4954,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   improvedDevilPanel: {fileID: 350769962}
   shopPanel: {fileID: 2048274786}
-  playerManager: {fileID: 926913003}
   enemyManager: {fileID: 1808557540}
 --- !u!114 &2059953299
 MonoBehaviour:
@@ -5264,7 +5135,6 @@ MonoBehaviour:
   settingsPanel: {fileID: 145319059}
   shopPanel: {fileID: 2048274786}
   enemyManager: {fileID: 1808557540}
-  playerManager: {fileID: 926913003}
   enableDiggingSpaseSliderColor: {r: 1, g: 0.5176471, b: 0.1764706, a: 1}
   enableDevilSpaseSliderColor: {r: 1, g: 0.39607844, b: 0.39607844, a: 1}
 --- !u!114 &2146652489
@@ -5328,11 +5198,9 @@ SceneRoots:
   - {fileID: 1600637174}
   - {fileID: 229669389}
   - {fileID: 179147887}
-  - {fileID: 926913004}
   - {fileID: 1808557541}
   - {fileID: 298441139}
   - {fileID: 127321512}
   - {fileID: 867564984}
   - {fileID: 27743102}
   - {fileID: 1343326487}
-  - {fileID: 1991587197}

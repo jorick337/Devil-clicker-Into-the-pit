@@ -42,7 +42,8 @@ namespace Game.Panels.Characteristics
 
         [Header("Managers")]
         [SerializeField] private EnemyManager enemyManager;
-        [SerializeField] private PlayerManager playerManager;
+
+        private PlayerManager _playerManager;
 
         #endregion
 
@@ -50,6 +51,8 @@ namespace Game.Panels.Characteristics
 
         private void Awake()
         {
+            _playerManager = PlayerManager.Instance;
+
             InitializeValues();
             UpdatePriceAndTitleTexts();
         }
@@ -60,7 +63,7 @@ namespace Game.Panels.Characteristics
 
             settingsPanel.DiggingAndDevilSpasesChanged += UpdatePriceAndTitleTexts;
 
-            playerManager.PitClosed += UndoChangesByDiggingSpase;
+            _playerManager.PitClosed += UndoChangesByDiggingSpase;
         }
 
         private void OnDisable()
@@ -69,7 +72,7 @@ namespace Game.Panels.Characteristics
 
             settingsPanel.DiggingAndDevilSpasesChanged -= UpdatePriceAndTitleTexts;
 
-            playerManager.PitClosed -= UndoChangesByDiggingSpase;
+            _playerManager.PitClosed -= UndoChangesByDiggingSpase;
         }
 
         #endregion
@@ -114,24 +117,22 @@ namespace Game.Panels.Characteristics
         {
             if (enemyManager.IsDiggingSpaseActive)
             {
-                if (playerManager.Player.Money >= _nextPricePit && !IsPitLevelEnd())
+                if (_playerManager.Player.Money >= _nextPricePit && !IsPitLevelEnd())
                 {
-                    playerManager.Player.ReduceMoney(_nextPricePit);
-
                     enemyManager.SetPercentageOfPitHealth(improvingSettings.GetPercentage());
                     PitImproved?.Invoke();
+                    
+                    _playerManager.Player.BuyLevelOfPit(_nextPricePit);
 
-                    playerManager.Player.AddMaxLevelOfPit();
                     _nextPricePit = improvingSettings.GetPrice();
                     UpdatePriceAndTitleTexts();
                 }
             }
             else
             {
-                if (playerManager.Player.Money >= _nextPriceDevil && !IsDevilsLevelEnd())
+                if (_playerManager.Player.Money >= _nextPriceDevil && !IsDevilsLevelEnd())
                 {
-                    playerManager.Player.ReduceMoney(_nextPriceDevil);
-                    playerManager.Player.AddMaxLevelOfDevil();
+                    _playerManager.Player.BuyLevelOfDevil(_nextPriceDevil);
 
                     _nextPriceDevil = enemyManager.GetPriceNextDevil();
                     UpdatePriceAndTitleTexts();

@@ -3,8 +3,7 @@ using Game.Classes.Player;
 using Game.Classes;
 using YG;
 using System;
-using Game.Panels;
-using Game.Panels.Enemy;
+using UnityEngine.SceneManagement;
 
 namespace Game.Managers
 {
@@ -22,16 +21,8 @@ namespace Game.Managers
 
         [Header("Core")]
         [SerializeField] private Resource startStoryPanelResource;
-        [SerializeField] private Resource endStoryPanelResource;
 
         public Player Player { get; private set; }
-
-        [Header("Panels")]
-        [SerializeField] private EnemyPanel enemyPanel;
-        [SerializeField] private ShopPanel shopPanel;
-
-        [Header("Managers")]
-        [SerializeField] private EnemyManager enemyManager;
 
         #endregion
 
@@ -45,7 +36,6 @@ namespace Game.Managers
                 DontDestroyOnLoad(gameObject);
 
                 InitializeValues();
-                InitializeStartStoryPanel();
             }
             else
             {
@@ -53,27 +43,14 @@ namespace Game.Managers
             }
         }
 
-        private void Start()
-        {
-            if (Player.DevilPower >= enemyManager.HealthPit)
-            {
-                PitClosed?.Invoke();
-            }
-        }
-
         private void OnEnable()
         {
-            enemyPanel.HealthPitChanged += CheckHealthPit;
-            shopPanel.manBought += CheckHealthPit;
+            YandexGame.GetDataEvent += InitializeValues;
         }
 
         private void OnDisable()
         {
-            enemyPanel.HealthPitChanged -= CheckHealthPit;
-            shopPanel.manBought -= CheckHealthPit;
-
-            YandexGame.savesData += Player;
-            YandexGame.SaveProgress();
+            YandexGame.GetDataEvent -= InitializeValues;
         }
 
         #endregion
@@ -82,14 +59,9 @@ namespace Game.Managers
 
         private void InitializeValues()
         {
-            Player = (Player)YandexGame.savesData;
-        }
-
-        private void InitializeStartStoryPanel()
-        {
-            if (Player.NumberOfExorcisedDevils == 0) // if just starting
+            if (YandexGame.SDKEnabled == true)
             {
-                startStoryPanelResource.LoadAndInstantiateResource();
+                Player = (Player)YandexGame.savesData;
             }
         }
 
@@ -97,14 +69,41 @@ namespace Game.Managers
 
         #region CORE LOGIC
 
-        private void CheckHealthPit()
+        public void CheckHealthPit()
         {
-            if (Player.DevilPower >= enemyManager.HealthPit)
+            if (Player.DevilPower >= EnemyManager.Instance.HealthPit)
             {
-                enemyManager.SetIsDiggingSpaseActive(false);
+                EnemyManager.Instance.SetIsDiggingSpaseActive(false);
                 PitClosed?.Invoke();
 
-                endStoryPanelResource.LoadAndInstantiateResource();
+                EnemyManager.Instance.EndStoryPanelResource.LoadAndInstantiateResource();
+            }
+        }
+
+        public void CheckHealthPitAtTheStart()
+        {
+            if (Player.DevilPower >= EnemyManager.Instance.HealthPit)
+            {
+                PitClosed?.Invoke();
+            }
+        }
+
+        #endregion
+
+        #region CALLBACKS
+
+        public void GoToStartSceneOrShowStartStory()
+        {
+            if (Player.NumberOfExorcisedDevils == 0) // if just starting
+            {
+                startStoryPanelResource.LoadAndInstantiateResource();
+            }
+            else
+            {
+                if (YandexGame.SDKEnabled == true)
+                {
+                    SceneManager.LoadScene(1);
+                }
             }
         }
 

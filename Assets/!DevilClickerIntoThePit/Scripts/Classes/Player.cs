@@ -55,12 +55,46 @@ namespace Game.Classes.Player
             ReduceMoney(weaponInstance.Price);
             AddDamage(weaponInstance.Damage);
             AddAutoDamage(weaponInstance.AutoDamage);
+
+            Save();
         }
 
         public void BuyDevil(WeaponInstance weaponInstance, byte index)
         {
             ReduceSouls(weaponInstance.Price, index);
             AddDevilPower(weaponInstance.DevilPower);
+
+            Save();
+        }
+
+        public void BuyLevelOfDevil(int price)
+        {
+            ReduceMoney(price);
+            AddMaxLevelOfDevil();
+
+            Save();
+        }
+
+        public void BuyLevelOfPit(int price)
+        {
+            ReduceMoney(price);
+            AddMaxLevelOfPit();
+
+            Save();
+        }
+
+        public void AddDeathDevil(ushort reward, byte indexSoul)
+        {
+            AddMoney(reward);
+            AddExorcisedDevil();
+            AddSoul(indexSoul);
+
+            Save();
+        }
+
+        private void Save()
+        {
+            YandexGame.savesData += this;
         }
 
         #endregion
@@ -75,7 +109,9 @@ namespace Game.Classes.Player
         public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
 
         public void AddDamage(int value) => Damage += value;
+
         public void AddAutoDamage(int value) => AutoDamage += value;
+
         public void AddDevilPower(int value) => DevilPower += value;
 
         #endregion

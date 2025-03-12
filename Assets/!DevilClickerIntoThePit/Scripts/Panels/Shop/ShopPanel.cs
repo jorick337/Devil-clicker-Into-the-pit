@@ -20,7 +20,7 @@ namespace Game.Panels
 
         #region EVENTS
 
-        public Action manBought;
+        public Action ManBought;
 
         private UnityAction[] menBought;
 
@@ -39,8 +39,9 @@ namespace Game.Panels
         [SerializeField] private SettingsPanel settingsPanel;
 
         [Header("Managers")]
-        [SerializeField] private PlayerManager playerManager;
         [SerializeField] private EnemyManager enemyManager;
+        
+        private PlayerManager _playerManager;
 
         #endregion
 
@@ -48,32 +49,38 @@ namespace Game.Panels
 
         private void Awake()
         {
+            _playerManager = PlayerManager.Instance;
+
             InitializeValues();
             UpdateItems();
         }
 
         private void OnEnable()
         {
+            ManBought += _playerManager.CheckHealthPit;
+
             movingShopPanel.ItemsSwitched += SwitchSwordsAndMen;
             movingShopPanel.PastItemsMoved += MoveBack;
             movingShopPanel.NextItemsMoved += MoveForward;
 
             settingsPanel.DiggingAndDevilSpasesChanged += SwitchDiggingAndDevilSpases;
 
-            playerManager.PitClosed += UndoChangesByDiggingSpase;
+            _playerManager.PitClosed += UndoChangesByDiggingSpase;
 
             RegisterOnClickBuyButtons(true);
         }
 
         private void OnDisable()
         {
+            ManBought -= _playerManager.CheckHealthPit;
+
             movingShopPanel.ItemsSwitched -= SwitchSwordsAndMen;
             movingShopPanel.PastItemsMoved -= MoveBack;
             movingShopPanel.NextItemsMoved -= MoveForward;
 
             settingsPanel.DiggingAndDevilSpasesChanged -= SwitchDiggingAndDevilSpases;
 
-            playerManager.PitClosed -= UndoChangesByDiggingSpase;
+            _playerManager.PitClosed -= UndoChangesByDiggingSpase;
 
             RegisterOnClickBuyButtons(false);
         }
@@ -149,23 +156,23 @@ namespace Game.Panels
         {
             if (!enemyManager.IsDiggingSpaseActive)
             {
-                if (playerManager.Player.Money >= weaponInstance.Price)
+                if (_playerManager.Player.Money >= weaponInstance.Price)
                 {
-                    playerManager.Player.BuyManOrSword(weaponInstance);
-                    manBought.Invoke();
+                    _playerManager.Player.BuyManOrSword(weaponInstance);
+                    ManBought.Invoke();
                 }
             }
             else
             {
-                ushort countSoul = playerManager.Player.Souls[index];
+                ushort countSoul = _playerManager.Player.Souls[index];
                 if (countSoul >= weaponInstance.Price)
                 {
                     byte pastIndex = enemyManager.SelectedIndexDevil;
 
-                    playerManager.Player.BuyDevil(weaponInstance, index);
+                    _playerManager.Player.BuyDevil(weaponInstance, index);
 
                     enemyManager.SetSelectedIndexDevil(index);
-                    manBought.Invoke();
+                    ManBought.Invoke();
                     enemyManager.SetSelectedIndexDevil(pastIndex);
                 }
             }
