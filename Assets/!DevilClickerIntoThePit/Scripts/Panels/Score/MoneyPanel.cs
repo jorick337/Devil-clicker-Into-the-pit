@@ -17,8 +17,9 @@ namespace Game.Panels.Score
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
 
         [Header("Managers")]
-        [SerializeField] private PlayerManager playerManager;
         [SerializeField] private EnemyManager enemyManager;
+
+        private PlayerManager _playerManager;
 
         #endregion
 
@@ -26,13 +27,15 @@ namespace Game.Panels.Score
 
         private void Awake()
         {
+            _playerManager = PlayerManager.Instance;
+
             UpdateMoneyText();
         }
 
         private void OnEnable()
         {
             enemyManager.DevilBanished += UpdateMoneyText;
-            shopPanel.manBought += UpdateMoneyText;
+            shopPanel.ManBought += UpdateMoneyText;
             improvedDevilPanel.EnemyImproved += UpdateMoneyText;
             improvedDevilPanel.PitImproved += UpdateMoneyText;
         }
@@ -40,16 +43,21 @@ namespace Game.Panels.Score
         private void OnDisable()
         {
             enemyManager.DevilBanished -= UpdateMoneyText;
-            shopPanel.manBought -= UpdateMoneyText;
+            shopPanel.ManBought -= UpdateMoneyText;
             improvedDevilPanel.EnemyImproved -= UpdateMoneyText;
             improvedDevilPanel.PitImproved -= UpdateMoneyText;
+        }
+
+        private void FixedUpdate()
+        {
+            UpdateMoneyText();
         }
 
         #endregion
 
         #region UI
 
-        private void UpdateMoneyText() => moneyText.text = $"{playerManager.Player.Money} $";
+        private void UpdateMoneyText() => moneyText.text = $"{_playerManager.Player.Money} $";
 
         #endregion
     }

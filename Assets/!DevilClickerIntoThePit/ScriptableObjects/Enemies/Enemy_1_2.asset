@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Enemy_1_2
   m_EditorClassIdentifier: 
   Health: 13
-  Reward: 45
+  Reward: 90
   Price: 500
   PathToSprite: Enemy/Devil/Devil_2
