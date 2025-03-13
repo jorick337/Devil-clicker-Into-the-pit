@@ -15,8 +15,8 @@ namespace Game.Panels.Characteristics
         [Header("Panels")]
         [SerializeField] private ShopPanel shopPanel;
 
-        [Header("Managers")]
-        [SerializeField] private PlayerManager playerManager;
+        // Managers
+        private PlayerManager _playerManager;
 
         #endregion
 
@@ -24,6 +24,8 @@ namespace Game.Panels.Characteristics
 
         private void Awake()
         {
+            _playerManager = PlayerManager.Instance;
+
             InitializeUI();
             RegisterEvents(true);
         }
@@ -39,19 +41,19 @@ namespace Game.Panels.Characteristics
 
         private void InitializeUI()
         {
-            UpdateDamageText(playerManager.Player.Damage);
-            UpdateAutoDamageText(playerManager.Player.AutoDamage);
+            UpdateDamageText(_playerManager.Player.Damage);
+            UpdateAutoDamageText(_playerManager.Player.AutoDamage);
         }
 
         private void RegisterEvents(bool register)
         {
             if (register)
             {
-                shopPanel.manBought += InitializeUI;
+                shopPanel.ManBought += InitializeUI;
             }
             else
             {
-                shopPanel.manBought -= InitializeUI;
+                shopPanel.ManBought -= InitializeUI;
             }
         }
 

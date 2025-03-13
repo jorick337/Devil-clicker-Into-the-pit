@@ -22,8 +22,9 @@ namespace Game.Panels
         [SerializeField] private ShopPanel shopPanel;
 
         [Header("Managers")]
-        [SerializeField] private PlayerManager playerManager;
         [SerializeField] private EnemyManager enemyManager;
+
+        private PlayerManager _playerManager;
 
         #endregion
 
@@ -31,6 +32,8 @@ namespace Game.Panels
 
         private void Awake()
         {
+            _playerManager = PlayerManager.Instance;
+
             InitializeValues();
             InitializeUI();
         }
@@ -38,19 +41,19 @@ namespace Game.Panels
         private void OnEnable()
         {
             improvedDevilPanel.EnemyImproved += InitializeUI;
-            shopPanel.manBought += UpdateCountSoul;
+            shopPanel.ManBought += UpdateCountSoul;
 
             enemyManager.DevilBanished += UpdateCountSoul;
-            playerManager.PitClosed += UndoChangesByDiggingSpase;
+            _playerManager.PitClosed += UndoChangesByDiggingSpase;
         }
 
         private void OnDisable()
         {
             improvedDevilPanel.EnemyImproved -= InitializeUI;
-            shopPanel.manBought -= UpdateCountSoul;
+            shopPanel.ManBought -= UpdateCountSoul;
 
             enemyManager.DevilBanished -= UpdateCountSoul;
-            playerManager.PitClosed -= UndoChangesByDiggingSpase;
+            _playerManager.PitClosed -= UndoChangesByDiggingSpase;
         }
 
         #endregion
@@ -64,8 +67,8 @@ namespace Game.Panels
 
         private void InitializeUI()
         {
-            ushort[] souls = playerManager.Player.Souls;
-            for (int i = transform.childCount; i < playerManager.Player.MaxLevelOfDevil; i++)
+            ushort[] souls = _playerManager.Player.Souls;
+            for (int i = transform.childCount; i < _playerManager.Player.MaxLevelOfDevil; i++)
             {
                 if (souls[i] >= 0)
                 {

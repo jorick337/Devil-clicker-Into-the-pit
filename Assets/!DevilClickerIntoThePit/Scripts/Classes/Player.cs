@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Game.Classes.Player
 {
     public class Player
@@ -56,6 +54,38 @@ namespace Game.Classes.Player
         {
             ReduceSouls(weaponInstance.Price, index);
             AddDevilPower(weaponInstance.DevilPower);
+
+            Save();
+        }
+
+        public void BuyLevelOfDevil(int price)
+        {
+            ReduceMoney(price);
+            AddMaxLevelOfDevil();
+
+            Save();
+        }
+
+        public void BuyLevelOfPit(int price)
+        {
+            ReduceMoney(price);
+            AddMaxLevelOfPit();
+
+            Save();
+        }
+
+        public void AddDeathDevil(ushort reward, byte indexSoul)
+        {
+            AddMoney(reward);
+            AddExorcisedDevil();
+            AddSoul(indexSoul);
+
+            Save();
+        }
+
+        private void Save()
+        {
+            // сохранение
         }
 
         #endregion
@@ -70,6 +100,7 @@ namespace Game.Classes.Player
         public void AddExorcisedDevil() => NumberOfExorcisedDevils += 1;
 
         public void AddDamage(int value) => Damage += value;
+
         public void AddAutoDamage(int value) => AutoDamage += value;
         public void AddDevilPower(int value) => DevilPower += value;
 

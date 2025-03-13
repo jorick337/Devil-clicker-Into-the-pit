@@ -23,9 +23,9 @@ namespace Game.Classes
         [SerializeField] private Image itemImage;
 
         [Header("Image")]
-        [SerializeField] private ushort sizeDeltaXSwordImage;
-        [SerializeField] private ushort sizeDeltaXManImage;
-        [SerializeField] private ushort sizeDeltaDevilImage;
+        [SerializeField] private short sizeDeltaXSwordImage;
+        [SerializeField] private short sizeDeltaXManImage;
+        [SerializeField] private short sizeDeltaDevilImage;
 
         [Header("Colors")]
         [SerializeField] private Color colorOfDollar;
