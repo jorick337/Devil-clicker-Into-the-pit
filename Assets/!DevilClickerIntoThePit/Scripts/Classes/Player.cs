@@ -111,7 +111,6 @@ namespace Game.Classes.Player
         public void AddDamage(int value) => Damage += value;
 
         public void AddAutoDamage(int value) => AutoDamage += value;
-
         public void AddDevilPower(int value) => DevilPower += value;
 
         #endregion

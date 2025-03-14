@@ -147,9 +147,6 @@ namespace Game.Panels
         private void EndStory()
         {
             StopAllCoroutines();
-            Destroy(gameObject);
-
-            Resources.UnloadUnusedAssets();
             SceneManager.LoadScene(1);
         }
 

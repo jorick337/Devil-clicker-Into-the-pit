@@ -16,43 +16,38 @@ namespace Game.Managers
 
         [Header("Managers")]
         [SerializeField] private EnemyManager enemyManager;
- 
+
+        private PlayerManager _playerManager;
+
         #endregion
 
         #region MONO
 
         private void Awake()
         {
-            RegisterEvents(true);
+            _playerManager = PlayerManager.Instance;
+        }
+
+        private void OnEnable()
+        {
+            _playerManager.PitClosed += DisableAllSound;
+
+            enemyManager.HealthChanged += devilClickAudioSource.Play;
+            enemyManager.DevilBanished += devilDeathAudioSource.Play;
+
+            settingsPanel.DisableSound += DisableAllSound;
+            settingsPanel.EnableSound += EnableAllSound;
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
-        }
+            _playerManager.PitClosed -= DisableAllSound;
 
-        #endregion
+            enemyManager.HealthChanged -= devilClickAudioSource.Play;
+            enemyManager.DevilBanished -= devilDeathAudioSource.Play;
 
-        #region INITIALIZATION
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                enemyManager.HealthChanged += devilClickAudioSource.Play;
-                enemyManager.DevilBanished += devilDeathAudioSource.Play;
-
-                settingsPanel.DisableSound += DisableAllSound;
-                settingsPanel.EnableSound += EnableAllSound;
-            }
-            else
-            {
-                enemyManager.HealthChanged -= devilClickAudioSource.Play;
-                enemyManager.DevilBanished -= devilDeathAudioSource.Play;
-
-                settingsPanel.DisableSound -= DisableAllSound;
-                settingsPanel.EnableSound -= EnableAllSound;
-            }
+            settingsPanel.DisableSound -= DisableAllSound;
+            settingsPanel.EnableSound -= EnableAllSound;
         }
 
         #endregion

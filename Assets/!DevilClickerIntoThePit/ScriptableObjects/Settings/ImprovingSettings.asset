@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ImprovingSettings
   m_EditorClassIdentifier: 
   percentagesOfPitHealth:
+  - 1
   - 0.9
   - 0.8
   - 0.7

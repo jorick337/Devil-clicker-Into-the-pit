@@ -59,6 +59,7 @@ namespace Game.Panels.Characteristics
 
         private void OnEnable()
         {
+            PitImproved += _playerManager.CheckHealthPit;
             improveButton.onClick.AddListener(ToggleImprove);
 
             settingsPanel.DiggingAndDevilSpasesChanged += UpdatePriceAndTitleTexts;
@@ -68,6 +69,7 @@ namespace Game.Panels.Characteristics
 
         private void OnDisable()
         {
+            PitImproved += _playerManager.CheckHealthPit;
             improveButton.onClick.RemoveListener(ToggleImprove);
 
             settingsPanel.DiggingAndDevilSpasesChanged -= UpdatePriceAndTitleTexts;
@@ -119,10 +121,10 @@ namespace Game.Panels.Characteristics
             {
                 if (_playerManager.Player.Money >= _nextPricePit && !IsPitLevelEnd())
                 {
+                    _playerManager.Player.BuyLevelOfPit(_nextPricePit);
+
                     enemyManager.SetPercentageOfPitHealth(improvingSettings.GetPercentage());
                     PitImproved?.Invoke();
-                    
-                    _playerManager.Player.BuyLevelOfPit(_nextPricePit);
 
                     _nextPricePit = improvingSettings.GetPrice();
                     UpdatePriceAndTitleTexts();
@@ -153,7 +155,7 @@ namespace Game.Panels.Characteristics
         #region BOOL
 
         private bool IsDevilsLevelEnd() => _nextPriceDevil == 0;
-        private bool IsPitLevelEnd() => _nextPricePit == 1;
+        private bool IsPitLevelEnd() => _nextPricePit == 0;
 
         #endregion
     }

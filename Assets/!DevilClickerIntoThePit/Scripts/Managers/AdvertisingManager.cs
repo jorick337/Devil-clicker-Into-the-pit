@@ -9,26 +9,14 @@ namespace Game.Managers
         [Header("Panels")]
         [SerializeField] private ImprovedDevilPanel improvedDevilPanel;
 
-        private void Awake()
+        private void OnEnable()
         {
-            RegisterEvents(true);
+            improvedDevilPanel.EnemyImproved += YandexGame.FullscreenShow;
         }
 
         private void OnDisable()
         {
-            RegisterEvents(false);
-        }
-
-        private void RegisterEvents(bool register)
-        {
-            if (register)
-            {
-                improvedDevilPanel.EnemyImproved += YandexGame.FullscreenShow;
-            }
-            else
-            {
-                improvedDevilPanel.EnemyImproved -= YandexGame.FullscreenShow;
-            }
+            improvedDevilPanel.EnemyImproved -= YandexGame.FullscreenShow;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Game.Classes
         {
             int index = PlayerManager.Instance.Player.MaxLevelOfPit;
 
-            return prices[index];
+            return index >= prices.Length ? 0 : prices[index] ;
         }
 
         public float GetPercentage()
